@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quotex Signal AI — DARKWORLD AURA</title>
+<style>
+  :root{
+    --bg:#05070d; --panel:#0a0e18; --panel2:#0f1524; --line:rgba(255,255,255,.06);
+    --ink:#eef2ff; --ink2:#a9b4d0; --ink3:#6b7793; --call:#12d18e; --put:#ff4d6d; --warn:#ffb020; --blue:#4aa8ff;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:
+      radial-gradient(60% 45% at 50% -10%, rgba(18,209,142,.10), transparent 60%),
+      radial-gradient(45% 35% at 100% 0%, rgba(56,132,255,.08), transparent 55%),
+      linear-gradient(180deg,#05070d,#060911);
+    color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:1040px;margin:0 auto;padding:12px 12px 64px}
+  .panel{background:rgba(10,14,24,.75);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px -24px rgba(0,0,0,.9)}
+  .pad{padding:16px}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .between{justify-content:space-between}
+  .grid2{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:900px){.grid2{grid-template-columns:1fr 1fr}}
+  h1,h2,h3{margin:0}
+  .label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+  .mono{font-family:var(--mono)}
+  .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:11px;color:var(--ink2);background:rgba(255,255,255,.03)}
+  .chip.green{border-color:rgba(18,209,142,.35);background:rgba(18,209,142,.10);color:#6ff0c0}
+  .chip.red{border-color:rgba(255,77,109,.35);background:rgba(255,77,109,.10);color:#ffb3c1}
+  .chip.amber{border-color:rgba(255,176,32,.35);background:rgba(255,176,32,.10);color:#ffd888}
+  .chip.blue{border-color:rgba(74,168,255,.35);background:rgba(74,168,255,.10);color:#a9d6ff}
+  .chip.violet{border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.10);color:#d6ccff}
+  .dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
+  .btn{border:0;border-radius:12px;padding:14px 18px;font-weight:800;font-size:15px;letter-spacing:.03em;cursor:pointer;
+       background:linear-gradient(90deg,#12d18e,#2ee6b0);color:#04120d;transition:filter .15s,transform .05s}
+  .btn:hover{filter:brightness(1.08)} .btn:active{transform:scale(.995)} .btn[disabled]{opacity:.55;cursor:not-allowed}
+  .btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--ink);font-size:12px;padding:8px 12px;border-radius:10px;cursor:pointer}
+  .kpi{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  .kpi .v{font-family:var(--mono);font-size:15px;margin-top:2px}
+  .bar{height:7px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+  .bar > i{display:block;height:100%;border-radius:99px;background:var(--call);transition:width .5s ease}
+  .bar.amber > i{background:var(--warn)} .bar.red > i{background:var(--put)} .bar.slate > i{background:#64748b}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);text-align:left;padding:8px}
+  td{padding:8px;border-top:1px solid var(--line);font-family:var(--mono)}
+  .call{color:var(--call)} .put{color:var(--put)} .muted{color:var(--ink3)}
+  .stage{display:flex;gap:8px;font-size:12px;padding:6px 10px;border-radius:9px;color:var(--ink3)}
+  .stage.done{color:#6ff0c0} .stage.active{background:rgba(255,255,255,.05);color:var(--ink)}
+  .sig-glow-call{box-shadow:0 0 0 1px rgba(18,209,142,.35),0 30px 90px -45px rgba(18,209,142,.6)}
+  .sig-glow-put{box-shadow:0 0 0 1px rgba(255,77,109,.35),0 30px 90px -45px rgba(255,77,109,.6)}
+  .sig-glow-none{box-shadow:0 0 0 1px rgba(148,163,184,.18)}
+  .clock{font-family:var(--mono);font-size:38px;font-weight:800;letter-spacing:-.02em}
+  @media(min-width:640px){.clock{font-size:48px}}
+  .notice{border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.55;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink2)}
+  .notice.amber{border-color:rgba(255,176,32,.3);background:rgba(255,176,32,.07)}
+  .notice.red{border-color:rgba(255,77,109,.3);background:rgba(255,77,109,.07)}
+  .notice.green{border-color:rgba(18,209,142,.3);background:rgba(18,209,142,.06)}
+  .notice.blue{border-color:rgba(74,168,255,.3);background:rgba(74,168,255,.06)}
+  .lbl-row{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--ink2);margin-bottom:4px}
+  .conf{font-family:var(--mono);font-size:52px;font-weight:900;line-height:1}
+  .spinner{width:13px;height:13px;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;display:inline-block;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .fade{animation:fade .35s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .flexwrap{display:flex;flex-wrap:wrap;gap:6px}
+  a{color:var(--blue)}
+  details summary{cursor:pointer;color:var(--ink2);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="panel pad" style="margin-bottom:12px;position:sticky;top:8px;z-index:20;backdrop-filter:blur(8px)">
+    <div class="row between">
+      <div class="row">
+        <div style="width:40px;height:40px;border-radius:12px;border:1px solid rgba(18,209,142,.3);display:grid;place-items:center;background:linear-gradient(135deg,rgba(18,209,142,.2),rgba(74,168,255,.1));font-family:var(--mono);font-weight:800;color:#6ff0c0">DA</div>
+        <div>
+          <div style="font-weight:800;letter-spacing:.18em;font-size:13px">DARKWORLD AURA</div>
+          <div class="muted" style="font-size:11px">Quotex Signal AI · M1 engine</div>
+        </div>
+      </div>
+      <div class="row" id="header-chips">
+        <span class="chip" id="chip-link"><span class="dot"></span><span id="link-text">CONNECTING…</span></span>
+        <span class="chip violet" id="chip-mode">PAPER MODE</span>
+        <span class="chip" id="chip-model">MODEL —</span>
+        <span class="chip" id="chip-data-badge">DATA —</span>
+        <span class="chip" id="chip-feed" title="newest verified candle + freshness verdict">feed —</span>
+        <span class="chip" id="chip-data">DATA —</span>
+        <span class="chip blue">IST <span class="mono" id="hdr-clock">--:--:--</span></span>
+      </div>
+    </div>
+    <div class="muted" style="font-size:11px;margin-top:8px" id="header-sub">loading system status…</div>
+    <div class="mono muted" style="font-size:11px;margin-top:4px" id="status-summary"
+         title="READY_MARKET means trained on real market data — never a profitability claim. A signal requires REAL + FRESH + READY_MARKET + valid features + MODEL + ANOMALY + REGIME + CONSISTENCY + CONFIDENCE + RISK + LOCK; any failure means NO TRADE."></div>
+  </div>
+
+  <div id="offline" class="notice red" style="display:none;margin-bottom:12px">
+    <b>Backend unreachable.</b> This page reads live data from the FastAPI signal engine (same origin, <span class="mono">/api/*</span>).
+    Start it with <span class="mono">uvicorn backend.main:app --host 0.0.0.0 --port 8000</span> and open
+    <span class="mono">http://localhost:8000/preview</span>. Nothing is rendered from fabricated data — while the API is
+    unreachable the dashboard shows this banner instead of numbers.
+  </div>
+
+  <!-- IST CLOCK -->
+  <div class="panel pad" style="margin-bottom:12px">
+    <div class="row between">
+      <div>
+        <div class="label">🇮🇳 India time (Asia/Kolkata)</div>
+        <div class="clock" id="clock">--:--:--</div>
+        <div class="muted" style="font-size:11px;margin-top:4px"><span id="ist-date">—</span> · server-synchronised clock (browser timezone is never used for trading)</div>
+      </div>
+      <div class="row">
+        <div class="kpi"><div class="label">next candle</div><div class="v" id="kpi-candle">--:--</div></div>
+        <div class="kpi"><div class="label">entry in</div><div class="v" id="kpi-entry">—</div></div>
+        <div class="kpi"><div class="label">session</div><div class="v" id="kpi-session">—</div></div>
+      </div>
+    </div>
+    <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap">
+      <div class="kpi"><div class="label">last closed candle</div><div class="v mono" id="kpi-lastclosed">--:--:--</div><div class="muted" style="font-size:10px">used for prediction</div></div>
+      <div class="kpi"><div class="label">next candle</div><div class="v mono" id="kpi-nextcandle">--:--:--</div><div class="muted" style="font-size:10px">formation starts</div></div>
+      <div class="kpi"><div class="label">entry time</div><div class="v mono" id="kpi-entrytime">--:--:--</div><div class="muted" style="font-size:10px">next M1 boundary</div></div>
+      <div class="kpi"><div class="label">expiry</div><div class="v mono" id="kpi-expiry">--:--:--</div><div class="muted" style="font-size:10px">1 MIN after entry</div></div>
+      <div class="kpi"><div class="label">countdown</div><div class="v mono" id="kpi-countdown">--:--</div><div class="muted" style="font-size:10px">backend clock</div></div>
+    </div>
+    <div class="muted" style="font-size:10px;margin-top:8px">Only <b>closed</b> M1 candles are used for prediction; the in-progress candle is excluded server-side. All timestamps come from the backend clock in Asia/Kolkata.</div>
+  </div>
+
+  <!-- ASSET SELECTOR -->
+  <div class="panel pad" style="margin-bottom:12px">
+    <div class="label" style="margin-bottom:8px">asset selector · auto select scans every enabled asset and keeps the highest scoring qualified setup</div>
+    <div class="flexwrap" id="asset-buttons"></div>
+  </div>
+
+  <!-- SIGNAL CARD -->
+  <div class="panel pad sig-glow-none" id="signal-card" style="margin-bottom:12px">
+    <div class="row between" id="card-status-row" style="margin-bottom:12px">
+      <div class="row" id="card-status"><span class="chip">READY — press GENERATE SIGNAL</span></div>
+      <div class="row" id="card-actions"></div>
+    </div>
+    <div id="card-body">
+      <div style="text-align:center;padding:22px 6px">
+        <div style="font-size:34px">🛰️</div>
+        <h2 style="font-size:17px;margin-top:8px">No active signal</h2>
+        <p class="muted" style="font-size:12px;max-width:520px;margin:8px auto 0;line-height:1.6">
+          The engine emits a signal only when data freshness, the model ensemble, the market regime, the candle
+          structure and the confidence threshold all pass. Otherwise it reports NO TRADE with the exact reason.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE PAPER TRADING (continuous data + paper collection) -->
+  <section class="panel pad" id="live-paper-panel" style="margin-bottom:12px">
+    <div class="row between" style="margin-bottom:10px">
+      <div>
+        <div class="panel-title">Live paper trading</div>
+        <div class="muted" style="font-size:11px">Continuous M1 ingestion → the same engine the button runs → a paper
+          ledger with verified outcomes. Nothing here can emit a signal the gates did not approve.</div>
+      </div>
+      <span class="chip" id="paper-top-chip">—</span>
+    </div>
+    <div class="row" style="gap:8px;flex-wrap:wrap" id="paper-kpis"></div>
+    <div class="grid2" style="margin-top:12px;gap:12px">
+      <div>
+        <div class="label" style="margin-bottom:6px">Real-time card</div>
+        <div id="paper-card"><p class="muted" style="font-size:12px">Loading live paper state…</p></div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom:6px">Feed status (FRESH / STALE / INVALID / UNAVAILABLE)</div>
+        <div id="paper-feeds"></div>
+        <div class="label" style="margin-top:10px;margin-bottom:6px">Evidence tracker (spec §12)</div>
+        <div id="paper-evidence"></div>
+      </div>
+    </div>
+    <div class="label" style="margin-top:12px;margin-bottom:6px">Paper ledger — every qualified signal with the feed it
+      came from and the outcome the verified candles produced</div>
+    <div style="overflow-x:auto"><table id="paper-ledger-table">
+      <thead><tr><th>Signal</th><th>Entry IST</th><th>Direction</th><th>Confidence</th><th>Provider</th>
+      <th>Model</th><th>Status</th><th>Result</th></tr></thead><tbody id="paper-ledger-body"></tbody></table></div>
+  </section>
+
+  <!-- GENERATE -->
+  <div class="panel pad" style="margin-bottom:12px;text-align:center">
+    <button class="btn" id="generate" style="width:100%;max-width:430px">⚡ GENERATE SIGNAL</button>
+    <div class="row" style="justify-content:center;margin-top:10px;gap:14px">
+      <label class="muted" style="font-size:11px"><input type="checkbox" id="auto-scan" /> auto-scan every candle</label>
+      <label class="muted" style="font-size:11px"><input type="checkbox" id="auto-refresh" checked /> auto-refresh panels</label>
+      <span class="muted" style="font-size:11px">threshold <span class="mono" id="gen-threshold">85</span>%</span>
+      <button class="btn-ghost" id="daily-btn">best signal of the day</button>
+    </div>
+    <div id="gen-message" class="muted" style="font-size:11px;margin-top:8px"></div>
+  </div>
+
+  <!-- CONFIDENCE + MODEL -->
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="panel pad">
+      <div class="label" style="margin-bottom:10px">Confidence engine — weighted components (threshold <span id="conf-threshold">85</span>%)</div>
+      <div id="components"><p class="muted" style="font-size:12px">Run a scan to see the computed components. Values shown are always produced by the backend engine.</p></div>
+    </div>
+    <div class="panel pad">
+      <div class="row between" style="margin-bottom:10px">
+        <div class="label">Model ensemble</div>
+        <span class="chip" id="agreement-chip">agreement —</span>
+      </div>
+      <div id="model-votes"><p class="muted" style="font-size:12px">No ensemble result yet.</p></div>
+      <div id="model-meta" class="muted" style="font-size:11px;margin-top:10px"></div>
+    </div>
+  </div>
+
+  <!-- CHECKS + MARKET -->
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="panel pad">
+      <div class="label" style="margin-bottom:10px">Market checks — every mandatory gate before emission</div>
+      <div id="checks"><p class="muted" style="font-size:12px">Run a scan to execute the validation suite.</p></div>
+    </div>
+    <div class="panel pad">
+      <div class="row between" style="margin-bottom:10px">
+        <div class="label">Market conditions (newest closed M1 candle)</div>
+        <span class="chip" id="feed-chip">feed —</span>
+      </div>
+      <div id="market"><p class="muted" style="font-size:12px">No market snapshot yet.</p></div>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div class="panel pad" style="margin-bottom:12px">
+    <div class="label" style="margin-bottom:8px">Signal history — WIN/LOSS is only recorded once the verified closing candle exists</div>
+    <div style="overflow-x:auto"><table id="history"><thead><tr><th>Time (IST)</th><th>Asset</th><th>Direction</th><th>Confidence</th><th>Result</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <!-- VALIDATION + PERFORMANCE -->
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="panel pad">
+      <div class="row between" style="margin-bottom:10px"><div class="label">Model validation (offline)</div><span class="chip" id="validation-chip">—</span></div>
+      <div id="validation"></div>
+    </div>
+    <div class="panel pad">
+      <div class="row between" style="margin-bottom:10px"><div class="label">Signal performance (this engine)</div><span class="chip blue">paper</span></div>
+      <div id="performance"></div>
+    </div>
+  </div>
+
+  <!-- SCANS -->
+  <div class="panel pad" style="margin-bottom:12px">
+    <div class="label" style="margin-bottom:8px">Recent scans — every attempt is logged, including rejections</div>
+    <div id="scans"></div>
+  </div>
+
+  <!-- DAILY -->
+  <div class="panel pad" style="margin-bottom:12px">
+    <div class="label" style="margin-bottom:8px">Daily mode — best qualified setup of the IST trading day</div>
+    <div id="daily"><p class="muted" style="font-size:12px">Press “best signal of the day” to run the daily scan (replays today's closed candles through the same pipeline).</p></div>
+  </div>
+
+  <!-- MODEL QUALITY -->
+  <section class="panel" id="model-quality-panel">
+    <div class="row between" style="margin-bottom:10px">
+      <div>
+        <div class="panel-title">Model quality</div>
+        <div class="muted" style="font-size:11px">What the artifact is, what it measured offline, and whether any
+          of that has been validated for profitability. Offline validation and live paper results stay separate.</div>
+      </div>
+      <span class="chip" id="mq-status-chip">—</span>
+    </div>
+    <div id="model-quality"></div>
+  </section>
+
+  <!-- DATA PROVENANCE -->
+  <div class="panel pad" style="margin-bottom:12px">
+    <div class="row between" style="margin-bottom:8px">
+      <div class="label">Data provenance — where every candle came from</div>
+      <span class="chip" id="provenance-chip">—</span>
+    </div>
+    <div id="provenance"><p class="muted" style="font-size:12px">Loading dataset provenance…</p></div>
+  </div>
+
+  <!-- DATA IMPORT -->
+  <div class="panel pad" style="margin-bottom:12px">
+    <div class="label" style="margin-bottom:8px">Operator data import — CSV is the primary real-data path</div>
+    <div class="grid2">
+      <div>
+        <div class="lbl-row"><span>asset</span><span class="mono" id="import-asset-label">EURUSD</span></div>
+        <select id="import-asset" style="width:100%;background:#0f1524;color:#eef2ff;border:1px solid var(--line);border-radius:8px;padding:8px"></select>
+        <div class="lbl-row" style="margin-top:8px"><span>declare data class</span></div>
+        <select id="import-class" style="width:100%;background:#0f1524;color:#eef2ff;border:1px solid var(--line);border-radius:8px;padding:8px">
+          <option value="MARKET">MARKET — real quotes from my broker/platform</option>
+          <option value="SIMULATED">SIMULATED — synthetic demo series</option>
+          <option value="FIXTURE">FIXTURE — QA/test data (never tradable)</option>
+        </select>
+        <div class="muted" style="font-size:11px;margin-top:6px">
+          Required columns: <span class="mono">time,open,high,low,close[,volume]</span> · ISO-8601 or epoch seconds/ms ·
+          M1 resolution · stored in UTC, displayed in IST.
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn-ghost" id="import-file-btn">choose CSV file…</button>
+          <input type="file" id="import-file" accept=".csv,text/csv" style="display:none" />
+          <button class="btn-ghost" id="import-text-btn">paste CSV text</button>
+          <button class="btn-ghost" id="register-file-btn">register existing file</button>
+        </div>
+        <textarea id="import-text" placeholder="time,open,high,low,close,volume&#10;2026-10-01T06:30:00Z,1.06990,1.07040,1.06990,1.07010,138.3" style="display:none;width:100%;height:110px;margin-top:8px;background:#0a0e18;color:#eef2ff;border:1px solid var(--line);border-radius:8px;padding:8px;font-family:var(--mono);font-size:11px"></textarea>
+        <div class="row" style="margin-top:8px">
+          <button class="btn-ghost" id="import-dryrun">validate only (dry run)</button>
+          <button class="btn-ghost" id="import-run">import + validate</button>
+          <label class="muted" style="font-size:11px"><input type="checkbox" id="import-force" /> overwrite existing dataset</label>
+        </div>
+      </div>
+      <div>
+        <div id="import-result"><p class="muted" style="font-size:12px">Import results are shown here — with the full validation report (duplicates, gaps, invalid OHLC, resolution, history).</p></div>
+        <div class="notice blue" style="margin-top:10px">
+          <b>Nothing is fabricated here.</b> A dataset that fails validation is rejected with the exact reason and never
+          written. Real (MARKET) datasets are what allow a READY_MARKET model and production signals; simulated and
+          fixture datasets stay labelled DEMO everywhere.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="panel pad" style="margin-bottom:12px">
+    <div class="label" style="margin-bottom:10px">Settings — signal policy (secrets are environment-only)</div>
+    <div class="grid2">
+      <div>
+        <div class="lbl-row"><span>Confidence threshold</span><span class="mono" id="thr-value">85%</span></div>
+        <input type="range" min="50" max="99" step="1" value="85" id="threshold" style="width:100%;accent-color:#12d18e" />
+        <div class="muted" style="font-size:11px;margin-top:4px">≥85 is required to be tradable (VERY HIGH ≥90, HIGH ≥85, MODERATE 75–84, below 75 rejected).</div>
+        <div class="grid2" style="margin-top:10px">
+          <div class="kpi"><div class="label">expiry</div><div style="margin-top:6px"><select id="expiry" style="width:100%;background:#0f1524;color:#eef2ff;border:1px solid var(--line);border-radius:8px;padding:8px">
+            <option value="1">1 minute</option><option value="2">2 minutes</option><option value="3">3 minutes</option><option value="5">5 minutes</option></select></div></div>
+          <div class="kpi"><div class="label">mode</div><div style="margin-top:6px"><select id="mode" style="width:100%;background:#0f1524;color:#eef2ff;border:1px solid var(--line);border-radius:8px;padding:8px">
+            <option value="PAPER">Paper trading</option><option value="SIGNAL_ONLY">Signal only</option><option value="LIVE" disabled>Live execution (not implemented)</option></select></div></div>
+          <div class="kpi"><div class="label">data source</div><div style="margin-top:6px"><select id="data-mode" style="width:100%;background:#0f1524;color:#eef2ff;border:1px solid var(--line);border-radius:8px;padding:8px">
+            <option value="auto">auto (csv → broker → public → simulated)</option>
+            <option value="real_only">real only (csv → broker → public, never simulated)</option>
+            <option value="live_only">live only (no synthetic fallback)</option>
+            <option value="csv">csv files only</option>
+            <option value="simulated">simulated demo only</option></select></div></div>
+          <div class="kpi"><div class="label">timezone</div><div class="v">Asia/Kolkata</div><div class="muted" style="font-size:10px">browser tz unused</div></div>
+          <div class="kpi"><div class="label">deployment environment</div><div style="margin-top:6px"><select id="environment" style="width:100%;background:#0f1524;color:#eef2ff;border:1px solid var(--line);border-radius:8px;padding:8px">
+            <option value="production">production — real data + READY_MARKET only</option>
+            <option value="development">development — demo pipeline allowed (labelled)</option></select></div></div>
+          <div class="kpi"><div class="label">min model agreement</div><div style="margin-top:6px"><input id="agreement" type="number" min="0.3" max="0.99" step="0.01" value="0.6" style="width:100%;background:#0f1524;color:#eef2ff;border:1px solid var(--line);border-radius:8px;padding:8px" /></div><div class="muted" style="font-size:10px">hard gate (spec §5)</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="flexwrap" id="toggle-row"></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn-ghost" id="reload-model">reload model artifacts</button>
+          <button class="btn-ghost" id="evaluate">evaluate open signals</button>
+        </div>
+        <div class="notice blue" style="margin-top:10px">
+          <b>Anti-fabrication rules.</b> No random outcomes, no hard-coded confidence, no synthetic prices for live
+          assets, no “sure shot” claims. When data or models are unavailable the engine reports the reason.
+        </div>
+        <div class="muted" style="font-size:11px;margin-top:8px" id="telegram-status"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel pad" style="font-size:11px;color:var(--ink3);line-height:1.65">
+    <b style="color:var(--ink2)">Risk &amp; honesty notice.</b> Quotex Signal AI produces study/paper signals. Confidence is a
+    calculated model score — not a guarantee, not a “sure shot”, not an accuracy claim. Signals can and do lose. This build
+    never sends an order to a broker. Model validation metrics (offline) and signal performance (live paper) are reported
+    separately and must never be combined. Data provenance is always displayed: simulated and replay feeds are labelled on
+    every card.
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const f = {
+  pct: (v, d=1) => (v === null || v === undefined || isNaN(v)) ? "—" : Number(v).toFixed(d) + "%",
+  num: (v, d=4) => (v === null || v === undefined || isNaN(v)) ? "—" : Number(v).toFixed(d),
+  price: (v, d=5) => (v === null || v === undefined || isNaN(v)) ? "—" : Number(v).toFixed(d),
+  mmss: (s) => { s = Math.max(0, Math.floor(s||0)); return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); },
+  dir: (d) => (String(d||"").toUpperCase() === "PUT") ? "🔻 PUT" : "🔺 CALL",
+  cls: (d) => (String(d||"").toUpperCase() === "PUT") ? "put" : "call",
+};
+
+const state = {
+  selected: "AUTO", config: null, assets: [], system: null, last: null, daily: null,
+  phase: "idle", clockOffset: 0, secondsToCandle: 60, secondsToEntry: null, autoScanKey: null,
+};
+
+const STAGES = [
+  "Fetching latest market data",
+  "Data freshness & candle checks",
+  "Computing M1 technical features",
+  "Running model ensemble",
+  "Scoring confidence components",
+  "Validation gates: regime · volatility · consistency",
+  "Selecting the single best qualified setup",
+];
+
+async function api(path, options) {
+  const res = await fetch(path, Object.assign({ cache: "no-store" }, options || {}));
+  const text = await res.text();
+  let body = null;
+  try { body = text ? JSON.parse(text) : null; } catch { body = text; }
+  if (!res.ok) {
+    const detail = body && body.detail ? body.detail : body;
+    const reason = (detail && (detail.reason || detail.status)) || (typeof detail === "string" ? detail : null) || ("HTTP " + res.status);
+    const err = new Error(reason); err.payload = body; err.status = res.status; throw err;
+  }
+  return body;
+}
+
+function online(flag) {
+  $("offline").style.display = flag ? "none" : "block";
+  const chip = $("chip-link");
+  chip.className = "chip " + (flag ? "green" : "red");
+  $("link-text").textContent = flag ? "LIVE" : "OFFLINE";
+}
+
+/* ------------------------------------------------------------------ system */
+async function loadSystem() {
+  try {
+    const s = await api("/api/system");
+    state.system = s;
+    online(true);
+    const model = s.model || {};
+    const data = s.data || {};
+    const modelChip = $("chip-model");
+    modelChip.className = "chip " + (model.state === "READY_MARKET" ? "green" : model.state === "READY_DEMO" ? "amber" : "red");
+    modelChip.textContent = "🤖 " + (model.state || "—");
+    modelChip.title = model.message || "";
+    const dataChip = $("chip-data");
+    dataChip.className = "chip " + (data.status === "OK" ? "green" : data.status === "PARTIAL" ? "amber" : "red");
+    dataChip.textContent = "📡 " + (data.status || "—");
+    dataChip.title = data.message || "";
+    // The four-state data badge required by the spec (§1/§12)
+    const realCount = data.real_market_count || 0;
+    const badge = realCount && realCount === (data.available_count || 0) ? "REAL DATA"
+      : (data.available_count ? (data.simulated_count === data.available_count ? "SIMULATED" : "PARTIAL — REAL + SIMULATED")
+      : "DATA UNAVAILABLE");
+    const badgeChip = $("chip-data-badge");
+    badgeChip.textContent = "📡 " + badge;
+    badgeChip.className = "chip " + (badge === "REAL DATA" ? "green" : badge === "DATA UNAVAILABLE" ? "red" : "amber");
+    badgeChip.title = data.message || "";
+    if (model.state === "READY_DEMO") {
+      badgeChip.title = (badgeChip.title || "") + " · model is READY_DEMO: the production policy blocks signals from demo data/models.";
+    }
+    // M1 execution timing (§8)
+    if (s.time) {
+      $("kpi-lastclosed").textContent = s.time.last_closed_candle_ist || "—";
+      $("kpi-nextcandle").textContent = s.time.next_candle_ist || "—";
+      $("kpi-entrytime").textContent = s.time.entry_time_ist || "—";
+      $("kpi-expiry").textContent = s.time.expiry_time_ist || "—";
+    }
+    $("chip-mode").textContent = "🧪 " + (s.mode === "SIGNAL_ONLY" ? "SIGNAL ONLY" : "PAPER MODE");
+    $("header-sub").textContent =
+      (s.time ? s.time.ist_date : "") +
+      " · scheduler " + (s.scheduler && s.scheduler.running ? "every M1 candle" : "off") +
+      " · data " + (data.available_count ?? "?") + "/" + (data.total_count ?? "?") + " assets" +
+      (data.simulated_count ? " (" + data.simulated_count + " simulated)" : "") +
+      " · telegram " + (s.telegram && s.telegram.enabled ? (s.telegram.configured ? "enabled" : "enabled (unconfigured)") : "disabled");
+    if (s.time && s.time.ist) {
+      state.clockOffset = new Date(s.time.ist).getTime() - Date.now();
+      state.secondsToCandle = s.time.seconds_to_next_candle ?? 60;
+    }
+    $("telegram-status").textContent = "telegram: " + (s.telegram && s.telegram.enabled ? "enabled" : "disabled") +
+      " · credentials " + (s.telegram && s.telegram.configured ? "configured" : "missing (set TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID)");
+    // Real-feed freshness (spec §4) + the one-line status summary (spec §25).
+    const feed = s.feed || {};
+    const feedChip = $("chip-feed");
+    if (feedChip) {
+      const counts = feed.counts || {};
+      const liveState = (s.live_feed && s.live_feed.state) || (s.readiness && s.readiness.state && s.readiness.state.live_feed) || "—";
+      const liveFresh = liveState === "FRESH";
+      feedChip.className = "chip " + (counts.FRESH ? "green" : counts.STALE ? "amber" : "red");
+      feedChip.textContent = "📶 feed " + (feed.status || "—") +
+        (counts.FRESH || counts.STALE || counts.INVALID ? " (" + (counts.FRESH || 0) + "F/" + (counts.STALE || 0) + "S/" + (counts.INVALID || 0) + "I)" : "") +
+        " · LIVE FEED " + liveState +
+        (feed.latest_candle_ist ? " · " + feed.latest_candle_ist.slice(11, 19) + " IST" : "") +
+        ((s.live_feed && s.live_feed.age_seconds !== null && s.live_feed && s.live_feed.age_seconds !== undefined && liveFresh) ? " · " + s.live_feed.age_seconds + "s" : "");
+      feedChip.title = "FRESH requires the newest verified candle to have closed inside the published budget (120s realtime / 180s replay). LIVE FEED shows NOT_CONFIGURED / CONNECTED / DISCONNECTED / FRESH for the operator feed bridge.";
+    }
+    const readiness = (s.readiness && s.readiness.state) || {};
+    const live = s.live_feed || {};
+    if ($("status-summary") && readiness.system) {
+      $("status-summary").title = "READY_MARKET means trained on real market data — never a profitability " +
+        "claim. A signal requires REAL + FRESH + READY_MARKET + valid features + MODEL + ANOMALY + REGIME + " +
+        "CONSISTENCY + CONFIDENCE + RISK + LOCK; any failure means NO TRADE. LIVE FEED FRESH means a " +
+        "realtime candle closed inside the 120s budget.";
+      $("status-summary").textContent = "SYSTEM " + readiness.system +
+        " · DATA " + (readiness.data || "—") +
+        " · LIVE FEED " + (readiness.live_feed || live.state || "—") +
+        " · LATEST M1 " + (live.latest_candle_ist || "—") + " IST" +
+        " · AGE " + (live.age_seconds === null || live.age_seconds === undefined ? "—" : live.age_seconds + "s") +
+        " · MODEL " + (readiness.model || "—") +
+        " · PAPER " + (readiness.paper || "—") +
+        " · TELEGRAM " + (readiness.telegram || "—") +
+        " · EVIDENCE " + (readiness.evidence || "—") +
+        " · CLASSIFICATION " + (readiness.classification || "—");
+    }
+    renderDataAssets(data);
+  } catch (err) { online(false); }
+}
+
+function renderDataAssets(data) {
+  if (!data || !data.assets) return;
+  const available = data.assets.filter(a => a.available);
+  if (!available.length) return;
+  const simulated = available.filter(a => a.simulated);
+  const note = simulated.length === available.length
+    ? "All enabled assets are being served by the SIMULATED demo feed — every signal is labelled accordingly."
+    : (simulated.length ? simulated.length + " asset(s) are on the simulated demo feed." : "");
+  if (note && !document.getElementById("feed-note")) {
+    const div = document.createElement("div");
+    div.id = "feed-note"; div.className = "notice amber"; div.style.marginBottom = "12px";
+    div.innerHTML = "<b>Data provenance.</b> " + note;
+    $("offline").insertAdjacentElement("afterend", div);
+  }
+}
+
+/* ------------------------------------------------------------------- clock */
+setInterval(() => {
+  const now = new Date(Date.now() + state.clockOffset);
+  const clock = now.toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour12: false });
+  $("clock").textContent = clock;
+  $("hdr-clock").textContent = clock;
+  state.secondsToCandle = Math.max(0, 60 - now.getUTCSeconds());
+  $("kpi-candle").textContent = f.mmss(state.secondsToCandle);
+  if ($("kpi-countdown")) $("kpi-countdown").textContent = f.mmss(state.secondsToCandle);
+  $("kpi-entry").textContent = state.secondsToEntry === null ? "—" : (state.secondsToEntry > 0 ? f.mmss(state.secondsToEntry) : "NOW");
+  if (state.secondsToEntry !== null) state.secondsToEntry = Math.max(0, state.secondsToEntry - 1);
+  if ($("auto-scan").checked && state.secondsToCandle >= 58) {
+    const key = now.getUTCHours() + ":" + now.getUTCMinutes();
+    if (state.autoScanKey !== key) { state.autoScanKey = key; generate(); }
+  }
+}, 1000);
+
+/* -------------------------------------------------------------- bootstrap */
+async function bootstrap() {
+  await loadSystem();
+  try {
+    const [assets, config] = await Promise.all([api("/api/assets"), api("/api/config")]);
+    state.assets = assets.assets || [];
+    state.config = config;
+    state.selected = (config.settings && config.settings.selected_asset) || "AUTO";
+    applyConfig(config);
+    renderAssets();
+  } catch {}
+  await Promise.all([loadHistory(), loadPerformance(), loadScans(), loadModelStatus(), loadProvenance(), loadModelQuality(), loadPaper()]);
+  try {
+    const latest = await api("/api/signal/latest");
+    if (latest.signal) { state.phase = "done"; renderSignal({ status: "SIGNAL", signal: latest.signal, confidence: latest.signal.confidence }); }
+  } catch {}
+}
+
+function applyConfig(config) {
+  const s = config.settings || {};
+  $("threshold").value = s.min_confidence ?? 85;
+  $("thr-value").textContent = (s.min_confidence ?? 85) + "%";
+  $("conf-threshold").textContent = s.min_confidence ?? 85;
+  $("gen-threshold").textContent = s.min_confidence ?? 85;
+  $("expiry").value = String(s.expiry_minutes ?? 1);
+  $("mode").value = s.mode || "PAPER";
+  $("data-mode").value = s.data_source_mode || "auto";
+  if (s.environment) $("environment").value = s.environment;
+  if (s.min_model_agreement !== undefined) $("agreement").value = s.min_model_agreement;
+  renderToggles(config);
+}
+
+function renderToggles(config) {
+  const s = config.settings || {};
+  const toggles = [
+    ["auto_select", "Auto asset selection"],
+    ["daily_mode", "Daily signal mode"],
+    ["telegram_enabled", "Telegram notifications"],
+    ["scheduler_enabled", "Background scheduler"],
+    ["outcome_evaluation_enabled", "Outcome evaluation"],
+  ];
+  $("toggle-row").innerHTML = toggles.map(([key, label]) =>
+    `<button class="chip ${s[key] ? "green" : ""}" data-toggle="${key}" style="cursor:pointer">${s[key] ? "✓" : "○"} ${label}</button>`
+  ).join("");
+  $("toggle-row").querySelectorAll("[data-toggle]").forEach(btn => {
+    btn.onclick = async () => {
+      const key = btn.dataset.toggle;
+      const patch = {}; patch[key] = !Boolean(s[key]);
+      await saveConfig(patch);
+      await loadSystem();
+    };
+  });
+}
+
+function renderAssets() {
+  const box = $("asset-buttons");
+  const active = (sym) => state.selected === sym ? "chip green" : "chip";
+  box.innerHTML =
+    `<button class="${active("AUTO")}" data-asset="AUTO" style="cursor:pointer">🌐 AUTO SELECT</button>` +
+    state.assets.map(a => `<button class="${active(a.symbol)}" data-asset="${a.symbol}" title="${a.notes || ""}" style="cursor:pointer">${a.flag} ${a.symbol}${a.kind === "otc" ? ' <span class="muted">OTC</span>' : ""}</button>`).join("");
+  box.querySelectorAll("[data-asset]").forEach(btn => {
+    btn.onclick = async () => {
+      state.selected = btn.dataset.asset;
+      renderAssets();
+      await saveConfig({ selected_asset: state.selected });
+    };
+  });
+}
+
+async function saveConfig(patch) {
+  try {
+    const res = await api("/api/config", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) });
+    // POST /api/config returns the payload one level deeper than GET ({settings:{settings:{…}}}).
+    const fresh = (res.settings && res.settings.settings) ? res.settings.settings : res.settings;
+    if (fresh) { state.config = fresh; applyConfig(fresh); }
+    if (res.errors && res.errors.length) $("gen-message").textContent = "config rejected: " + res.errors.join("; ");
+    else { $("gen-message").textContent = "settings saved"; setTimeout(() => { $("gen-message").textContent = ""; }, 1600); }
+  } catch (err) { $("gen-message").textContent = "config error: " + err.message; }
+}
+
+/* ------------------------------------------------------------- generation */
+async function generate() {
+  if (state.phase === "scanning") return;
+  state.phase = "scanning";
+  $("generate").disabled = true;
+  $("generate").textContent = "ANALYSING MARKET…";
+  renderScanning(0);
+  const timer = setInterval(() => {
+    state.stageIndex = Math.min((state.stageIndex || 0) + 1, STAGES.length - 1);
+    renderScanning(state.stageIndex);
+  }, 280);
+  try {
+    const payload = await api("/api/signal/generate", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ asset: state.selected, mode: "NOW" }),
+    });
+    clearInterval(timer);
+    state.phase = "done";
+    state.last = payload;
+    await new Promise(r => setTimeout(r, 380));
+    renderSignal(payload);
+    await Promise.all([loadHistory(), loadPerformance(), loadScans(), loadSystem()]);
+  } catch (err) {
+    clearInterval(timer);
+    state.phase = "error";
+    renderError(err);
+  } finally {
+    $("generate").disabled = false;
+    $("generate").textContent = "⚡ GENERATE SIGNAL";
+    delete state.stageIndex;
+  }
+}
+
+function renderScanning(index) {
+  const active = state.selected === "AUTO" ? "AUTO SELECT" : state.selected;
+  $("card-status").innerHTML = `<span class="chip blue"><span class="spinner"></span> SCANNING MARKET…</span>`;
+  $("card-actions").innerHTML = "";
+  $("card-body").innerHTML = `
+    <div class="fade" style="text-align:center">
+      <div class="mono" style="font-size:22px;font-weight:800">${active}</div>
+      <div class="label" style="margin:4px 0 12px">pipeline running</div>
+      <ol style="list-style:none;margin:0 auto;max-width:430px;padding:0">
+        ${STAGES.map((s, i) => `<li class="stage ${i < index ? "done" : i === index ? "active" : ""}">
+          <span style="width:14px;text-align:center">${i < index ? "✓" : i === index ? '<span class="spinner"></span>' : "·"}</span>${s}</li>`).join("")}
+      </ol>
+    </div>`;
+}
+
+function renderError(err) {
+  $("card-status").innerHTML = `<span class="chip red">⚠️ REQUEST FAILED</span>`;
+  $("card-actions").innerHTML = "";
+  $("card-body").innerHTML = `<div class="notice red fade"><b>Signal engine error.</b> ${err.message}.
+    No signal was produced and nothing is fabricated on failure. Check that the backend is running.</div>`;
+}
+
+function renderSignal(payload) {
+  const card = $("signal-card");
+  const status = payload.status;
+  const signal = payload.signal;
+  const isSignal = status === "SIGNAL" && signal;
+
+  card.className = "panel pad " + (isSignal
+    ? (signal.direction === "PUT" ? "sig-glow-put" : "sig-glow-call")
+    : "sig-glow-none");
+
+  // status chips
+  let chips = "";
+  if (isSignal) chips += `<span class="chip green">✅ SIGNAL</span>`;
+  else chips += `<span class="chip ${status === "LOCKED" ? "amber" : "red"}">🚫 ${String(status).replace("_", " ")}</span>`;
+  if (isSignal && signal.is_simulated) chips += `<span class="chip amber">⚠️ SIMULATED FEED — NOT MARKET DATA</span>`;
+  if (isSignal && signal.is_real_market_data && signal.is_replay) chips += `<span class="chip amber">📡 REPLAY DATA (${signal.feed_provider || "csv"})</span>`;
+  if (isSignal && signal.is_real_market_data && !signal.is_replay) chips += `<span class="chip green">📡 LIVE MARKET DATA</span>`;
+  $("card-status").innerHTML = chips;
+
+  if (isSignal) {
+    state.secondsToEntry = Math.round((payload.session && payload.session.seconds_to_next_candle) || 60);
+    const text = [
+      "🚨 QUOTEX M1 PAPER SIGNAL", "",
+      signal.flag + " " + signal.asset, "💎 " + signal.timeframe, "🕐 " + signal.entry_time_ist + " IST",
+      f.dir(signal.direction), "", "🎯 MODEL CONFIDENCE: " + f.pct(signal.confidence, 1),
+      "🤖 MODEL AGREEMENT: " + f.pct(signal.model_agreement, 1),
+      "⏳ EXPIRY: " + signal.expiry_minutes + " MIN",
+      "📡 DATA: " + (signal.is_simulated ? "SIMULATED" : signal.is_replay ? "REPLAY" : "REAL"),
+      "MODEL: " + (signal.model_version || "—"),
+    ].join("\n");
+    $("card-actions").innerHTML = `<button class="btn-ghost" id="copy-sig">copy signal</button>`;
+    $("copy-sig").onclick = () => { navigator.clipboard && navigator.clipboard.writeText(text); $("copy-sig").textContent = "copied ✓"; };
+
+    const sr = signal.components || {};
+    $("card-body").innerHTML = `
+      <div class="fade" style="display:grid;gap:18px;grid-template-columns:1fr">
+        <div>
+          <div class="mono" style="font-size:26px;font-weight:800">${signal.flag} ${signal.asset}</div>
+          <div class="row" style="margin-top:8px;gap:14px;font-size:13px;color:var(--ink2)">
+            <span class="mono">💎 ${signal.timeframe}</span>
+            <span class="mono">🕐 ENTRY ${signal.entry_time_ist} IST</span>
+          </div>
+          <div class="${f.cls(signal.direction)}" style="font-size:46px;font-weight:900;margin-top:16px">${f.dir(signal.direction)}</div>
+          <div class="row" style="margin-top:16px;gap:22px">
+            <div><div class="label">expiry</div><div class="mono" style="font-size:17px">${signal.expiry_minutes} MIN</div>
+              <div class="muted" style="font-size:11px">closes ${signal.expiry_time_ist} IST</div></div>
+            <div><div class="label">entry countdown</div><div class="mono" style="font-size:17px" id="entry-count">${f.mmss(state.secondsToEntry)}</div>
+              <div class="muted" style="font-size:11px">next candle boundary</div></div>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="label">🤖 model confidence (a calculated score — not accuracy, not a guarantee)</div>
+          <div class="conf">${f.pct(signal.confidence, 1)}</div>
+          <div class="bar" style="margin:10px 0"><i style="width:${Math.min(100, signal.confidence)}%"></i></div>
+          <span class="chip green">${signal.quality_label}</span>
+          <div style="margin-top:12px;font-size:12px;color:var(--ink2)">
+            <div class="lbl-row"><span>model agreement</span><span class="mono">${f.pct((signal.model_agreement||0)*100,0)}</span></div>
+            <div class="lbl-row"><span>direction probability</span><span class="mono">${f.pct((signal.model_probability||0)*100,1)}</span></div>
+            <div class="lbl-row"><span>data</span><span class="mono">${signal.is_real_market_data ? (signal.is_replay ? "REAL (REPLAY)" : "REAL (LIVE)") : (signal.feed_badge || "SIMULATED")}</span></div>
+            <div class="lbl-row"><span>price at signal</span><span class="mono">${f.price(signal.price)}</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="muted" style="font-size:11px;margin-top:16px;border-top:1px solid var(--line);padding-top:10px">
+        data timestamp: <span class="mono">${signal.data_timestamp_ist || "—"}</span> ·
+        feed: <span class="mono">${signal.feed_source || "—"}</span> ·
+        mode: <span class="mono">${signal.scan_mode || "NOW"}</span> ·
+        status: <span class="mono">PAPER · ${signal.result || "PENDING"}</span>
+      </div>`;
+  } else {
+    state.secondsToEntry = null;
+    const next = payload.next_valid_scan_ist || (payload.session && payload.session.next_candle_ist) || "—";
+    $("card-actions").innerHTML = "";
+    const summary = payload.scan_summary || {};
+    const best = summary.best_candidate;
+    const eligible = payload.eligibility;
+    const blocked = (eligible && eligible.blocked_by) || [];
+    const reqs = eligible && eligible.requirements
+      ? `<div style="margin-top:12px"><div class="label">production eligibility policy</div>` +
+        eligible.requirements.map(r => `<div class="lbl-row" style="font-size:12px">
+            <span>${r.passed ? "✅" : "⛔"} ${r.requirement}${r.downgraded ? " (dev)" : ""}</span>
+            <span class="mono" style="font-size:11px">${r.passed ? "PASS" : "FAIL"}</span></div>`).join("") +
+        `<div class="muted" style="font-size:11px;margin-top:6px">${eligible.label} policy · ${eligible.decision}</div></div>`
+      : "";
+    const scanCounts = summary.scanned !== undefined
+      ? `<div class="row" style="gap:10px;margin-top:12px;flex-wrap:wrap">
+           <div class="kpi"><div class="label">scanned</div><div class="v">${summary.scanned}</div></div>
+           <div class="kpi"><div class="label">qualified</div><div class="v">${summary.qualified}</div></div>
+           <div class="kpi"><div class="label">rejected</div><div class="v">${summary.rejected}</div></div>
+           <div class="kpi"><div class="label">unavailable</div><div class="v">${summary.data_unavailable}</div></div>
+         </div>` : "";
+    const rejections = (payload.rejections || []).map(r =>
+      `<li style="display:flex;justify-content:space-between;gap:10px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;margin-top:6px">
+        <span class="mono muted">${r.asset}</span>
+        <span class="muted" style="text-align:right">${r.confidence !== null && r.confidence !== undefined ? f.pct(r.confidence,1) + " · " : ""}${r.reason || r.status}</span>
+      </li>`).join("");
+    $("card-body").innerHTML = `
+      <div class="fade">
+        <div class="row between">
+          <div>
+            <div style="font-size:36px;font-weight:900;color:var(--warn);letter-spacing:-.01em">NO TRADE</div>
+            <div class="mono" style="font-size:13px;color:var(--ink2);margin-top:6px">
+              ${payload.confidence !== null && payload.confidence !== undefined ? "Confidence: " + f.pct(payload.confidence,1) + " (threshold " + f.pct(payload.min_confidence,0) + ")" : payload.reason}
+            </div>
+          </div>
+          <div class="kpi"><div class="label">next valid scan</div><div class="v">${next} IST</div></div>
+        </div>
+        <div class="notice amber" style="margin-top:14px"><b>Reason — ${payload.reason || "validation gate failed"}</b><br>${payload.reason_detail || "The setup did not pass the validation gates."}</div>
+        <div class="grid2" style="margin-top:12px">
+          <div class="kpi"><div class="label">best candidate</div><div class="v mono" style="font-size:14px">${best && best.asset ? best.asset : "—"}</div>
+            <div class="muted" style="font-size:11px">${best ? (best.confidence !== null && best.confidence !== undefined ? f.pct(best.confidence,1) + " · " + (best.quality || "—") + " · " + (best.direction || "—") : "no scored candidate") : "no qualified candidate"}</div></div>
+          <div class="kpi"><div class="label">next valid scan</div><div class="v mono" style="font-size:14px">${next} IST</div>
+            <div class="muted" style="font-size:11px">one evaluation per M1 candle</div></div>
+        </div>
+        ${reqs}
+        ${scanCounts}
+        ${rejections ? `<div style="margin-top:12px"><div class="label">asset scan results</div><ul style="list-style:none;padding:0;margin:0">${rejections}</ul></div>` : ""}
+      </div>`;
+  }
+  renderComponents(payload.components);
+  renderEnsemble(payload.ensemble);
+  renderChecks(payload.checks);
+  renderMarket(payload.features, payload.feed);
+}
+
+function renderComponents(components) {
+  if (!components) return;
+  const names = {
+    model: "Model probability", model_agreement: "Model agreement", trend: "Trend agreement",
+    momentum: "Momentum agreement", candle: "Candle confirmation", structure: "Support / resistance",
+    volatility: "Volatility suitability", regime: "Market regime", freshness: "Data freshness",
+  };
+  $("components").innerHTML = Object.entries(components.components).map(([key, c]) => `
+    <div style="margin-bottom:9px">
+      <div class="lbl-row"><span>${names[key] || key} <span class="muted">w ${Number(c.weight).toFixed(2)} · ${c.aligned ? "aligned" : "opposing"}</span></span>
+        <span class="mono">${Number(c.score).toFixed(0)} <span class="muted">(+${Number(c.contribution).toFixed(1)})</span></span></div>
+      <div class="bar ${c.score >= 75 ? "" : c.score >= 50 ? "amber" : "red"}"><i style="width:${Math.max(0, Math.min(100, c.score))}%"></i></div>
+    </div>`).join("") +
+    `<div class="muted" style="font-size:11px;margin-top:10px">total confidence <b class="mono">${f.pct(components.confidence,1)}</b> · quality ${components.quality} ·
+     uncertainty is never converted into confidence — a neutral-heavy ensemble lowers the model component and pushes the total below the threshold.</div>`;
+}
+
+function renderEnsemble(ensemble) {
+  if (!ensemble) return;
+  $("agreement-chip").textContent = "agreement " + f.pct(ensemble.agreement * 100, 0);
+  $("agreement-chip").className = "chip " + (ensemble.agreement >= 0.6 ? "green" : "red");
+  $("model-votes").innerHTML =
+    `<div class="row" style="gap:8px;margin-bottom:10px">` +
+    [["p_put","PUT","put"],["p_neutral","NEUTRAL","muted"],["p_call","CALL","call"]].map(([k,l,c]) =>
+      `<div class="kpi" style="flex:1"><div class="label">${l}</div><div class="v ${c}" style="font-size:18px">${f.pct(ensemble[k]*100,1)}</div></div>`).join("") +
+    `</div>` +
+    ensemble.votes.map(v => `
+      <div style="border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:6px">
+        <div class="row between"><span class="mono" style="font-size:12px">${v.model}</span>
+          <span class="mono" style="font-size:11px" class="${v.status !== "OK" ? "muted" : v.vote === "CALL" ? "call" : v.vote === "PUT" ? "put" : "muted"}">
+            ${v.status !== "OK" ? v.status : v.vote} <span class="muted">· w ${Number(v.weight).toFixed(2)}</span></span></div>
+        <div class="row" style="gap:6px;margin-top:6px">
+          ${[["p_put","red"],["p_neutral","slate"],["p_call",""]].map(([k,tone]) => `
+            <div style="flex:1"><div class="bar ${tone}"><i style="width:${Math.round((v[k]||0)*100)}%"></i></div>
+            <div class="muted mono" style="font-size:10px;margin-top:3px">${Math.round((v[k]||0)*100)}%</div></div>`).join("")}
+        </div>
+        ${v.detail && v.status !== "OK" ? `<div class="muted" style="font-size:10px;margin-top:4px">${v.detail}</div>` : ""}
+      </div>`).join("");
+  $("model-meta").innerHTML = `spread <span class="mono">${f.num(ensemble.spread,3)}</span> ·
+    p(direction) <span class="mono">${f.pct(ensemble.direction_probability*100,1)}</span> ·
+    normalised <span class="mono">${f.pct(ensemble.directional_probability_normalised*100,1)}</span> ·
+    anomaly veto <span class="mono">${ensemble.anomaly_flag ? "YES" : "no"}</span>` +
+    (ensemble.temperature !== undefined ? ` · calibration T <span class="mono">${f.num(ensemble.temperature,3)}</span>` : "");
+}
+
+function renderChecks(checks) {
+  if (!checks) return;
+  $("checks").innerHTML = checks.checks.map(c => `
+    <div style="border:1px solid ${c.passed ? "rgba(18,209,142,.18)" : "rgba(255,77,109,.28)"};background:${c.passed ? "rgba(18,209,142,.05)" : "rgba(255,77,109,.06)"};border-radius:10px;padding:9px 11px;margin-bottom:7px;font-size:12px">
+      <div class="row between"><b>${c.passed ? "✅" : "⛔"} ${c.check}</b><span class="muted" style="font-size:10px">${c.severity}</span></div>
+      <div class="muted" style="margin-top:4px;line-height:1.5">${c.detail}</div>
+    </div>`).join("") +
+    (checks.execution ? `<div class="muted" style="font-size:11px;margin-top:8px">execution: <span class="mono">${checks.execution.adapter} · ${checks.execution.status}</span> — ${checks.execution.detail}</div>` : "") +
+    (checks.telegram ? `<div class="muted" style="font-size:11px">telegram: <span class="mono">${checks.telegram.status}</span> — ${checks.telegram.detail}</div>` : "");
+}
+
+function renderMarket(features, feed) {
+  if (feed) {
+    $("feed-chip").textContent = (feed.badge || "—") + " · " + (feed.provider || "—");
+    $("feed-chip").className = "chip " + (feed.simulated ? "amber" : feed.realtime ? "green" : "amber");
+    $("feed-chip").title = feed.notes || "";
+  }
+  if (!features || !features.extras) return;
+  const e = features.extras, sr = e.support_resistance || {}, lc = e.last_candle || {};
+  const cell = (l, v, s) => `<div class="kpi"><div class="label">${l}</div><div class="v">${v}</div>${s ? `<div class="muted" style="font-size:10px">${s}</div>` : ""}</div>`;
+  $("market").innerHTML = `
+    <div class="row" style="gap:8px">
+      ${cell("price", f.price(features.price))}
+      ${cell("ATR(14)", (e.atr_pct ?? "—") + "%", "abs " + (e.atr14 ?? "—"))}
+      ${cell("RSI 14", e.rsi14 ?? "—", "RSI 7 " + (e.rsi7 ?? "—"))}
+      ${cell("ADX 14", e.adx14 ?? "—", "±DI " + (e.plus_di ?? "—") + "/" + (e.minus_di ?? "—"))}
+      ${cell("EMA stack", e.ema_stack ?? "—")}
+      ${cell("MACD hist", e.macd_hist ?? "—")}
+      ${cell("efficiency 10", e.efficiency_ratio_10 ?? "—")}
+      ${cell("volume z", e.has_volume ? (e.volume_z ?? "—") : "n/a", e.has_volume ? "vs 20-candle mean" : "feed has no volume")}
+    </div>
+    <div class="grid2" style="margin-top:10px">
+      <div class="kpi"><div class="label">last closed candle · ${e.candle_time_ist || "—"} IST</div>
+        <div style="font-size:11px;color:var(--ink2);margin-top:6px;line-height:1.7">
+          O/H/L/C <span class="mono">${f.price(lc.open)} · ${f.price(lc.high)} · ${f.price(lc.low)} · ${f.price(lc.close)}</span><br>
+          direction <span class="mono">${lc.direction || "—"}</span> · body <span class="mono">${lc.body_ratio ?? "—"}</span><br>
+          wick up/down <span class="mono">${lc.upper_wick_ratio ?? "—"} / ${lc.lower_wick_ratio ?? "—"}</span><br>
+          consecutive run <span class="mono">${e.consecutive_run ?? "—"}</span>
+        </div></div>
+      <div class="kpi"><div class="label">structure (confirmed pivots)</div>
+        <div style="font-size:11px;color:var(--ink2);margin-top:6px;line-height:1.7">
+          support <span class="mono">${f.price(sr.nearest_support)}</span> · resistance <span class="mono">${f.price(sr.nearest_resistance)}</span><br>
+          to support <span class="mono">${sr.support_distance_atr ?? "—"} ATR</span><br>
+          to resistance <span class="mono">${sr.resistance_distance_atr ?? "—"} ATR</span><br>
+          range position <span class="mono">${sr.range_position ?? "—"}</span>
+        </div></div>
+    </div>
+    <div class="muted" style="font-size:11px;margin-top:10px">source <span class="mono">${feed ? feed.source_label : "—"}</span> ·
+      mode <span class="mono">${feed ? feed.mode : "—"}</span> · candles <span class="mono">${feed ? feed.candles : "—"}</span>
+      ${feed && feed.notes ? "<br>" + feed.notes : ""}
+      ${feed && feed.fallback_chain && feed.fallback_chain.length > 1 ? "<br>provider chain: " + feed.fallback_chain.map(s => s.provider + " " + s.status + (s.reason ? " (" + s.reason + ")" : "")).join(" → ") : ""}
+    </div>`;
+}
+
+/* ---------------------------------------------------------------- panels */
+async function loadHistory() {
+  try {
+    const data = await api("/api/signals/history?limit=25");
+    const rows = data.signals || [];
+    const body = $("history").querySelector("tbody");
+    body.innerHTML = rows.length ? rows.map(r => `
+      <tr><td>${r.time_ist || "—"}</td>
+        <td>${r.asset}${r.is_simulated ? ' <span class="muted" style="font-size:9px">SIM</span>' : ""}</td>
+        <td class="${f.cls(r.direction)}">${f.dir(r.direction)}</td>
+        <td>${f.pct(r.confidence,1)}</td>
+        <td><span class="chip ${r.result === "WIN" ? "green" : r.result === "LOSS" ? "red" : r.result === "VOID" ? "" : "amber"}">${r.result}</span></td>
+        <td class="muted">${r.status}</td></tr>`).join("")
+      : `<tr><td colspan="6" class="muted">No signals generated yet.</td></tr>`;
+  } catch {}
+}
+
+async function loadPerformance() {
+  try {
+    const data = await api("/api/signals/performance");
+    const v = data.model_validation || {};
+    const oof = v.out_of_fold || {};
+    $("validation-chip").textContent = v.available ? (v.version || "trained") : "NOT TRAINED";
+    $("#validation-chip");
+    $("validation-chip").className = "chip " + (v.available ? (v.data_provenance && v.data_provenance.is_simulated ? "amber" : "green") : "red");
+    $("validation").innerHTML = v.available ? `
+      ${v.data_provenance && v.data_provenance.is_simulated ? `<div class="notice amber" style="margin-bottom:10px"><b>Trained on SIMULATED data.</b> ${v.data_provenance.notes || ""}</div>` : ""}
+      <div class="row" style="gap:8px">
+        <div class="kpi" style="flex:1"><div class="label">walk-forward accuracy</div><div class="v">${f.num(oof.accuracy,4)}</div></div>
+        <div class="kpi" style="flex:1"><div class="label">macro F1</div><div class="v">${f.num(oof.macro_f1,4)}</div></div>
+        <div class="kpi" style="flex:1"><div class="label">ROC-AUC</div><div class="v">${f.num(oof.roc_auc_macro,4)}</div></div>
+        <div class="kpi" style="flex:1"><div class="label">Brier</div><div class="v">${f.num(oof.brier,4)}</div></div>
+        <div class="kpi" style="flex:1"><div class="label">calibration error</div><div class="v">${f.num(oof.expected_calibration_error,4)}</div></div>
+        <div class="kpi" style="flex:1"><div class="label">samples</div><div class="v">${oof.samples ?? "—"}</div></div>
+      </div>
+      <div class="muted" style="font-size:11px;margin-top:10px;line-height:1.6">
+        Holdout accuracy <span class="mono">${f.num((v.holdout||{}).accuracy,4)}</span> ·
+        holdout samples <span class="mono">${(v.holdout||{}).samples ?? "—"}</span> ·
+        max losing streak (oof) <span class="mono">${oof.max_losing_streak ?? "—"}</span><br>
+        ${v.note || ""}
+      </div>` : `<div class="notice red">No validation metrics exist yet — train with <span class="mono">python -m backend.research.train</span>. Nothing is displayed that was not actually computed.</div>`;
+
+    const p = data.signal_performance || {};
+    $("performance").innerHTML = p.generated === 0
+      ? `<div class="muted" style="font-size:12px">No signals emitted yet — so there is no win rate to show, and none is invented.</div>`
+      : `<div class="row" style="gap:8px">
+          <div class="kpi" style="flex:1"><div class="label">generated</div><div class="v">${p.generated}</div></div>
+          <div class="kpi" style="flex:1"><div class="label">wins</div><div class="v call">${p.wins}</div></div>
+          <div class="kpi" style="flex:1"><div class="label">losses</div><div class="v put">${p.losses}</div></div>
+          <div class="kpi" style="flex:1"><div class="label">pending</div><div class="v">${p.pending}</div></div>
+          <div class="kpi" style="flex:1"><div class="label">win rate</div><div class="v">${p.win_rate === null ? "—" : f.pct(p.win_rate,1)}</div></div>
+          <div class="kpi" style="flex:1"><div class="label">max losing streak</div><div class="v">${p.max_losing_streak}</div></div>
+        </div>`;
+    if (data.separation_note && !document.getElementById("sep-note")) {
+      const div = document.createElement("div");
+      div.id = "sep-note"; div.className = "notice blue"; div.style.marginTop = "10px";
+      div.innerHTML = "<b>Why these two panels are separate.</b> " + data.separation_note + " Neither number is a profit promise.";
+      $("performance").appendChild(div);
+    }
+  } catch {}
+}
+
+async function loadScans() {
+  try {
+    const data = await api("/api/signals/scans?limit=10");
+    const rows = data.scans || [];
+    $("scans").innerHTML = rows.length ? rows.map(s => `
+      <div style="border:1px solid ${s.status === "SIGNAL" ? "rgba(18,209,142,.2)" : s.status === "NO_TRADE" ? "rgba(255,176,32,.2)" : "var(--line)"};border-radius:10px;padding:8px 10px;margin-bottom:6px">
+        <div class="row between" style="font-size:11px">
+          <span class="mono">${s.scanned_at_ist} · ${s.asset || "—"} · <b>${s.status}</b></span>
+          <span class="muted mono">${s.confidence !== null && s.confidence !== undefined ? f.pct(s.confidence,1) + " · " : ""}${s.scan_mode || "NOW"}${s.is_simulated ? " · SIM" : ""}</span>
+        </div>
+        ${s.reason ? `<div class="muted" style="font-size:11px;margin-top:4px">${s.reason}</div>` : ""}
+      </div>`).join("") : `<div class="muted" style="font-size:12px">No scans recorded yet.</div>`;
+  } catch {}
+}
+
+async function loadModelStatus() {
+  try {
+    const status = await api("/api/model/status");
+    if (!status.ready) {
+      $("gen-message").innerHTML = "<b>" + (status.message || "MODELS NOT TRAINED") + "</b>";
+    }
+  } catch {}
+}
+
+async function loadDaily() {
+  $("daily").innerHTML = `<div class="muted" style="font-size:12px">Replaying today's closed candles through the pipeline…</div>`;
+  try {
+    const payload = await api("/api/signals/daily" + (state.selected !== "AUTO" ? "?asset=" + encodeURIComponent(state.selected) : ""));
+    state.daily = payload;
+    const emitted = payload.emitted_today || {}, study = payload.study || {};
+    const best = study.best;
+    $("daily").innerHTML = `
+      <div class="row" style="gap:8px">
+        <span class="chip ${payload.status === "SIGNAL" ? "green" : payload.status === "STUDY_ONLY" ? "blue" : "amber"}">
+          ${payload.status === "SIGNAL" ? "TODAY'S SIGNAL" : payload.status === "STUDY_ONLY" ? "STUDY ONLY" : "NO TRADE"}</span>
+        <span class="muted" style="font-size:11px">day ${payload.day_ist} IST · threshold ${f.pct(payload.min_confidence,0)}</span>
+      </div>
+      <div class="grid2" style="margin-top:10px">
+        <div class="kpi"><div class="label">emitted signals today</div><div class="v" style="font-size:20px">${emitted.count ?? 0}</div>
+          ${emitted.best ? `<div class="muted" style="font-size:11px;margin-top:6px">best: <span class="mono">${emitted.best.asset} ${f.dir(emitted.best.direction)} · ${f.pct(emitted.best.confidence,1)} · ${emitted.best.entry_time_ist} IST · ${emitted.best.result}</span></div>`
+            : `<div class="muted" style="font-size:11px;margin-top:6px">No live signal emitted today.</div>`}</div>
+        <div class="kpi"><div class="label">study replay (already-closed candles)</div>
+          ${best ? `<div style="margin-top:6px;font-size:12px;color:var(--ink2)">setup <span class="mono">${study.asset} ${f.dir(best.direction)}</span><br>
+            confidence <span class="mono">${f.pct(best.confidence,1)}</span> · candle <span class="mono">${best.entry_time_ist} IST</span>
+            ${best.outcome ? "<br>would have <span class='mono'>" + best.outcome.result + "</span>" : ""}</div>`
+            : `<div class="muted" style="font-size:11px;margin-top:6px">No candle today met the gates — the honest outcome. Nothing is forced.</div>`}
+          ${study.in_sample_note ? `<div class="muted" style="font-size:10px;margin-top:6px">${study.in_sample ? "⚠️ " : ""}${study.in_sample_note}</div>` : ""}
+        </div>
+      </div>
+      ${payload.status === "NO_TRADE" ? `<div class="notice amber" style="margin-top:10px"><b>DAILY STATUS — no qualified setup found yet.</b><br>${payload.reason || ""}${study.scanned_assets && study.scanned_assets.length ? " (scanned: " + study.scanned_assets.join(", ") + ")" : ""}</div>` : ""}
+      ${study.note ? `<div class="muted" style="font-size:11px;margin-top:8px">${study.note}</div>` : ""}`;
+  } catch (err) {
+    $("daily").innerHTML = `<div class="notice red">Daily scan failed: ${err.message}</div>`;
+  }
+}
+
+/* ---------------------------------------------------------- model quality */
+function wilson(wins, total) {
+  if (!total) return null;
+  const z = 1.96, p = wins / total, n = total;
+  const den = 1 + (z * z) / n;
+  const centre = p + (z * z) / (2 * n);
+  const margin = z * Math.sqrt((p * (1 - p) + (z * z) / (4 * n)) / n);
+  return Math.max(0, (centre - margin) / den);
+}
+
+async function loadPaper() {
+  const chip = $("paper-top-chip");
+  let summary = null, card = null, evidence = null, ledger = null;
+  try {
+    const [a, b, c, d] = await Promise.all([
+      api("/api/paper/summary").catch((e) => ({ __error: e.message })),
+      api("/api/paper/card").catch(() => null),
+      api("/api/research/paper-evidence").catch(() => null),
+      api("/api/paper/ledger?limit=25").catch(() => null),
+    ]);
+    summary = a; card = b; evidence = c; ledger = d;
+    if (summary && summary.__error) throw new Error(summary.__error);
+    const fresh = summary.data_freshness || "UNAVAILABLE";
+    chip.className = "chip " + (fresh === "FRESH" ? "green" : fresh === "STALE" ? "amber" : "red");
+    chip.textContent = "PAPER MODE · DATA " + fresh;
+    const paper = summary.paper || {};
+    const scans = summary.scans || {};
+    const pct = (v, d = 2) => (v === null || v === undefined ? "—" : (v * 100).toFixed(d) + "%");
+    const kpi = (label, value, sub) =>
+      `<div class="kpi"><div class="label">${label}</div><div class="v" style="font-size:15px">${value}</div>` +
+      (sub ? `<div class="muted" style="font-size:10px">${sub}</div>` : "") + `</div>`;
+    const latest = summary.latest_m1
+      ? `${summary.latest_m1.asset} ${(summary.latest_m1.open_time_utc || "").slice(11, 19)}Z → close ${(summary.latest_m1.close_time_utc || "").slice(11, 19)}Z`
+      : "no ingested candle";
+    $("paper-kpis").innerHTML = [
+      kpi("current IST", (summary.current_ist || "—").slice(0, 8), "server clock"),
+      kpi("latest M1", latest, summary.latest_m1 ? "provider " + (summary.latest_m1.provider || "—") : ""),
+      kpi("next M1", summary.next_m1 ? (summary.next_m1.open_time_ist || "").slice(11, 19) : "—",
+          summary.next_m1 ? Math.round(summary.next_m1.seconds_away) + "s away" : ""),
+      kpi("paper signals today", paper.signals_today ?? 0, "qualified only"),
+      kpi("pending", paper.pending ?? 0, "awaiting expiry candle"),
+      kpi("wins", paper.wins ?? 0, "verified close only"),
+      kpi("losses", paper.losses ?? 0, "verified close only"),
+      kpi("unresolved", paper.unresolved ?? 0, "candle could not be verified"),
+      kpi("coverage", pct(scans.coverage), "signals / recorded scans"),
+      kpi("no-trade rate", pct(scans.no_trade_rate), "rejections are the normal case"),
+    ].join("");
+
+    // --- real-time card (spec §8): a qualified paper signal, or NO TRADE + the real reason
+    if (card && card.kind === "PAPER SIGNAL") {
+      const arrow = card.direction === "PUT" ? "🔻" : "🔺";
+      $("paper-card").innerHTML = `
+        <div class="notice green" style="line-height:1.7">
+          <b>🚨 QUOTEX M1 PAPER SIGNAL</b><br>
+          Asset: <span class="mono">${card.asset}</span><br>
+          💎 M1<br>
+          🕐 ENTRY: <span class="mono">${card.time_ist} IST</span><br>
+          <span class="mono">${arrow} ${card.direction}</span><br>
+          🎯 MODEL CONFIDENCE: <span class="mono">${card.confidence}%</span><br>
+          🤖 MODEL AGREEMENT: <span class="mono">${card.model_agreement === null ? "—" : (card.model_agreement * 100).toFixed(1) + "%"}</span><br>
+          ⏳ EXPIRY: <span class="mono">${card.expiry_minutes} MIN</span><br>
+          📡 DATA: <span class="mono">${card.data}</span> · Provider: <span class="mono">${card.provider || "—"}</span><br>
+          MODEL: <span class="mono">${card.model || "—"}</span> · Ledger: <span class="mono">${card.status}</span>
+        </div>`;
+    } else if (card) {
+      $("paper-card").innerHTML = `
+        <div class="notice amber" style="line-height:1.7">
+          <b>NO TRADE</b><br>
+          Confidence: <span class="mono">${card.confidence === null || card.confidence === undefined ? "—" : card.confidence + "%"}</span><br>
+          Reason: <span class="mono">${card.reason || "no qualified setup"}</span>
+          ${card.detail ? `<br><span class="muted" style="font-size:11px">${card.detail}</span>` : ""}
+          ${(card.blocked_by && card.blocked_by.length) ? `<br><span class="muted" style="font-size:11px">blocked by: ${card.blocked_by.join(" · ")}</span>` : ""}
+          <br><span class="muted" style="font-size:11px">Nothing is forced: a signal appears only when every gate passes.</span>
+        </div>`;
+    } else {
+      $("paper-card").innerHTML = `<p class="muted" style="font-size:12px">No scan recorded yet.</p>`;
+    }
+
+    // --- feed table
+    const feeds = (summary.live && summary.live.assets) || [];
+    if (!feeds.length) {
+      $("paper-feeds").innerHTML = `<p class="muted" style="font-size:12px">No asset is being ingested yet — start the
+        continuous feed (POST /api/data/ingest/start) or push verified candles (POST /api/data/ingest).</p>`;
+    } else {
+      $("paper-feeds").innerHTML = `<table><thead><tr><th>asset</th><th>provider</th><th>status</th><th>age</th>
+        <th>rows</th><th>gaps</th><th>flags</th></tr></thead><tbody>` +
+        feeds.map((r) => {
+          const colour = r.freshness_status === "FRESH" ? "green" : r.freshness_status === "STALE" ? "amber" : "red";
+          const flags = [r.is_simulated ? "SIMULATED" : null, r.is_replay ? "REPLAY" : null].filter(Boolean).join(" · ") || "REAL";
+          return `<tr><td class="mono">${r.asset}</td><td class="mono">${r.provider || "—"}</td>
+            <td><span class="chip ${colour}" style="padding:2px 7px;font-size:10px">${r.freshness_status}</span></td>
+            <td class="mono">${r.age_seconds === null ? "—" : Math.round(r.age_seconds) + "s"}</td>
+            <td class="mono">${r.rows ?? 0}</td>
+            <td class="mono">${r.gaps ? r.gaps.missing_minutes : "—"}</td>
+            <td class="mono" style="font-size:10px">${flags}</td></tr>`;
+        }).join("") + `</tbody></table>`;
+    }
+
+    // --- evidence tracker
+    if (evidence) {
+      const lb = evidence.wilson_95_lower_bound;
+      const passed = evidence.evidence_bar === "PASSED";
+      $("paper-evidence").innerHTML = `
+        <div class="row between" style="font-size:12px;padding:3px 0"><span class="muted">decided paper trades</span>
+          <span class="mono">${evidence.total_decided_trades}</span></div>
+        <div class="row between" style="font-size:12px;padding:3px 0"><span class="muted">wins / losses</span>
+          <span class="mono">${evidence.wins} / ${evidence.losses}</span></div>
+        <div class="row between" style="font-size:12px;padding:3px 0"><span class="muted">win rate</span>
+          <span class="mono">${evidence.win_rate === null ? "—" : (evidence.win_rate * 100).toFixed(1) + "%"}</span></div>
+        <div class="row between" style="font-size:12px;padding:3px 0"><span class="muted">Wilson 95% lower bound</span>
+          <span class="mono">${lb === null ? "—" : lb.toFixed(4)}</span></div>
+        <div class="row between" style="font-size:12px;padding:3px 0"><span class="muted">max losing streak</span>
+          <span class="mono">${evidence.max_losing_streak}</span></div>
+        <div class="row between" style="font-size:12px;padding:3px 0"><span class="muted">days / assets</span>
+          <span class="mono">${evidence.days} / ${(evidence.assets || []).length}</span></div>
+        <div class="notice ${passed ? "amber" : "red"}" style="margin-top:8px;font-size:11px">
+          EVIDENCE BAR: <b>${evidence.evidence_bar}</b> — rule: ≥ ${evidence.evidence_rule.minimum_qualifying_signals}
+          decided signals and a Wilson 95% lower bound above ${evidence.evidence_rule.wilson_95_lower_bound_above.toFixed(2)}.
+          ${passed ? "Still not a profitability claim." : "Until then nothing here is labelled profitable."}
+        </div>`;
+    }
+
+    // --- ledger table
+    const rows = (ledger && ledger.rows) || [];
+    const body = $("paper-ledger-body");
+    if (!rows.length) {
+      body.innerHTML = `<tr><td colspan="8" class="muted" style="font-size:12px">No qualified paper signal has been
+        recorded yet — the ledger stays empty rather than showing a forced CALL/PUT.</td></tr>`;
+    } else {
+      body.innerHTML = rows.map((r) => {
+        const colour = r.status === "WIN" ? "green" : r.status === "LOSS" ? "red" : r.status === "PENDING" ? "blue" : "amber";
+        return `<tr><td class="mono" style="font-size:10px">${(r.signal_id || "").slice(-20)}</td>
+          <td class="mono">${r.entry_time_ist || "—"}</td><td class="mono">${r.direction || "—"}</td>
+          <td class="mono">${r.confidence === null ? "—" : r.confidence + "%"}</td>
+          <td class="mono" style="font-size:10px">${r.feed_provider || "—"}</td>
+          <td class="mono" style="font-size:10px">${r.model_version || "—"}</td>
+          <td><span class="chip ${colour}" style="padding:2px 7px;font-size:10px">${r.status}</span></td>
+          <td class="mono" style="font-size:10px">${r.result || "—"}</td></tr>`;
+      }).join("");
+    }
+  } catch (err) {
+    chip.className = "chip red";
+    chip.textContent = "PAPER PANEL — backend unavailable";
+    $("paper-card").innerHTML = `<div class="notice red" style="font-size:12px">Live paper state could not be loaded:
+      ${err.message}. No numbers are invented while the backend is unreachable.</div>`;
+    $("paper-kpis").innerHTML = "";
+  }
+}
+
+async function loadModelQuality() {
+  const el = $("model-quality");
+  try {
+    const [model, perf, research, data] = await Promise.all([
+      api("/api/model/status"),
+      api("/api/signals/performance").catch(() => null),
+      api("/api/research/latest").catch(() => null),
+      api("/api/data/status").catch(() => null),
+    ]);
+    const live = ((data && data.assets) || []).filter(r => r.status === "OK" && r.freshness_seconds !== null);
+    const freshest = live.sort((a, b) => (a.freshness_seconds || 0) - (b.freshness_seconds || 0))[0];
+    const freshnessLabel = freshest
+      ? Math.round(freshest.freshness_seconds) + "s old (" + freshest.asset + ")"
+      : (data && data.counts && data.counts.available ? "no timestamped asset" : "unavailable");
+    const holdout = model.holdout_metrics || {};
+    const validation = model.validation_metrics || {};
+    const paper = (perf && perf.signal_performance) || {};
+    const decided = paper.decided || 0;
+    const bound = wilson(paper.wins || 0, decided);
+    const evidence = research && research.available ? (research.experiments_with_evidence || []).length : null;
+    const cells = research && research.available ? (research.summary || {}).experiment_count : null;
+
+    // Spec §15: a clear state, and an equally clear statement about profitability.
+    const notValidated =
+      decided < 100 || bound === null || bound <= 0.5 || (evidence !== null && evidence === 0);
+    const verdict = notValidated
+      ? { text: "NOT VALIDATED FOR PROFITABILITY", cls: "red",
+          why: decided < 100
+            ? `only ${decided} live paper trade(s) decided so far — far too few to judge anything`
+            : bound <= 0.5
+              ? `the paper win rate's Wilson 95% lower bound is ${(bound * 100).toFixed(1)}% (≤ 50%) — no evidence of an edge`
+              : "the research run found no confidence gate whose validation hit rate cleared the evidence bar" }
+      : { text: "PARTIAL EVIDENCE — STILL NOT A PROFITABILITY CLAIM", cls: "amber",
+          why: `${decided} decided paper trades, Wilson lower bound ${(bound * 100).toFixed(1)}% — encouraging at best, never a guarantee` };
+
+    $("mq-status-chip").textContent = (model.state || "—") + " · " + verdict.text;
+    $("mq-status-chip").className = "chip " + (model.state === "READY_MARKET" ? "green" : model.state === "READY_DEMO" ? "amber" : "red");
+
+    const kpi = (label, value, sub) =>
+      `<div class="kpi"><div class="label">${label}</div><div class="v" style="font-size:15px">${value}</div>` +
+      (sub ? `<div class="muted" style="font-size:10px">${sub}</div>` : "") + `</div>`;
+    const row = (label, value) =>
+      `<div class="row between" style="font-size:12px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+         <span class="muted">${label}</span><span class="mono">${value}</span></div>`;
+    const period = model.data_period || {};
+    const assets = (model.asset_list || []).join(", ") || "—";
+    const pctOr = (v, d = 1) => (v === null || v === undefined ? "—" : (v * 100).toFixed(d) + "%");
+
+    el.innerHTML = `
+      <div class="notice ${verdict.cls === "red" ? "red" : "amber"}" style="margin-bottom:10px">
+        <b>MODEL STATUS: ${model.state || "—"}</b> · version <span class="mono">${model.version || "—"}</span><br>
+        <b>PERFORMANCE: ${verdict.text}</b><br>
+        <span class="muted" style="font-size:11px">${verdict.why}</span>
+      </div>
+      <div class="row" style="gap:8px;flex-wrap:wrap">
+        ${kpi("model version", model.version || "—", model.data_source_class || model.source_class || "")}
+        ${kpi("training rows", (model.row_count ?? model.training_rows ?? 0).toLocaleString(), assets)}
+        ${kpi("training period", (period.start_utc || "—").slice(0, 10) + " → " + (period.end_utc || "—").slice(0, 10), "UTC")}
+        ${kpi("last retrain", (model.trained_at_utc || "—").replace("T", " ").slice(0, 16) + "Z", model.artifact_dir ? "artifact on disk" : "")}
+        ${kpi("data freshness", freshnessLabel, "newest closed candle")}
+        ${kpi("paper trades", String(decided), (paper.pending || 0) + " pending · " + (paper.unresolved || 0) + " unresolved")}
+      </div>
+      <div class="grid2" style="margin-top:12px">
+        <div>
+          <div class="label">walk-forward validation (offline)</div>
+          ${row("accuracy", validation.accuracy !== undefined ? validation.accuracy.toFixed(4) : "—")}
+          ${row("macro F1", validation.macro_f1 !== undefined ? validation.macro_f1.toFixed(4) : "—")}
+          ${row("ROC-AUC", validation.roc_auc_macro !== undefined ? validation.roc_auc_macro.toFixed(4) : "—")}
+          ${row("directional win rate", validation.directional_win_rate !== undefined ? validation.directional_win_rate.toFixed(1) + "%" : "—")}
+        </div>
+        <div>
+          <div class="label">untouched holdout (offline)</div>
+          ${row("accuracy", holdout.accuracy !== undefined ? holdout.accuracy.toFixed(4) : "—")}
+          ${row("macro F1", holdout.macro_f1 !== undefined ? holdout.macro_f1.toFixed(4) : "—")}
+          ${row("ROC-AUC", holdout.roc_auc_macro !== undefined ? holdout.roc_auc_macro.toFixed(4) : "—")}
+          ${row("samples", holdout.samples !== undefined ? holdout.samples.toLocaleString() : "—")}
+        </div>
+      </div>
+      <div class="grid2" style="margin-top:12px">
+        <div>
+          <div class="label">live paper performance</div>
+          ${row("generated", paper.generated ?? 0)}
+          ${row("decided", decided)}
+          ${row("win rate", paper.win_rate === null || paper.win_rate === undefined ? "— (none decided)" : pctOr(paper.win_rate))}
+          ${row("null hypothesis bound", bound === null ? "—" : "Wilson LB " + (bound * 100).toFixed(1) + "%")}
+        </div>
+        <div>
+          <div class="label">research lab (spec §8/§9)</div>
+          ${research && research.available
+            ? row("experiments", cells ?? "—") +
+              row("with a qualifying gate", evidence ?? "—") +
+              row("without evidence of edge", (research.experiments_without_evidence || []).length) +
+              row("dataset version", (research.dataset || {}).dataset_version || "—") +
+              row("run", research.run_id || "—") +
+              ((research.experiments_with_evidence || []).length
+                ? `<div class="muted" style="font-size:10px;margin-top:6px">cells with evidence (validation chose a gate; holdout is the one-shot test):</div>` +
+                  (research.experiments_with_evidence || []).slice(0, 6).map(c =>
+                    `<div class="mono" style="font-size:10px">${c.experiment_id} → gate ${c.selected_threshold}` +
+                    (c.holdout_gate ? ` · holdout ${c.holdout_gate.signals} signals` +
+                      (c.holdout_gate.hit_rate !== null && c.holdout_gate.hit_rate !== undefined
+                        ? ` · hit ${(c.holdout_gate.hit_rate * 100).toFixed(1)}%` : "") : "") + `</div>`).join("")
+                : `<div class="muted" style="font-size:10px;margin-top:6px">No confidence gate cleared the validation evidence bar — the correct output of the running system stays NO TRADE.</div>`)
+            : row("status", "no research run yet")}
+        </div>
+      </div>
+      <div class="muted" style="font-size:10px;margin-top:8px">
+        Model confidence is a calculated score, never an accuracy claim. Offline validation metrics describe
+        historical evaluation and are never combined with live paper results. Read the offline numbers above as
+        "what happened on this dataset", not as a forecast.
+      </div>`;
+  } catch (err) {
+    el.innerHTML = `<div class="notice red">Model quality unavailable: ${err.message}</div>`;
+  }
+}
+
+/* ------------------------------------------------------- data provenance */
+async function loadProvenance() {
+  try {
+    const status = await api("/api/data/status");
+    const rows = status.assets || [];
+    const counts = status.counts || {};
+    $("provenance-chip").textContent = (counts.real_market || 0) + " real · " + (counts.simulated || 0) +
+      " simulated · " + (counts.unavailable || 0) + " unavailable";
+    $("provenance-chip").className = "chip " + (counts.real_market ? "green" : counts.available ? "amber" : "red");
+    const cell = (label, value, sub) =>
+      `<div class="kpi"><div class="label">${label}</div><div class="v" style="font-size:13px">${value}</div>` +
+      (sub ? `<div class="muted" style="font-size:10px">${sub}</div>` : "") + `</div>`;
+    $("provenance").innerHTML = rows.map(r => {
+      const v = r.validation || {};
+      const prov = r.provenance || {};
+      const badge = r.badge || (r.status === "DATA_UNAVAILABLE" ? "DATA UNAVAILABLE" : "—");
+      const badgeCls = badge === "LIVE" ? "green" : badge === "REPLAY" ? "blue" :
+        badge === "SIMULATED" ? "amber" : "red";
+      return `
+        <div style="border:1px solid rgba(255,255,255,.06);border-radius:11px;padding:10px 12px;margin-bottom:8px">
+          <div class="row between">
+            <div class="row"><b class="mono">${r.asset}</b>
+              <span class="chip ${badgeCls}">${badge}</span>
+              ${r.source_class ? `<span class="chip">${r.source_class}</span>` : ""}</div>
+            <div class="muted" style="font-size:11px">${r.provider || "—"} · ${r.status}</div>
+          </div>
+          ${r.status === "DATA_UNAVAILABLE"
+            ? `<div class="muted" style="font-size:11px;margin-top:6px">${r.reason || ""}${r.detail ? " — " + r.detail : ""}</div>
+               <div class="muted" style="font-size:10px;margin-top:4px">tried: ${(r.tried || []).map(x => x.provider + " (" + x.status + ")").join(" → ") || "—"}</div>`
+            : `<div class="row" style="gap:8px;margin-top:8px;flex-wrap:wrap">
+                 ${cell("rows", r.rows ?? "—", "validated candles")}
+                 ${cell("latest candle", (r.latest_candle_open_utc || "—").replace("T", " ").slice(0, 16) + "Z", "closed")}
+                 ${cell("freshness", r.freshness_seconds === null ? "—" : Math.round(r.freshness_seconds) + "s", "vs 180s replay budget")}
+                 ${cell("validation", v.status || "—", v.interval_minutes ? v.interval_minutes + "-min grid" : "")}
+                 ${cell("missing", v.missing_candles ?? "—", (v.missing_ratio !== undefined ? (v.missing_ratio * 100).toFixed(2) + "% inside sessions" : ""))}
+                 ${cell("session breaks", v.session_breaks ?? "—", "market closures")}
+               </div>
+               ${prov.filename ? `<div class="muted" style="font-size:10px;margin-top:6px">file <span class="mono">${prov.filename}</span> · imported <span class="mono">${(prov.imported_at_utc || "").replace("T"," ").slice(0,19)}</span> UTC · sha256 <span class="mono">${(prov.sha256 || "").slice(0,12)}…</span>${prov.operator_label ? " · " + prov.operator_label : ""}</div>` : ""}
+               ${v.errors && v.errors.length ? `<div class="notice red" style="margin-top:8px;font-size:11px">${v.errors.join("<br>")}</div>` : ""}
+               ${v.warnings && v.warnings.length ? `<div class="muted" style="font-size:10px;margin-top:6px">warnings: ${v.warnings.slice(0,3).join(" · ")}</div>` : ""}`}
+        </div>`;
+    }).join("") +
+    `<div class="muted" style="font-size:11px;margin-top:6px">datasets folder: <span class="mono">${status.datasets_dir || "—"}</span> · mode <span class="mono">${status.data_source_mode || "—"}</span> · environment <span class="mono">${status.environment || "—"}</span></div>`;
+    const select = $("import-asset");
+    if (select && !select.options.length) {
+      select.innerHTML = (rows || []).map(r => `<option value="${r.asset}">${r.asset}</option>`).join("");
+      select.onchange = () => { $("import-asset-label").textContent = select.value; };
+    }
+  } catch (err) {
+    $("provenance").innerHTML = `<div class="notice red">Data status unavailable: ${err.message}</div>`;
+  }
+}
+
+async function runImport(dryRun) {
+  const asset = $("import-asset").value;
+  const text = $("import-text").value;
+  const fromFile = $("register-file-btn").dataset.arm === "1";
+  if (!fromFile && !text.trim()) {
+    $("import-result").innerHTML = `<div class="notice amber">Paste CSV text, choose a file, or use “register existing file”.</div>`;
+    return;
+  }
+  const body = {
+    asset: asset,
+    source_class: $("import-class").value,
+    dry_run: !!dryRun,
+    force: $("import-force").checked,
+  };
+  if (fromFile) body.from_file = true; else body.csv_text = text;
+  $("import-result").innerHTML = `<div class="muted" style="font-size:12px">Validating ${asset}…</div>`;
+  try {
+    const res = await api("/api/data/import", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const v = res.validation || {};
+    const ok = res.status === "IMPORTED" || res.status === "REGISTERED" || res.status === "VALIDATED" ||
+               res.status === "ALREADY_REGISTERED";
+    $("import-result").innerHTML = `
+      <div class="notice ${ok ? "green" : "red"}"><b>${res.status}</b>${res.reason ? " — " + res.reason : ""}</div>
+      ${v.status ? `<div class="row" style="gap:8px;margin-top:8px;flex-wrap:wrap">
+        <div class="kpi"><div class="label">rows</div><div class="v">${v.rows}</div></div>
+        <div class="kpi"><div class="label">validation</div><div class="v">${v.status}</div></div>
+        <div class="kpi"><div class="label">resolution</div><div class="v">${v.interval_minutes ?? "—"} min</div></div>
+        <div class="kpi"><div class="label">missing</div><div class="v">${v.missing_candles}</div></div>
+        <div class="kpi"><div class="label">duplicates</div><div class="v">${v.duplicates}</div></div>
+        <div class="kpi"><div class="label">invalid OHLC</div><div class="v">${v.invalid_ohlc}</div></div>
+        <div class="kpi"><div class="label">out of order</div><div class="v">${v.non_monotonic}</div></div>
+      </div>` : ""}
+      ${v.errors && v.errors.length ? `<div class="muted" style="font-size:11px;margin-top:6px">${v.errors.join("<br>")}</div>` : ""}
+      ${v.warnings && v.warnings.length ? `<div class="muted" style="font-size:11px;margin-top:6px">${v.warnings.join("<br>")}</div>` : ""}
+      ${res.rows ? `<div class="muted" style="font-size:11px;margin-top:6px">stored ${res.rows} validated candles.</div>` : ""}`;
+    await loadProvenance();
+    await loadSystem();
+  } catch (err) {
+    $("import-result").innerHTML = `<div class="notice red">Import failed: ${err.message}</div>`;
+  } finally {
+    $("register-file-btn").dataset.arm = "0";
+  }
+}
+
+/* ----------------------------------------------------------------- events */
+$("generate").onclick = generate;
+$("daily-btn").onclick = loadDaily;
+$("threshold").oninput = (e) => { $("thr-value").textContent = e.target.value + "%"; };
+$("threshold").onchange = (e) => saveConfig({ min_confidence: Number(e.target.value) });
+$("expiry").onchange = (e) => saveConfig({ expiry_minutes: Number(e.target.value) });
+$("mode").onchange = (e) => saveConfig({ mode: e.target.value });
+$("data-mode").onchange = (e) => saveConfig({ data_source_mode: e.target.value });
+$("environment").onchange = (e) => saveConfig({ environment: e.target.value });
+$("agreement").onchange = (e) => saveConfig({ min_model_agreement: Number(e.target.value) });
+$("import-file-btn").onclick = () => $("import-file").click();
+$("import-file").onchange = (e) => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => { $("import-text").value = String(reader.result || ""); $("import-text").style.display = "block"; };
+  reader.readAsText(file);
+};
+$("import-text-btn").onclick = () => {
+  const el = $("import-text");
+  el.style.display = el.style.display === "none" ? "block" : "none";
+};
+$("register-file-btn").onclick = () => {
+  $("register-file-btn").dataset.arm = "1";
+  runImport(false);
+};
+$("import-dryrun").onclick = () => runImport(true);
+$("import-run").onclick = () => runImport(false);
+$("reload-model").onclick = async () => { try { await api("/api/model/reload", { method: "POST" }); await loadSystem(); $("gen-message").textContent = "model artifacts reloaded"; } catch (e) { $("gen-message").textContent = e.message; } };
+$("evaluate").onclick = async () => { try { const r = await api("/api/signals/evaluate", { method: "POST" }); await loadHistory(); $("gen-message").textContent = "outcomes evaluated: " + (r.resolved ?? 0) + " resolved, " + (r.pending ?? 0) + " pending"; } catch (e) { $("gen-message").textContent = e.message; } };
+
+setInterval(() => { if ($("auto-refresh").checked) { loadSystem(); loadHistory(); loadScans(); loadPerformance(); loadProvenance(); loadModelQuality(); loadPaper(); } }, 15000);
+
+bootstrap();
+</script>
+</body>
+</html>

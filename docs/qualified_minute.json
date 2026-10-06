@@ -1,0 +1,10 @@
+{
+  "searched_minutes": 28200,
+  "window_start_utc": "2026-09-04 08:21:00+00:00",
+  "window_end_utc": "2026-10-02 06:48:00+00:00",
+  "qualified_minutes": [],
+  "errors": [],
+  "seconds": 1488.5,
+  "policy": "every scan ran the production gate stack unchanged; the sweep only reads (persist=False) and never lowers a threshold",
+  "generated_at_utc": "2026-10-02T09:36:46+00:00"
+}

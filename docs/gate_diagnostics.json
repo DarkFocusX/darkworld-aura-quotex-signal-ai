@@ -1,0 +1,752 @@
+{
+  "minutes": 27971,
+  "status_counts": {
+    "NO_TRADE": 27967,
+    "DATA_UNAVAILABLE": 4
+  },
+  "model_only_blocker_minutes": 2023,
+  "best_model_only_minutes": [
+    {
+      "minute_utc": "2026-09-23 13:46:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 79.25670000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.55 < 0.58",
+        "CONFIDENCE": "Confidence 79.3% is below threshold 85.0%"
+      },
+      "direction_probability": 0.547,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "minute_utc": "2026-09-16 21:01:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 78.83820000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.50 < 0.58",
+        "CONFIDENCE": "Confidence 78.8% is below threshold 85.0%"
+      },
+      "direction_probability": 0.5039,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-10 14:08:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 76.71610000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.50 < 0.58",
+        "CONFIDENCE": "Confidence 76.7% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4979,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "minute_utc": "2026-09-14 19:48:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 75.88300000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.46 < 0.58",
+        "CONFIDENCE": "Confidence 75.9% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4635,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "minute_utc": "2026-10-01 00:02:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 75.63960000000002,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.52 < 0.58",
+        "CONFIDENCE": "Confidence 75.6% is below threshold 85.0%"
+      },
+      "direction_probability": 0.5204,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "minute_utc": "2026-09-11 20:54:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 75.6187,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.48 < 0.58",
+        "CONFIDENCE": "Confidence 75.6% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4811,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-21 21:29:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 75.57310000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.52 < 0.58",
+        "CONFIDENCE": "Confidence 75.6% is below threshold 85.0%"
+      },
+      "direction_probability": 0.5183,
+      "agreement": 1.0,
+      "oracle": null
+    },
+    {
+      "minute_utc": "2026-09-17 20:34:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 75.5384,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.50 < 0.58",
+        "CONFIDENCE": "Confidence 75.5% is below threshold 85.0%"
+      },
+      "direction_probability": 0.504,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "minute_utc": "2026-09-29 03:16:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 75.24390000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.49 < 0.58",
+        "CONFIDENCE": "Confidence 75.2% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4923,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-10 10:25:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 74.54330000000002,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.49 < 0.58",
+        "CONFIDENCE": "Confidence 74.5% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4892,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "minute_utc": "2026-09-10 22:07:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 74.4008,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.49 < 0.58",
+        "CONFIDENCE": "Confidence 74.4% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4872,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "minute_utc": "2026-09-23 13:48:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 74.3757,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.51 < 0.58",
+        "CONFIDENCE": "Confidence 74.4% is below threshold 85.0%"
+      },
+      "direction_probability": 0.5096,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "minute_utc": "2026-09-14 20:05:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 74.19250000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.49 < 0.58",
+        "CONFIDENCE": "Confidence 74.2% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4912,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "minute_utc": "2026-10-01 14:32:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 74.07100000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.48 < 0.58",
+        "CONFIDENCE": "Confidence 74.1% is below threshold 85.0%"
+      },
+      "direction_probability": 0.484,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "minute_utc": "2026-09-06 23:50:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 73.91470000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.46 < 0.58",
+        "CONFIDENCE": "Confidence 73.9% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4569,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    }
+  ],
+  "minutes_one_gate_away": {
+    "CONSISTENCY": 19165,
+    "DATA": 4,
+    "FEATURE": 25,
+    "REGIME": 297
+  },
+  "best_one_gate_away": [
+    {
+      "blocked_by": "CONSISTENCY",
+      "minute_utc": "2026-09-21 21:12:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 79.73870000000001,
+      "failing_gates": [
+        "CONSISTENCY",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "CONSISTENCY": "Conflicting indicators: only 2/4 rule groups (trend, structure) support PUT; need 3 \u2014 opposing: momentum, candle",
+        "CONFIDENCE": "Confidence 79.7% is below threshold 85.0%"
+      },
+      "direction_probability": 0.5849,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "blocked_by": "CONSISTENCY",
+      "minute_utc": "2026-09-24 20:56:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 76.2698,
+      "failing_gates": [
+        "MODEL",
+        "CONSISTENCY",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.52 < 0.58",
+        "CONSISTENCY": "Conflicting indicators: only 2/4 rule groups (trend, momentum) support PUT; need 3 \u2014 opposing: candle, structure",
+        "CONFIDENCE": "Confidence 76.3% is below threshold 85.0%"
+      },
+      "direction_probability": 0.5189,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "blocked_by": "CONSISTENCY",
+      "minute_utc": "2026-09-10 21:20:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 75.82480000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONSISTENCY",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.57 < 0.58",
+        "CONSISTENCY": "Conflicting indicators: only 2/4 rule groups (trend, structure) support PUT; need 3 \u2014 opposing: momentum, candle",
+        "CONFIDENCE": "Confidence 75.8% is below threshold 85.0%"
+      },
+      "direction_probability": 0.5661,
+      "agreement": 1.0,
+      "oracle": null
+    },
+    {
+      "blocked_by": "DATA",
+      "minute_utc": "2026-09-06 23:00:00+00:00",
+      "status": "DATA_UNAVAILABLE",
+      "confidence": null,
+      "failing_gates": [
+        "DATA",
+        "FINAL"
+      ],
+      "reasons": {
+        "DATA": "Stale data: newest candle closed 180005s ago (limit 180s for a replay feed)"
+      },
+      "direction_probability": null,
+      "agreement": null,
+      "oracle": null
+    },
+    {
+      "blocked_by": "DATA",
+      "minute_utc": "2026-09-13 23:00:00+00:00",
+      "status": "DATA_UNAVAILABLE",
+      "confidence": null,
+      "failing_gates": [
+        "DATA",
+        "FINAL"
+      ],
+      "reasons": {
+        "DATA": "Stale data: newest candle closed 180005s ago (limit 180s for a replay feed)"
+      },
+      "direction_probability": null,
+      "agreement": null,
+      "oracle": null
+    },
+    {
+      "blocked_by": "DATA",
+      "minute_utc": "2026-09-20 23:00:00+00:00",
+      "status": "DATA_UNAVAILABLE",
+      "confidence": null,
+      "failing_gates": [
+        "DATA",
+        "FINAL"
+      ],
+      "reasons": {
+        "DATA": "Stale data: newest candle closed 179885s ago (limit 180s for a replay feed)"
+      },
+      "direction_probability": null,
+      "agreement": null,
+      "oracle": null
+    },
+    {
+      "blocked_by": "FEATURE",
+      "minute_utc": "2026-09-07 21:04:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": null,
+      "failing_gates": [
+        "FEATURE",
+        "FINAL"
+      ],
+      "reasons": {
+        "FEATURE": "Feature block incomplete: 44 missing (ret_1, ret_3, ret_5, ret_10\u2026)"
+      },
+      "direction_probability": null,
+      "agreement": null,
+      "oracle": null
+    },
+    {
+      "blocked_by": "FEATURE",
+      "minute_utc": "2026-09-07 21:06:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": null,
+      "failing_gates": [
+        "FEATURE",
+        "FINAL"
+      ],
+      "reasons": {
+        "FEATURE": "Feature block incomplete: 44 missing (ret_1, ret_3, ret_5, ret_10\u2026)"
+      },
+      "direction_probability": null,
+      "agreement": null,
+      "oracle": null
+    },
+    {
+      "blocked_by": "FEATURE",
+      "minute_utc": "2026-09-07 21:09:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": null,
+      "failing_gates": [
+        "FEATURE",
+        "FINAL"
+      ],
+      "reasons": {
+        "FEATURE": "Feature block incomplete: 44 missing (ret_1, ret_3, ret_5, ret_10\u2026)"
+      },
+      "direction_probability": null,
+      "agreement": null,
+      "oracle": null
+    },
+    {
+      "blocked_by": "REGIME",
+      "minute_utc": "2026-09-25 09:24:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 66.50410000000001,
+      "failing_gates": [
+        "MODEL",
+        "REGIME",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.47 < 0.58",
+        "REGIME": "Unfavorable market regime: choppy/mean-reverting (ADX 45.5, efficiency 0.072)",
+        "CONFIDENCE": "Confidence 66.5% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4658,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "blocked_by": "REGIME",
+      "minute_utc": "2026-09-29 18:13:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 65.5779,
+      "failing_gates": [
+        "MODEL",
+        "REGIME",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.42 < 0.58",
+        "REGIME": "Unfavorable market regime: choppy/mean-reverting (ADX 37.2, efficiency 0.009)",
+        "CONFIDENCE": "Confidence 65.6% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4216,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    },
+    {
+      "blocked_by": "REGIME",
+      "minute_utc": "2026-10-01 00:24:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 65.1442,
+      "failing_gates": [
+        "MODEL",
+        "REGIME",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.47 < 0.58",
+        "REGIME": "Unfavorable market regime: choppy/mean-reverting (ADX 52.4, efficiency 0.07)",
+        "CONFIDENCE": "Confidence 65.1% is below threshold 85.0%"
+      },
+      "direction_probability": 0.473,
+      "agreement": 1.0,
+      "oracle": "NO_TRADE"
+    }
+  ],
+  "oracle_clears_every_gate": 461,
+  "oracle_cleared_minutes": [
+    {
+      "minute_utc": "2026-09-16 21:01:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 78.83820000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.50 < 0.58",
+        "CONFIDENCE": "Confidence 78.8% is below threshold 85.0%"
+      },
+      "direction_probability": 0.5039,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-11 20:54:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 75.6187,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.48 < 0.58",
+        "CONFIDENCE": "Confidence 75.6% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4811,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-29 03:16:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 75.24390000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.49 < 0.58",
+        "CONFIDENCE": "Confidence 75.2% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4923,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-06 23:50:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 73.91470000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.46 < 0.58",
+        "CONFIDENCE": "Confidence 73.9% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4569,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-18 14:51:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 73.60730000000001,
+      "failing_gates": [
+        "MODEL",
+        "ANOMALY",
+        "REGIME",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Anomaly detector flagged the current market state as out-of-distribution",
+        "ANOMALY": "Feature vector outside the training distribution",
+        "REGIME": "Abnormal market regime: anomaly detector veto",
+        "CONFIDENCE": "Confidence 73.6% is below threshold 85.0%"
+      },
+      "direction_probability": 0.5626,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-21 16:08:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 72.9377,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.47 < 0.58",
+        "CONFIDENCE": "Confidence 72.9% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4709,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-15 23:38:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 72.87200000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.49 < 0.58",
+        "CONFIDENCE": "Confidence 72.9% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4856,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-10 01:55:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 72.784,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.49 < 0.58",
+        "CONFIDENCE": "Confidence 72.8% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4864,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-29 09:58:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 72.72200000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.48 < 0.58",
+        "CONFIDENCE": "Confidence 72.7% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4765,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-09 15:33:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 72.1788,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.44 < 0.58",
+        "CONFIDENCE": "Confidence 72.2% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4446,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-22 16:50:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 71.9479,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.45 < 0.58",
+        "CONFIDENCE": "Confidence 71.9% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4469,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-17 03:13:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 70.8676,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.45 < 0.58",
+        "CONFIDENCE": "Confidence 70.9% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4521,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-18 14:48:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 70.5077,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.45 < 0.58",
+        "CONFIDENCE": "Confidence 70.5% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4492,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-16 11:32:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 70.3132,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.45 < 0.58",
+        "CONFIDENCE": "Confidence 70.3% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4476,
+      "agreement": 1.0,
+      "oracle": "SIGNAL"
+    },
+    {
+      "minute_utc": "2026-09-29 10:29:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 70.29180000000001,
+      "failing_gates": [
+        "MODEL",
+        "CONFIDENCE",
+        "FINAL"
+      ],
+      "reasons": {
+        "MODEL": "Directional probability too low: 0.46 < 0.58",
+        "CONFIDENCE": "Confidence 70.3% is below threshold 85.0%"
+      },
+      "direction_probability": 0.4618,
+      "agreement": 0.7838,
+      "oracle": "SIGNAL"
+    }
+  ],
+  "source": "gate_study.jsonl.gz",
+  "policy": "mined from the completed read-only gate audit \u2014 no new scans, no threshold change, no production effect; the oracle block uses future outcomes and is research-only, isolated from every runtime path (tests/test_research_isolation.py).",
+  "generated_at_utc": "2026-10-02T13:02:58+00:00"
+}

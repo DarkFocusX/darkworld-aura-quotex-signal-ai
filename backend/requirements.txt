@@ -1,0 +1,29 @@
+# Quotex Signal AI — backend / ML requirements
+# Install:  pip install -r backend/requirements.txt
+
+# --- web / api
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.6
+
+# --- data / numerics
+numpy>=1.26
+pandas>=2.1
+scipy>=1.11          # AR filter for the simulated feed + temperature fitting
+
+# --- ml
+scikit-learn>=1.4    # RandomForest, LogisticRegression, IsolationForest, metrics
+lightgbm>=4.3        # primary gradient boosting model
+joblib>=1.3
+# xgboost>=2.0       # optional challenger — auto-detected if installed
+
+# --- feed / notifications
+requests>=2.31       # public delayed feed + direct Telegram Bot API calls
+websocket-client>=1.7  # operator-authorised live feed bridge (tools/start_live_feed.py)
+
+# --- tests
+pytest>=8.0
+httpx>=0.27          # required by fastapi.testclient
+
+# --- optional neural challenger (not required; the UI will report it as NOT TRAINED)
+# torch>=2.2

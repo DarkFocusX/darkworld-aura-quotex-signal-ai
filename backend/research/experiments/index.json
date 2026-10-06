@@ -1,0 +1,5132 @@
+{
+ "run_id": "lab-20261002T080023Z",
+ "generated_at_utc": "2026-10-02T08:00:23.073722+00:00",
+ "config": {
+  "assets": [
+   "USDJPY",
+   "USDCHF"
+  ],
+  "rows_per_asset": 40000,
+  "source": "csv",
+  "horizons": [
+   1,
+   2,
+   3,
+   5
+  ],
+  "neutral_value": 0.25,
+  "feature_sets": [
+   "base",
+   "extended"
+  ],
+  "targets": [
+   "NEXT_CANDLE_DIRECTION",
+   "M1_EXPIRY_OUTCOME"
+  ],
+  "models": [
+   "logistic_regression",
+   "random_forest",
+   "lightgbm"
+  ],
+  "core_models": [
+   "lightgbm"
+  ],
+  "folds": 3,
+  "holdout_fraction": 0.2,
+  "seed": 20260101,
+  "min_train_rows": 6000,
+  "calibration_bins": 10,
+  "store_signals": 20000,
+  "model_hyperparameters": {
+   "logistic_regression": {
+    "C": 0.5,
+    "max_iter": 600,
+    "class_weight": "balanced",
+    "scaled": true
+   },
+   "random_forest": {
+    "n_estimators": 80,
+    "max_depth": 6,
+    "min_samples_leaf": 40,
+    "class_weight": "balanced",
+    "n_jobs": 2
+   },
+   "lightgbm": {
+    "n_estimators": 200,
+    "learning_rate": 0.05,
+    "num_leaves": 31,
+    "subsample": 0.85,
+    "colsample_bytree": 0.85,
+    "min_child_samples": 40,
+    "reg_lambda": 1.0,
+    "class_weight": "balanced",
+    "n_jobs": 2
+   },
+   "ensemble_mean": {
+    "combination": "mean of family probabilities",
+    "families": [
+     "logistic_regression",
+     "random_forest",
+     "lightgbm"
+    ]
+   }
+  },
+  "threshold_grid": [
+   0.6,
+   0.65,
+   0.7,
+   0.75,
+   0.8,
+   0.85,
+   0.9,
+   0.95
+  ],
+  "min_signals_for_selection": 100,
+  "selection_rule": "validation folds only: smallest threshold with >= 100 signals and a Wilson 95% lower bound on the hit rate above 0.50; if no threshold qualifies the system must return NO TRADE"
+ },
+ "dataset": {
+  "dataset_version": "ds-d21e6369e945",
+  "assets": [
+   "USDCHF",
+   "USDJPY"
+  ],
+  "rows": 56577,
+  "period_start_utc": "2026-09-04T06:49:00+00:00",
+  "period_end_utc": "2026-10-02T06:49:00+00:00",
+  "skipped": {}
+ },
+ "run_notes": {
+  "runtime_seconds": 96.0,
+  "xgboost": "not installed \u2014 benchmarked without it (recorded, not silently skipped)",
+  "neural_challenger": "skipped \u2014 torch is not installed",
+  "python": "3.13.14"
+ },
+ "experiments": [
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h1-base-logistic_regression",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h1-base-logistic_regression.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 1,
+   "reference": "close",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "logistic_regression"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3689,
+    "macro_f1": 0.3663,
+    "roc_auc": {
+     "PUT": 0.5488,
+     "NEUTRAL": 0.544,
+     "CALL": 0.5622,
+     "macro": 0.5517
+    },
+    "brier": 0.6618,
+    "directional_precision": 0.3543
+   },
+   "holdout": {
+    "accuracy": 0.3703,
+    "macro_f1": 0.3699,
+    "roc_auc": {
+     "PUT": 0.5528,
+     "NEUTRAL": 0.553,
+     "CALL": 0.5653,
+     "macro": 0.557
+    },
+    "brier": 0.6594,
+    "directional_precision": 0.3447
+   },
+   "expected_calibration_error": 0.0177,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 8193,
+      "mean_confidence": 0.3713,
+      "accuracy": 0.3549,
+      "gap": 0.0164
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 2972,
+      "mean_confidence": 0.4224,
+      "accuracy": 0.4028,
+      "gap": 0.0197
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 78,
+      "mean_confidence": 0.5437,
+      "accuracy": 0.6154,
+      "gap": -0.0717
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 35,
+      "mean_confidence": 0.6377,
+      "accuracy": 0.6571,
+      "gap": -0.0194
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 2,
+      "mean_confidence": 0.7225,
+      "accuracy": 0.5,
+      "gap": 0.2225
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0177,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 8.5,
+    "holdout": 2.1
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h1-base-random_forest",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h1-base-random_forest.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 1,
+   "reference": "close",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "random_forest"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3679,
+    "macro_f1": 0.3567,
+    "roc_auc": {
+     "PUT": 0.5541,
+     "NEUTRAL": 0.549,
+     "CALL": 0.5676,
+     "macro": 0.5569
+    },
+    "brier": 0.6598,
+    "directional_precision": 0.3546
+   },
+   "holdout": {
+    "accuracy": 0.3621,
+    "macro_f1": 0.3555,
+    "roc_auc": {
+     "PUT": 0.5589,
+     "NEUTRAL": 0.561,
+     "CALL": 0.5677,
+     "macro": 0.5625
+    },
+    "brier": 0.6587,
+    "directional_precision": 0.3411
+   },
+   "expected_calibration_error": 0.0137,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 10157,
+      "mean_confidence": 0.36,
+      "accuracy": 0.3494,
+      "gap": 0.0106
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 1025,
+      "mean_confidence": 0.4231,
+      "accuracy": 0.4585,
+      "gap": -0.0354
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 92,
+      "mean_confidence": 0.5424,
+      "accuracy": 0.6522,
+      "gap": -0.1098
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 6,
+      "mean_confidence": 0.6248,
+      "accuracy": 0.8333,
+      "gap": -0.2086
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0137,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 17.5,
+    "holdout": 6.6
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h1-base-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h1-base-lightgbm.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 1,
+   "reference": "close",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3707,
+    "macro_f1": 0.3691,
+    "roc_auc": {
+     "PUT": 0.5544,
+     "NEUTRAL": 0.5487,
+     "CALL": 0.5648,
+     "macro": 0.556
+    },
+    "brier": 0.66,
+    "directional_precision": 0.352
+   },
+   "holdout": {
+    "accuracy": 0.3674,
+    "macro_f1": 0.3666,
+    "roc_auc": {
+     "PUT": 0.5636,
+     "NEUTRAL": 0.5524,
+     "CALL": 0.5636,
+     "macro": 0.5599
+    },
+    "brier": 0.6573,
+    "directional_precision": 0.3439
+   },
+   "expected_calibration_error": 0.0346,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 7343,
+      "mean_confidence": 0.3688,
+      "accuracy": 0.3402,
+      "gap": 0.0286
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 3277,
+      "mean_confidence": 0.4326,
+      "accuracy": 0.3909,
+      "gap": 0.0417
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 421,
+      "mean_confidence": 0.5363,
+      "accuracy": 0.4751,
+      "gap": 0.0612
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 159,
+      "mean_confidence": 0.6473,
+      "accuracy": 0.5975,
+      "gap": 0.0499
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 75,
+      "mean_confidence": 0.7435,
+      "accuracy": 0.8667,
+      "gap": -0.1231
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 5,
+      "mean_confidence": 0.8148,
+      "accuracy": 1.0,
+      "gap": -0.1852
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0346,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 8.9,
+    "holdout": 3.3
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h1-base-logistic_regression-random_forest-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h1-base-logistic_regression-random_forest-lightgbm.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 1,
+   "reference": "close",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "logistic_regression",
+    "random_forest",
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3729,
+    "macro_f1": 0.3672,
+    "roc_auc": {
+     "PUT": 0.5566,
+     "NEUTRAL": 0.5532,
+     "CALL": 0.5699,
+     "macro": 0.5599
+    },
+    "brier": 0.6585,
+    "directional_precision": 0.3559
+   },
+   "holdout": {
+    "accuracy": 0.3648,
+    "macro_f1": 0.3633,
+    "roc_auc": {
+     "PUT": 0.563,
+     "NEUTRAL": 0.5609,
+     "CALL": 0.5698,
+     "macro": 0.5645
+    },
+    "brier": 0.6564,
+    "directional_precision": 0.3425
+   },
+   "expected_calibration_error": 0.0204,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 9007,
+      "mean_confidence": 0.3656,
+      "accuracy": 0.3437,
+      "gap": 0.0219
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 2053,
+      "mean_confidence": 0.4244,
+      "accuracy": 0.4228,
+      "gap": 0.0016
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 187,
+      "mean_confidence": 0.5391,
+      "accuracy": 0.6684,
+      "gap": -0.1293
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 32,
+      "mean_confidence": 0.6317,
+      "accuracy": 0.7812,
+      "gap": -0.1496
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 1,
+      "mean_confidence": 0.7142,
+      "accuracy": 1.0,
+      "gap": -0.2858
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0204,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 33.8,
+    "holdout": 11.6
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h1-extended-logistic_regression",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h1-extended-logistic_regression.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 1,
+   "reference": "close",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "logistic_regression"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3718,
+    "macro_f1": 0.3705,
+    "roc_auc": {
+     "PUT": 0.5512,
+     "NEUTRAL": 0.5491,
+     "CALL": 0.5643,
+     "macro": 0.5549
+    },
+    "brier": 0.6606,
+    "directional_precision": 0.3552
+   },
+   "holdout": {
+    "accuracy": 0.3694,
+    "macro_f1": 0.3691,
+    "roc_auc": {
+     "PUT": 0.5504,
+     "NEUTRAL": 0.5528,
+     "CALL": 0.5652,
+     "macro": 0.5561
+    },
+    "brier": 0.6593,
+    "directional_precision": 0.3436
+   },
+   "expected_calibration_error": 0.0261,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 7760,
+      "mean_confidence": 0.3717,
+      "accuracy": 0.3519,
+      "gap": 0.0197
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 3318,
+      "mean_confidence": 0.4248,
+      "accuracy": 0.3906,
+      "gap": 0.0342
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 145,
+      "mean_confidence": 0.5402,
+      "accuracy": 0.7034,
+      "gap": -0.1633
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 55,
+      "mean_confidence": 0.6419,
+      "accuracy": 0.6909,
+      "gap": -0.049
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 2,
+      "mean_confidence": 0.7066,
+      "accuracy": 0.0,
+      "gap": 0.7066
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0261,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 8.2,
+    "holdout": 3.2
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h1-extended-random_forest",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h1-extended-random_forest.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 1,
+   "reference": "close",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "random_forest"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3664,
+    "macro_f1": 0.3551,
+    "roc_auc": {
+     "PUT": 0.5535,
+     "NEUTRAL": 0.5536,
+     "CALL": 0.5697,
+     "macro": 0.5589
+    },
+    "brier": 0.6591,
+    "directional_precision": 0.3514
+   },
+   "holdout": {
+    "accuracy": 0.3651,
+    "macro_f1": 0.356,
+    "roc_auc": {
+     "PUT": 0.5611,
+     "NEUTRAL": 0.5631,
+     "CALL": 0.5719,
+     "macro": 0.5654
+    },
+    "brier": 0.6576,
+    "directional_precision": 0.3445
+   },
+   "expected_calibration_error": 0.0109,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 10287,
+      "mean_confidence": 0.3602,
+      "accuracy": 0.3528,
+      "gap": 0.0075
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 816,
+      "mean_confidence": 0.418,
+      "accuracy": 0.4375,
+      "gap": -0.0195
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 122,
+      "mean_confidence": 0.5491,
+      "accuracy": 0.7131,
+      "gap": -0.164
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 55,
+      "mean_confidence": 0.6239,
+      "accuracy": 0.8182,
+      "gap": -0.1943
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0109,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 17.3,
+    "holdout": 6.6
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h1-extended-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h1-extended-lightgbm.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 1,
+   "reference": "close",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3663,
+    "macro_f1": 0.3653,
+    "roc_auc": {
+     "PUT": 0.5522,
+     "NEUTRAL": 0.5522,
+     "CALL": 0.561,
+     "macro": 0.5552
+    },
+    "brier": 0.6597,
+    "directional_precision": 0.3501
+   },
+   "holdout": {
+    "accuracy": 0.3657,
+    "macro_f1": 0.3649,
+    "roc_auc": {
+     "PUT": 0.5601,
+     "NEUTRAL": 0.5622,
+     "CALL": 0.5691,
+     "macro": 0.5638
+    },
+    "brier": 0.6563,
+    "directional_precision": 0.3436
+   },
+   "expected_calibration_error": 0.0363,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 7222,
+      "mean_confidence": 0.3689,
+      "accuracy": 0.3412,
+      "gap": 0.0277
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 3464,
+      "mean_confidence": 0.4332,
+      "accuracy": 0.3814,
+      "gap": 0.0519
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 382,
+      "mean_confidence": 0.536,
+      "accuracy": 0.4843,
+      "gap": 0.0517
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 107,
+      "mean_confidence": 0.6505,
+      "accuracy": 0.6262,
+      "gap": 0.0244
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 72,
+      "mean_confidence": 0.7464,
+      "accuracy": 0.8056,
+      "gap": -0.0591
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 33,
+      "mean_confidence": 0.8237,
+      "accuracy": 0.9091,
+      "gap": -0.0853
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0363,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 11.0,
+    "holdout": 4.1
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h1-extended-logistic_regression-random_forest-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h1-extended-logistic_regression-random_forest-lightgbm.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 1,
+   "reference": "close",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "logistic_regression",
+    "random_forest",
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3702,
+    "macro_f1": 0.3661,
+    "roc_auc": {
+     "PUT": 0.557,
+     "NEUTRAL": 0.5563,
+     "CALL": 0.5685,
+     "macro": 0.5606
+    },
+    "brier": 0.6577,
+    "directional_precision": 0.3537
+   },
+   "holdout": {
+    "accuracy": 0.3691,
+    "macro_f1": 0.3672,
+    "roc_auc": {
+     "PUT": 0.5605,
+     "NEUTRAL": 0.5645,
+     "CALL": 0.5729,
+     "macro": 0.566
+    },
+    "brier": 0.6557,
+    "directional_precision": 0.3471
+   },
+   "expected_calibration_error": 0.0172,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 8887,
+      "mean_confidence": 0.3664,
+      "accuracy": 0.3497,
+      "gap": 0.0166
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 2173,
+      "mean_confidence": 0.4231,
+      "accuracy": 0.4137,
+      "gap": 0.0094
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 117,
+      "mean_confidence": 0.5538,
+      "accuracy": 0.6239,
+      "gap": -0.0701
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 102,
+      "mean_confidence": 0.6436,
+      "accuracy": 0.8137,
+      "gap": -0.1701
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 1,
+      "mean_confidence": 0.7119,
+      "accuracy": 1.0,
+      "gap": -0.2881
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0172,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 36.2,
+    "holdout": 13.3
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h2-base-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h2-base-lightgbm.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 2,
+   "reference": "close",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56394,
+    "walk_forward": 9021,
+    "holdout": 11279,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3779,
+    "macro_f1": 0.3698,
+    "roc_auc": {
+     "PUT": 0.5488,
+     "NEUTRAL": 0.5546,
+     "CALL": 0.5474,
+     "macro": 0.5503
+    },
+    "brier": 0.6584,
+    "directional_precision": 0.392
+   },
+   "holdout": {
+    "accuracy": 0.3929,
+    "macro_f1": 0.3834,
+    "roc_auc": {
+     "PUT": 0.5662,
+     "NEUTRAL": 0.5748,
+     "CALL": 0.5601,
+     "macro": 0.567
+    },
+    "brier": 0.6533,
+    "directional_precision": 0.4026
+   },
+   "expected_calibration_error": 0.0117,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 7201,
+      "mean_confidence": 0.3698,
+      "accuracy": 0.3723,
+      "gap": -0.0025
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 3438,
+      "mean_confidence": 0.4322,
+      "accuracy": 0.404,
+      "gap": 0.0282
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 407,
+      "mean_confidence": 0.539,
+      "accuracy": 0.5012,
+      "gap": 0.0378
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 166,
+      "mean_confidence": 0.6438,
+      "accuracy": 0.6446,
+      "gap": -0.0007
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 59,
+      "mean_confidence": 0.7377,
+      "accuracy": 0.7288,
+      "gap": 0.0089
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 8,
+      "mean_confidence": 0.8161,
+      "accuracy": 0.875,
+      "gap": -0.0589
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0117,
+    "samples": 11279
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 11.6,
+    "holdout": 3.5
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h2-extended-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h2-extended-lightgbm.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 2,
+   "reference": "close",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56394,
+    "walk_forward": 9021,
+    "holdout": 11279,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3824,
+    "macro_f1": 0.3745,
+    "roc_auc": {
+     "PUT": 0.5469,
+     "NEUTRAL": 0.5599,
+     "CALL": 0.5486,
+     "macro": 0.5518
+    },
+    "brier": 0.6579,
+    "directional_precision": 0.3936
+   },
+   "holdout": {
+    "accuracy": 0.3918,
+    "macro_f1": 0.3824,
+    "roc_auc": {
+     "PUT": 0.5626,
+     "NEUTRAL": 0.5782,
+     "CALL": 0.5609,
+     "macro": 0.5672
+    },
+    "brier": 0.6536,
+    "directional_precision": 0.4023
+   },
+   "expected_calibration_error": 0.0108,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 7024,
+      "mean_confidence": 0.37,
+      "accuracy": 0.3685,
+      "gap": 0.0016
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 3650,
+      "mean_confidence": 0.4314,
+      "accuracy": 0.4079,
+      "gap": 0.0234
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 377,
+      "mean_confidence": 0.5373,
+      "accuracy": 0.504,
+      "gap": 0.0333
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 133,
+      "mean_confidence": 0.6431,
+      "accuracy": 0.5714,
+      "gap": 0.0717
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 61,
+      "mean_confidence": 0.7497,
+      "accuracy": 0.7869,
+      "gap": -0.0372
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 34,
+      "mean_confidence": 0.8311,
+      "accuracy": 0.8235,
+      "gap": 0.0076
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0108,
+    "samples": 11279
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 10.6,
+    "holdout": 4.1
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h3-base-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h3-base-lightgbm.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 3,
+   "reference": "close",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56392,
+    "walk_forward": 9021,
+    "holdout": 11279,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3943,
+    "macro_f1": 0.3726,
+    "roc_auc": {
+     "PUT": 0.5356,
+     "NEUTRAL": 0.5434,
+     "CALL": 0.5486,
+     "macro": 0.5425
+    },
+    "brier": 0.6574,
+    "directional_precision": 0.4181
+   },
+   "holdout": {
+    "accuracy": 0.3947,
+    "macro_f1": 0.3767,
+    "roc_auc": {
+     "PUT": 0.5459,
+     "NEUTRAL": 0.5765,
+     "CALL": 0.5475,
+     "macro": 0.5566
+    },
+    "brier": 0.655,
+    "directional_precision": 0.414
+   },
+   "expected_calibration_error": 0.0125,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 6861,
+      "mean_confidence": 0.3715,
+      "accuracy": 0.3731,
+      "gap": -0.0016
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 3670,
+      "mean_confidence": 0.4322,
+      "accuracy": 0.4095,
+      "gap": 0.0227
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 509,
+      "mean_confidence": 0.5365,
+      "accuracy": 0.4833,
+      "gap": 0.0532
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 156,
+      "mean_confidence": 0.6385,
+      "accuracy": 0.5256,
+      "gap": 0.1129
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 68,
+      "mean_confidence": 0.7385,
+      "accuracy": 0.7206,
+      "gap": 0.0179
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 15,
+      "mean_confidence": 0.821,
+      "accuracy": 0.8,
+      "gap": 0.021
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0125,
+    "samples": 11279
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 9.2,
+    "holdout": 3.2
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h3-extended-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h3-extended-lightgbm.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 3,
+   "reference": "close",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56392,
+    "walk_forward": 9021,
+    "holdout": 11279,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.394,
+    "macro_f1": 0.3729,
+    "roc_auc": {
+     "PUT": 0.5361,
+     "NEUTRAL": 0.5375,
+     "CALL": 0.5497,
+     "macro": 0.5411
+    },
+    "brier": 0.6583,
+    "directional_precision": 0.4201
+   },
+   "holdout": {
+    "accuracy": 0.4032,
+    "macro_f1": 0.3859,
+    "roc_auc": {
+     "PUT": 0.5513,
+     "NEUTRAL": 0.577,
+     "CALL": 0.5527,
+     "macro": 0.5603
+    },
+    "brier": 0.6541,
+    "directional_precision": 0.4233
+   },
+   "expected_calibration_error": 0.0168,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 6893,
+      "mean_confidence": 0.3713,
+      "accuracy": 0.3836,
+      "gap": -0.0123
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 3706,
+      "mean_confidence": 0.4331,
+      "accuracy": 0.4207,
+      "gap": 0.0125
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 445,
+      "mean_confidence": 0.5373,
+      "accuracy": 0.4494,
+      "gap": 0.0878
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 132,
+      "mean_confidence": 0.6421,
+      "accuracy": 0.5303,
+      "gap": 0.1118
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 72,
+      "mean_confidence": 0.746,
+      "accuracy": 0.7083,
+      "gap": 0.0377
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 31,
+      "mean_confidence": 0.8321,
+      "accuracy": 0.7742,
+      "gap": 0.0579
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0168,
+    "samples": 11279
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 11.4,
+    "holdout": 4.2
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h5-base-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h5-base-lightgbm.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 5,
+   "reference": "close",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56388,
+    "walk_forward": 9021,
+    "holdout": 11278,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.4003,
+    "macro_f1": 0.3731,
+    "roc_auc": {
+     "PUT": 0.5425,
+     "NEUTRAL": 0.5516,
+     "CALL": 0.5527,
+     "macro": 0.549
+    },
+    "brier": 0.6534,
+    "directional_precision": 0.4342
+   },
+   "holdout": {
+    "accuracy": 0.4152,
+    "macro_f1": 0.3893,
+    "roc_auc": {
+     "PUT": 0.5547,
+     "NEUTRAL": 0.5814,
+     "CALL": 0.5399,
+     "macro": 0.5587
+    },
+    "brier": 0.6517,
+    "directional_precision": 0.4415
+   },
+   "expected_calibration_error": 0.0185,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 5765,
+      "mean_confidence": 0.3732,
+      "accuracy": 0.3906,
+      "gap": -0.0175
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 4534,
+      "mean_confidence": 0.4344,
+      "accuracy": 0.4292,
+      "gap": 0.0052
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 665,
+      "mean_confidence": 0.5359,
+      "accuracy": 0.4647,
+      "gap": 0.0713
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 222,
+      "mean_confidence": 0.6416,
+      "accuracy": 0.5495,
+      "gap": 0.092
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 82,
+      "mean_confidence": 0.7388,
+      "accuracy": 0.5488,
+      "gap": 0.19
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 10,
+      "mean_confidence": 0.8231,
+      "accuracy": 0.9,
+      "gap": -0.0769
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0185,
+    "samples": 11278
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 9.2,
+    "holdout": 3.5
+   }
+  },
+  {
+   "experiment_id": "NEXT_CANDLE_DIRECTION-h5-extended-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_NEXT_CANDLE_DIRECTION-h5-extended-lightgbm.json",
+   "target": "NEXT_CANDLE_DIRECTION",
+   "horizon_minutes": 5,
+   "reference": "close",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56388,
+    "walk_forward": 9021,
+    "holdout": 11278,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.4012,
+    "macro_f1": 0.3761,
+    "roc_auc": {
+     "PUT": 0.5387,
+     "NEUTRAL": 0.5656,
+     "CALL": 0.5569,
+     "macro": 0.5537
+    },
+    "brier": 0.6518,
+    "directional_precision": 0.4354
+   },
+   "holdout": {
+    "accuracy": 0.4132,
+    "macro_f1": 0.3885,
+    "roc_auc": {
+     "PUT": 0.5518,
+     "NEUTRAL": 0.5826,
+     "CALL": 0.5425,
+     "macro": 0.559
+    },
+    "brier": 0.651,
+    "directional_precision": 0.4398
+   },
+   "expected_calibration_error": 0.0208,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 5923,
+      "mean_confidence": 0.3733,
+      "accuracy": 0.3917,
+      "gap": -0.0184
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 4443,
+      "mean_confidence": 0.4347,
+      "accuracy": 0.4234,
+      "gap": 0.0113
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 638,
+      "mean_confidence": 0.5388,
+      "accuracy": 0.4655,
+      "gap": 0.0733
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 169,
+      "mean_confidence": 0.6412,
+      "accuracy": 0.5385,
+      "gap": 0.1027
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 64,
+      "mean_confidence": 0.749,
+      "accuracy": 0.6094,
+      "gap": 0.1396
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 41,
+      "mean_confidence": 0.8358,
+      "accuracy": 0.7805,
+      "gap": 0.0553
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0208,
+    "samples": 11278
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 12.6,
+    "holdout": 4.3
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-base-logistic_regression",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-base-logistic_regression.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "logistic_regression"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.354,
+    "macro_f1": 0.3509,
+    "roc_auc": {
+     "PUT": 0.5197,
+     "NEUTRAL": 0.5384,
+     "CALL": 0.5238,
+     "macro": 0.5273
+    },
+    "brier": 0.6647,
+    "directional_precision": 0.3263
+   },
+   "holdout": {
+    "accuracy": 0.3738,
+    "macro_f1": 0.3642,
+    "roc_auc": {
+     "PUT": 0.5388,
+     "NEUTRAL": 0.5613,
+     "CALL": 0.5251,
+     "macro": 0.5417
+    },
+    "brier": 0.6615,
+    "directional_precision": 0.3367
+   },
+   "expected_calibration_error": 0.007,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 10391,
+      "mean_confidence": 0.3607,
+      "accuracy": 0.3635,
+      "gap": -0.0027
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 795,
+      "mean_confidence": 0.4222,
+      "accuracy": 0.4755,
+      "gap": -0.0533
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 72,
+      "mean_confidence": 0.5474,
+      "accuracy": 0.625,
+      "gap": -0.0776
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 21,
+      "mean_confidence": 0.6373,
+      "accuracy": 0.7619,
+      "gap": -0.1246
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 1,
+      "mean_confidence": 0.7035,
+      "accuracy": 1.0,
+      "gap": -0.2965
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.007,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 7.2,
+    "holdout": 3.0
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-base-random_forest",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-base-random_forest.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "random_forest"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3534,
+    "macro_f1": 0.351,
+    "roc_auc": {
+     "PUT": 0.5268,
+     "NEUTRAL": 0.5465,
+     "CALL": 0.5222,
+     "macro": 0.5318
+    },
+    "brier": 0.6627,
+    "directional_precision": 0.3251
+   },
+   "holdout": {
+    "accuracy": 0.3645,
+    "macro_f1": 0.3619,
+    "roc_auc": {
+     "PUT": 0.5473,
+     "NEUTRAL": 0.5627,
+     "CALL": 0.5237,
+     "macro": 0.5446
+    },
+    "brier": 0.6614,
+    "directional_precision": 0.3326
+   },
+   "expected_calibration_error": 0.0078,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 10726,
+      "mean_confidence": 0.3508,
+      "accuracy": 0.3538,
+      "gap": -0.003
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 365,
+      "mean_confidence": 0.4363,
+      "accuracy": 0.5178,
+      "gap": -0.0815
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 173,
+      "mean_confidence": 0.5382,
+      "accuracy": 0.6821,
+      "gap": -0.1439
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 16,
+      "mean_confidence": 0.628,
+      "accuracy": 0.5625,
+      "gap": 0.0655
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0078,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 15.9,
+    "holdout": 5.8
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-base-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-base-lightgbm.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3486,
+    "macro_f1": 0.3484,
+    "roc_auc": {
+     "PUT": 0.5241,
+     "NEUTRAL": 0.5494,
+     "CALL": 0.5141,
+     "macro": 0.5292
+    },
+    "brier": 0.6654,
+    "directional_precision": 0.3159
+   },
+   "holdout": {
+    "accuracy": 0.3578,
+    "macro_f1": 0.3572,
+    "roc_auc": {
+     "PUT": 0.5376,
+     "NEUTRAL": 0.5556,
+     "CALL": 0.5178,
+     "macro": 0.537
+    },
+    "brier": 0.6625,
+    "directional_precision": 0.3271
+   },
+   "expected_calibration_error": 0.0325,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 8589,
+      "mean_confidence": 0.3669,
+      "accuracy": 0.3408,
+      "gap": 0.0261
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 2261,
+      "mean_confidence": 0.4283,
+      "accuracy": 0.3782,
+      "gap": 0.0502
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 246,
+      "mean_confidence": 0.5386,
+      "accuracy": 0.4675,
+      "gap": 0.0711
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 109,
+      "mean_confidence": 0.657,
+      "accuracy": 0.7339,
+      "gap": -0.077
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 68,
+      "mean_confidence": 0.7333,
+      "accuracy": 0.7647,
+      "gap": -0.0315
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 7,
+      "mean_confidence": 0.814,
+      "accuracy": 1.0,
+      "gap": -0.186
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0325,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 9.2,
+    "holdout": 3.5
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-base-logistic_regression-random_forest-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-base-logistic_regression-random_forest-lightgbm.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "logistic_regression",
+    "random_forest",
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3546,
+    "macro_f1": 0.3545,
+    "roc_auc": {
+     "PUT": 0.5275,
+     "NEUTRAL": 0.5499,
+     "CALL": 0.5206,
+     "macro": 0.5327
+    },
+    "brier": 0.6627,
+    "directional_precision": 0.3242
+   },
+   "holdout": {
+    "accuracy": 0.3676,
+    "macro_f1": 0.3657,
+    "roc_auc": {
+     "PUT": 0.5439,
+     "NEUTRAL": 0.5664,
+     "CALL": 0.524,
+     "macro": 0.5448
+    },
+    "brier": 0.6602,
+    "directional_precision": 0.3315
+   },
+   "expected_calibration_error": 0.0089,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 10342,
+      "mean_confidence": 0.3573,
+      "accuracy": 0.3535,
+      "gap": 0.0037
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 717,
+      "mean_confidence": 0.4276,
+      "accuracy": 0.47,
+      "gap": -0.0424
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 186,
+      "mean_confidence": 0.5452,
+      "accuracy": 0.6559,
+      "gap": -0.1107
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 35,
+      "mean_confidence": 0.6214,
+      "accuracy": 0.9143,
+      "gap": -0.2929
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0089,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 30.1,
+    "holdout": 12.1
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-extended-logistic_regression",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-extended-logistic_regression.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "logistic_regression"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.362,
+    "macro_f1": 0.3596,
+    "roc_auc": {
+     "PUT": 0.5254,
+     "NEUTRAL": 0.5455,
+     "CALL": 0.5242,
+     "macro": 0.5317
+    },
+    "brier": 0.6638,
+    "directional_precision": 0.3341
+   },
+   "holdout": {
+    "accuracy": 0.3694,
+    "macro_f1": 0.3628,
+    "roc_auc": {
+     "PUT": 0.536,
+     "NEUTRAL": 0.5575,
+     "CALL": 0.5244,
+     "macro": 0.5393
+    },
+    "brier": 0.6615,
+    "directional_precision": 0.3362
+   },
+   "expected_calibration_error": 0.0072,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 10085,
+      "mean_confidence": 0.3621,
+      "accuracy": 0.3575,
+      "gap": 0.0046
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 1036,
+      "mean_confidence": 0.4225,
+      "accuracy": 0.4286,
+      "gap": -0.0061
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 122,
+      "mean_confidence": 0.5436,
+      "accuracy": 0.7705,
+      "gap": -0.2269
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 37,
+      "mean_confidence": 0.6354,
+      "accuracy": 0.6486,
+      "gap": -0.0133
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0072,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 7.1,
+    "holdout": 2.5
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-extended-random_forest",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-extended-random_forest.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "random_forest"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3537,
+    "macro_f1": 0.3511,
+    "roc_auc": {
+     "PUT": 0.5292,
+     "NEUTRAL": 0.5471,
+     "CALL": 0.5291,
+     "macro": 0.5351
+    },
+    "brier": 0.662,
+    "directional_precision": 0.3251
+   },
+   "holdout": {
+    "accuracy": 0.365,
+    "macro_f1": 0.3629,
+    "roc_auc": {
+     "PUT": 0.5487,
+     "NEUTRAL": 0.567,
+     "CALL": 0.5237,
+     "macro": 0.5465
+    },
+    "brier": 0.6603,
+    "directional_precision": 0.3331
+   },
+   "expected_calibration_error": 0.0078,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 10795,
+      "mean_confidence": 0.3505,
+      "accuracy": 0.3541,
+      "gap": -0.0036
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 280,
+      "mean_confidence": 0.4387,
+      "accuracy": 0.525,
+      "gap": -0.0863
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 108,
+      "mean_confidence": 0.5484,
+      "accuracy": 0.6019,
+      "gap": -0.0535
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 92,
+      "mean_confidence": 0.6488,
+      "accuracy": 0.8587,
+      "gap": -0.2099
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 5,
+      "mean_confidence": 0.7099,
+      "accuracy": 0.8,
+      "gap": -0.0901
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0078,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 17.2,
+    "holdout": 6.5
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-extended-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-extended-lightgbm.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.352,
+    "macro_f1": 0.3518,
+    "roc_auc": {
+     "PUT": 0.524,
+     "NEUTRAL": 0.5529,
+     "CALL": 0.5161,
+     "macro": 0.531
+    },
+    "brier": 0.6646,
+    "directional_precision": 0.3201
+   },
+   "holdout": {
+    "accuracy": 0.3597,
+    "macro_f1": 0.3587,
+    "roc_auc": {
+     "PUT": 0.5323,
+     "NEUTRAL": 0.5636,
+     "CALL": 0.5163,
+     "macro": 0.5374
+    },
+    "brier": 0.6625,
+    "directional_precision": 0.3269
+   },
+   "expected_calibration_error": 0.0301,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 8605,
+      "mean_confidence": 0.367,
+      "accuracy": 0.3468,
+      "gap": 0.0203
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 2294,
+      "mean_confidence": 0.4284,
+      "accuracy": 0.3692,
+      "gap": 0.0592
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 206,
+      "mean_confidence": 0.5349,
+      "accuracy": 0.4369,
+      "gap": 0.098
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 78,
+      "mean_confidence": 0.6453,
+      "accuracy": 0.6538,
+      "gap": -0.0086
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 51,
+      "mean_confidence": 0.7496,
+      "accuracy": 0.8824,
+      "gap": -0.1328
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 46,
+      "mean_confidence": 0.8299,
+      "accuracy": 0.8696,
+      "gap": -0.0397
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0301,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 10.3,
+    "holdout": 3.9
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-extended-logistic_regression-random_forest-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-extended-logistic_regression-random_forest-lightgbm.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "logistic_regression",
+    "random_forest",
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56396,
+    "walk_forward": 9021,
+    "holdout": 11280,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3546,
+    "macro_f1": 0.3544,
+    "roc_auc": {
+     "PUT": 0.5293,
+     "NEUTRAL": 0.5534,
+     "CALL": 0.5235,
+     "macro": 0.5354
+    },
+    "brier": 0.6618,
+    "directional_precision": 0.323
+   },
+   "holdout": {
+    "accuracy": 0.3676,
+    "macro_f1": 0.3657,
+    "roc_auc": {
+     "PUT": 0.5404,
+     "NEUTRAL": 0.5692,
+     "CALL": 0.523,
+     "macro": 0.5442
+    },
+    "brier": 0.6599,
+    "directional_precision": 0.3336
+   },
+   "expected_calibration_error": 0.0066,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 10349,
+      "mean_confidence": 0.358,
+      "accuracy": 0.3547,
+      "gap": 0.0032
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 710,
+      "mean_confidence": 0.4247,
+      "accuracy": 0.4451,
+      "gap": -0.0204
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 110,
+      "mean_confidence": 0.5496,
+      "accuracy": 0.6,
+      "gap": -0.0504
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 105,
+      "mean_confidence": 0.6496,
+      "accuracy": 0.8286,
+      "gap": -0.179
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 6,
+      "mean_confidence": 0.7063,
+      "accuracy": 1.0,
+      "gap": -0.2937
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0066,
+    "samples": 11280
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 35.3,
+    "holdout": 13.1
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h2-base-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h2-base-lightgbm.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 2,
+   "reference": "theoretical",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56394,
+    "walk_forward": 9021,
+    "holdout": 11279,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3711,
+    "macro_f1": 0.366,
+    "roc_auc": {
+     "PUT": 0.532,
+     "NEUTRAL": 0.5616,
+     "CALL": 0.5326,
+     "macro": 0.5421
+    },
+    "brier": 0.6601,
+    "directional_precision": 0.3779
+   },
+   "holdout": {
+    "accuracy": 0.3829,
+    "macro_f1": 0.3792,
+    "roc_auc": {
+     "PUT": 0.5445,
+     "NEUTRAL": 0.584,
+     "CALL": 0.5316,
+     "macro": 0.5533
+    },
+    "brier": 0.6575,
+    "directional_precision": 0.3866
+   },
+   "expected_calibration_error": 0.0147,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 7829,
+      "mean_confidence": 0.3701,
+      "accuracy": 0.362,
+      "gap": 0.0081
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 2932,
+      "mean_confidence": 0.4295,
+      "accuracy": 0.4042,
+      "gap": 0.0253
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 289,
+      "mean_confidence": 0.5405,
+      "accuracy": 0.4775,
+      "gap": 0.063
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 142,
+      "mean_confidence": 0.6494,
+      "accuracy": 0.6338,
+      "gap": 0.0156
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 87,
+      "mean_confidence": 0.7345,
+      "accuracy": 0.8276,
+      "gap": -0.0931
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0147,
+    "samples": 11279
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 10.1,
+    "holdout": 3.0
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h2-extended-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h2-extended-lightgbm.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 2,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56394,
+    "walk_forward": 9021,
+    "holdout": 11279,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.367,
+    "macro_f1": 0.3618,
+    "roc_auc": {
+     "PUT": 0.5273,
+     "NEUTRAL": 0.5525,
+     "CALL": 0.5293,
+     "macro": 0.5364
+    },
+    "brier": 0.6615,
+    "directional_precision": 0.3762
+   },
+   "holdout": {
+    "accuracy": 0.3828,
+    "macro_f1": 0.3789,
+    "roc_auc": {
+     "PUT": 0.544,
+     "NEUTRAL": 0.5806,
+     "CALL": 0.5324,
+     "macro": 0.5523
+    },
+    "brier": 0.6577,
+    "directional_precision": 0.387
+   },
+   "expected_calibration_error": 0.0146,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 7873,
+      "mean_confidence": 0.3695,
+      "accuracy": 0.3661,
+      "gap": 0.0035
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 2928,
+      "mean_confidence": 0.4298,
+      "accuracy": 0.3952,
+      "gap": 0.0346
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 263,
+      "mean_confidence": 0.541,
+      "accuracy": 0.4867,
+      "gap": 0.0543
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 104,
+      "mean_confidence": 0.6452,
+      "accuracy": 0.5385,
+      "gap": 0.1068
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 82,
+      "mean_confidence": 0.7447,
+      "accuracy": 0.8415,
+      "gap": -0.0968
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 29,
+      "mean_confidence": 0.8158,
+      "accuracy": 0.8966,
+      "gap": -0.0808
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0146,
+    "samples": 11279
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 10.2,
+    "holdout": 3.8
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h3-base-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h3-base-lightgbm.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 3,
+   "reference": "theoretical",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56392,
+    "walk_forward": 9021,
+    "holdout": 11279,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3873,
+    "macro_f1": 0.3751,
+    "roc_auc": {
+     "PUT": 0.5265,
+     "NEUTRAL": 0.5594,
+     "CALL": 0.54,
+     "macro": 0.542
+    },
+    "brier": 0.6587,
+    "directional_precision": 0.4085
+   },
+   "holdout": {
+    "accuracy": 0.3932,
+    "macro_f1": 0.3815,
+    "roc_auc": {
+     "PUT": 0.5449,
+     "NEUTRAL": 0.5872,
+     "CALL": 0.5291,
+     "macro": 0.5538
+    },
+    "brier": 0.6558,
+    "directional_precision": 0.4092
+   },
+   "expected_calibration_error": 0.0186,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 6919,
+      "mean_confidence": 0.3715,
+      "accuracy": 0.3765,
+      "gap": -0.005
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 3589,
+      "mean_confidence": 0.431,
+      "accuracy": 0.3965,
+      "gap": 0.0345
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 493,
+      "mean_confidence": 0.5386,
+      "accuracy": 0.4645,
+      "gap": 0.0741
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 170,
+      "mean_confidence": 0.6465,
+      "accuracy": 0.5765,
+      "gap": 0.07
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 95,
+      "mean_confidence": 0.738,
+      "accuracy": 0.7158,
+      "gap": 0.0223
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 13,
+      "mean_confidence": 0.8217,
+      "accuracy": 0.9231,
+      "gap": -0.1014
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0186,
+    "samples": 11279
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 8.4,
+    "holdout": 3.1
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h3-extended-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h3-extended-lightgbm.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 3,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56392,
+    "walk_forward": 9021,
+    "holdout": 11279,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3803,
+    "macro_f1": 0.3693,
+    "roc_auc": {
+     "PUT": 0.5272,
+     "NEUTRAL": 0.5626,
+     "CALL": 0.5362,
+     "macro": 0.542
+    },
+    "brier": 0.6587,
+    "directional_precision": 0.4016
+   },
+   "holdout": {
+    "accuracy": 0.3981,
+    "macro_f1": 0.3852,
+    "roc_auc": {
+     "PUT": 0.5485,
+     "NEUTRAL": 0.5884,
+     "CALL": 0.5307,
+     "macro": 0.5559
+    },
+    "brier": 0.6549,
+    "directional_precision": 0.419
+   },
+   "expected_calibration_error": 0.0156,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 7090,
+      "mean_confidence": 0.3715,
+      "accuracy": 0.3793,
+      "gap": -0.0077
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 3523,
+      "mean_confidence": 0.4307,
+      "accuracy": 0.4065,
+      "gap": 0.0242
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 376,
+      "mean_confidence": 0.5357,
+      "accuracy": 0.4894,
+      "gap": 0.0463
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 177,
+      "mean_confidence": 0.6448,
+      "accuracy": 0.565,
+      "gap": 0.0798
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 76,
+      "mean_confidence": 0.7418,
+      "accuracy": 0.6974,
+      "gap": 0.0445
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 37,
+      "mean_confidence": 0.8368,
+      "accuracy": 0.8649,
+      "gap": -0.0281
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0156,
+    "samples": 11279
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 10.2,
+    "holdout": 3.7
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h5-base-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h5-base-lightgbm.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 5,
+   "reference": "theoretical",
+   "feature_set": "base",
+   "features_version": "m1-features-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56388,
+    "walk_forward": 9021,
+    "holdout": 11278,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3864,
+    "macro_f1": 0.3598,
+    "roc_auc": {
+     "PUT": 0.5264,
+     "NEUTRAL": 0.5426,
+     "CALL": 0.5333,
+     "macro": 0.5341
+    },
+    "brier": 0.6584,
+    "directional_precision": 0.4261
+   },
+   "holdout": {
+    "accuracy": 0.4106,
+    "macro_f1": 0.3865,
+    "roc_auc": {
+     "PUT": 0.55,
+     "NEUTRAL": 0.5856,
+     "CALL": 0.5271,
+     "macro": 0.5542
+    },
+    "brier": 0.6531,
+    "directional_precision": 0.4394
+   },
+   "expected_calibration_error": 0.0214,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 6189,
+      "mean_confidence": 0.3729,
+      "accuracy": 0.3905,
+      "gap": -0.0176
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 4149,
+      "mean_confidence": 0.4326,
+      "accuracy": 0.4201,
+      "gap": 0.0125
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 625,
+      "mean_confidence": 0.5384,
+      "accuracy": 0.4624,
+      "gap": 0.076
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 215,
+      "mean_confidence": 0.6452,
+      "accuracy": 0.5349,
+      "gap": 0.1103
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 95,
+      "mean_confidence": 0.7409,
+      "accuracy": 0.6526,
+      "gap": 0.0883
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 5,
+      "mean_confidence": 0.8278,
+      "accuracy": 1.0,
+      "gap": -0.1722
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0214,
+    "samples": 11278
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 8.6,
+    "holdout": 3.2
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h5-extended-lightgbm",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h5-extended-lightgbm.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 5,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "all",
+   "rows": {
+    "total": 56388,
+    "walk_forward": 9021,
+    "holdout": 11278,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3895,
+    "macro_f1": 0.3645,
+    "roc_auc": {
+     "PUT": 0.5252,
+     "NEUTRAL": 0.5563,
+     "CALL": 0.5334,
+     "macro": 0.5383
+    },
+    "brier": 0.6567,
+    "directional_precision": 0.4283
+   },
+   "holdout": {
+    "accuracy": 0.4087,
+    "macro_f1": 0.3843,
+    "roc_auc": {
+     "PUT": 0.5453,
+     "NEUTRAL": 0.5889,
+     "CALL": 0.5238,
+     "macro": 0.5527
+    },
+    "brier": 0.6535,
+    "directional_precision": 0.4382
+   },
+   "expected_calibration_error": 0.0205,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 6268,
+      "mean_confidence": 0.3726,
+      "accuracy": 0.3886,
+      "gap": -0.0161
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 4150,
+      "mean_confidence": 0.4326,
+      "accuracy": 0.4227,
+      "gap": 0.0099
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 561,
+      "mean_confidence": 0.5374,
+      "accuracy": 0.4349,
+      "gap": 0.1025
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 184,
+      "mean_confidence": 0.6423,
+      "accuracy": 0.5326,
+      "gap": 0.1097
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 83,
+      "mean_confidence": 0.7456,
+      "accuracy": 0.6265,
+      "gap": 0.1191
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 32,
+      "mean_confidence": 0.8291,
+      "accuracy": 0.7812,
+      "gap": 0.0479
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0205,
+    "samples": 11278
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 10.8,
+    "holdout": 3.8
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-extended-trend",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-extended-trend.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "trend",
+   "rows": {
+    "total": 8051,
+    "walk_forward": 292,
+    "holdout": 1611,
+    "folds": 2
+   },
+   "validation": {
+    "accuracy": 0.3356,
+    "macro_f1": 0.3354,
+    "roc_auc": {
+     "PUT": 0.5259,
+     "NEUTRAL": 0.4671,
+     "CALL": 0.4794,
+     "macro": 0.4908
+    },
+    "brier": 0.7212,
+    "directional_precision": 0.3316
+   },
+   "holdout": {
+    "accuracy": 0.3457,
+    "macro_f1": 0.3452,
+    "roc_auc": {
+     "PUT": 0.5199,
+     "NEUTRAL": 0.5449,
+     "CALL": 0.5127,
+     "macro": 0.5258
+    },
+    "brier": 0.6869,
+    "directional_precision": 0.3419
+   },
+   "expected_calibration_error": 0.1109,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 448,
+      "mean_confidence": 0.3762,
+      "accuracy": 0.3036,
+      "gap": 0.0726
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 771,
+      "mean_confidence": 0.4458,
+      "accuracy": 0.3256,
+      "gap": 0.1202
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 305,
+      "mean_confidence": 0.5395,
+      "accuracy": 0.4295,
+      "gap": 0.11
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 67,
+      "mean_confidence": 0.6367,
+      "accuracy": 0.3731,
+      "gap": 0.2635
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 13,
+      "mean_confidence": 0.7425,
+      "accuracy": 0.7692,
+      "gap": -0.0268
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 7,
+      "mean_confidence": 0.8346,
+      "accuracy": 0.5714,
+      "gap": 0.2631
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.1109,
+    "samples": 1611
+   },
+   "walk_forward_step_count": 1,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 3.6,
+    "holdout": 1.5
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-extended-range",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-extended-range.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "range",
+   "rows": {
+    "total": 20278,
+    "walk_forward": 3243,
+    "holdout": 4056,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3528,
+    "macro_f1": 0.3515,
+    "roc_auc": {
+     "PUT": 0.5105,
+     "NEUTRAL": 0.5298,
+     "CALL": 0.5283,
+     "macro": 0.5229
+    },
+    "brier": 0.6729,
+    "directional_precision": 0.3368
+   },
+   "holdout": {
+    "accuracy": 0.3674,
+    "macro_f1": 0.3615,
+    "roc_auc": {
+     "PUT": 0.5083,
+     "NEUTRAL": 0.5429,
+     "CALL": 0.5125,
+     "macro": 0.5212
+    },
+    "brier": 0.6719,
+    "directional_precision": 0.3257
+   },
+   "expected_calibration_error": 0.0431,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 2179,
+      "mean_confidence": 0.372,
+      "accuracy": 0.3653,
+      "gap": 0.0067
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 1612,
+      "mean_confidence": 0.4342,
+      "accuracy": 0.3555,
+      "gap": 0.0787
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 203,
+      "mean_confidence": 0.5347,
+      "accuracy": 0.4138,
+      "gap": 0.1209
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 37,
+      "mean_confidence": 0.6316,
+      "accuracy": 0.4324,
+      "gap": 0.1992
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 17,
+      "mean_confidence": 0.769,
+      "accuracy": 0.7647,
+      "gap": 0.0043
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 8,
+      "mean_confidence": 0.8382,
+      "accuracy": 1.0,
+      "gap": -0.1618
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0431,
+    "samples": 4056
+   },
+   "walk_forward_step_count": 5,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 7.4,
+    "holdout": 2.0
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-extended-high_vol",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-extended-high_vol.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "high_vol",
+   "rows": {
+    "total": 19175,
+    "walk_forward": 3066,
+    "holdout": 3835,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3568,
+    "macro_f1": 0.3562,
+    "roc_auc": {
+     "PUT": 0.5222,
+     "NEUTRAL": 0.55,
+     "CALL": 0.5065,
+     "macro": 0.5263
+    },
+    "brier": 0.6711,
+    "directional_precision": 0.3219
+   },
+   "holdout": {
+    "accuracy": 0.3684,
+    "macro_f1": 0.3655,
+    "roc_auc": {
+     "PUT": 0.5305,
+     "NEUTRAL": 0.571,
+     "CALL": 0.5323,
+     "macro": 0.5446
+    },
+    "brier": 0.6622,
+    "directional_precision": 0.3342
+   },
+   "expected_calibration_error": 0.0522,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 1918,
+      "mean_confidence": 0.3731,
+      "accuracy": 0.3441,
+      "gap": 0.029
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 1573,
+      "mean_confidence": 0.4359,
+      "accuracy": 0.3624,
+      "gap": 0.0736
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 249,
+      "mean_confidence": 0.5334,
+      "accuracy": 0.4458,
+      "gap": 0.0876
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 29,
+      "mean_confidence": 0.6392,
+      "accuracy": 0.5172,
+      "gap": 0.122
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 25,
+      "mean_confidence": 0.756,
+      "accuracy": 0.84,
+      "gap": -0.084
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 40,
+      "mean_confidence": 0.847,
+      "accuracy": 0.875,
+      "gap": -0.028
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 1,
+      "mean_confidence": 0.9027,
+      "accuracy": 1.0,
+      "gap": -0.0973
+     }
+    ],
+    "expected_calibration_error": 0.0522,
+    "samples": 3835
+   },
+   "walk_forward_step_count": 5,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 6.2,
+    "holdout": 2.2
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-extended-low_vol",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-extended-low_vol.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "low_vol",
+   "rows": {
+    "total": 18611,
+    "walk_forward": 2976,
+    "holdout": 3723,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3434,
+    "macro_f1": 0.3407,
+    "roc_auc": {
+     "PUT": 0.5214,
+     "NEUTRAL": 0.5202,
+     "CALL": 0.4976,
+     "macro": 0.5131
+    },
+    "brier": 0.6796,
+    "directional_precision": 0.3107
+   },
+   "holdout": {
+    "accuracy": 0.3554,
+    "macro_f1": 0.3506,
+    "roc_auc": {
+     "PUT": 0.5269,
+     "NEUTRAL": 0.5313,
+     "CALL": 0.5266,
+     "macro": 0.5283
+    },
+    "brier": 0.6725,
+    "directional_precision": 0.3196
+   },
+   "expected_calibration_error": 0.0612,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 1757,
+      "mean_confidence": 0.3737,
+      "accuracy": 0.3352,
+      "gap": 0.0385
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 1665,
+      "mean_confidence": 0.4371,
+      "accuracy": 0.3652,
+      "gap": 0.0719
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 247,
+      "mean_confidence": 0.5316,
+      "accuracy": 0.4049,
+      "gap": 0.1267
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 45,
+      "mean_confidence": 0.6325,
+      "accuracy": 0.4444,
+      "gap": 0.1881
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 9,
+      "mean_confidence": 0.7258,
+      "accuracy": 0.6667,
+      "gap": 0.0592
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0612,
+    "samples": 3723
+   },
+   "walk_forward_step_count": 5,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 5.8,
+    "holdout": 2.0
+   }
+  },
+  {
+   "experiment_id": "M1_EXPIRY_OUTCOME-h1-extended-anomaly_clean",
+   "run_id": "lab-20261002T080023Z",
+   "file": "lab-20261002T080023Z_M1_EXPIRY_OUTCOME-h1-extended-anomaly_clean.json",
+   "target": "M1_EXPIRY_OUTCOME",
+   "horizon_minutes": 1,
+   "reference": "theoretical",
+   "feature_set": "extended",
+   "features_version": "m1-features-lab-1.0",
+   "models": [
+    "lightgbm"
+   ],
+   "regime": "anomaly_clean",
+   "rows": {
+    "total": 55832,
+    "walk_forward": 8931,
+    "holdout": 11167,
+    "folds": 3
+   },
+   "validation": {
+    "accuracy": 0.3538,
+    "macro_f1": 0.3535,
+    "roc_auc": {
+     "PUT": 0.5256,
+     "NEUTRAL": 0.5497,
+     "CALL": 0.5141,
+     "macro": 0.5298
+    },
+    "brier": 0.6646,
+    "directional_precision": 0.3243
+   },
+   "holdout": {
+    "accuracy": 0.361,
+    "macro_f1": 0.36,
+    "roc_auc": {
+     "PUT": 0.5344,
+     "NEUTRAL": 0.5587,
+     "CALL": 0.5147,
+     "macro": 0.5359
+    },
+    "brier": 0.6627,
+    "directional_precision": 0.3277
+   },
+   "expected_calibration_error": 0.0294,
+   "calibration_holdout": {
+    "bins": [
+     {
+      "bin": "0.0-0.1",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.1-0.2",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.2-0.3",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     },
+     {
+      "bin": "0.3-0.4",
+      "count": 8517,
+      "mean_confidence": 0.3671,
+      "accuracy": 0.3439,
+      "gap": 0.0232
+     },
+     {
+      "bin": "0.4-0.5",
+      "count": 2264,
+      "mean_confidence": 0.4284,
+      "accuracy": 0.3856,
+      "gap": 0.0428
+     },
+     {
+      "bin": "0.5-0.6",
+      "count": 208,
+      "mean_confidence": 0.5358,
+      "accuracy": 0.4279,
+      "gap": 0.1079
+     },
+     {
+      "bin": "0.6-0.7",
+      "count": 87,
+      "mean_confidence": 0.6521,
+      "accuracy": 0.6782,
+      "gap": -0.0261
+     },
+     {
+      "bin": "0.7-0.8",
+      "count": 56,
+      "mean_confidence": 0.7533,
+      "accuracy": 0.875,
+      "gap": -0.1217
+     },
+     {
+      "bin": "0.8-0.9",
+      "count": 35,
+      "mean_confidence": 0.8295,
+      "accuracy": 0.9143,
+      "gap": -0.0847
+     },
+     {
+      "bin": "0.9-1.0",
+      "count": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+     }
+    ],
+    "expected_calibration_error": 0.0294,
+    "samples": 11167
+   },
+   "walk_forward_step_count": 6,
+   "selected_threshold": null,
+   "selection_reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+   "holdout_gate": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "hit_rate": null,
+    "loss_rate": null,
+    "max_losing_streak": 0
+   },
+   "paper_replay": {
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0,
+    "max_losing_streak": 0
+   },
+   "walk_forward_totals": {
+    "signals": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "max_losing_streak": 0
+   },
+   "timings_seconds": {
+    "folds": 9.8,
+    "holdout": 5.6
+   }
+  }
+ ],
+ "disclaimer": "These are offline validation measurements on historical data. They are not a promise of future performance and are never to be combined with live paper results.",
+ "ranking_policy": "no 'best model' ranking is produced \u2014 every cell is reported as measured"
+}

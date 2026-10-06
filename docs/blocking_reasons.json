@@ -1,0 +1,2185 @@
+{
+  "minutes": 300,
+  "best_observed_confidence": 72.708,
+  "best_confidence_with_a_qualified_model_view": 83.3757,
+  "minutes_that_would_clear_every_gate_with_a_qualified_model_view": 0,
+  "status_counts": {
+    "DATA_UNAVAILABLE": 120,
+    "NO_TRADE": 180
+  },
+  "reason_histogram": {
+    "Confidence # is below threshold #": 180,
+    "Directional probability too low: # < #": 148,
+    "Insufficient candles: # (minimum #": 119,
+    "Unfavorable market regime: choppy/mean-reverting (ADX # efficiency #": 40,
+    "Conflicting indicators: only 1/4 rule groups (structure) support CALL; need # \u2014 opposing: trend, momentum, candle": 34,
+    "Conflicting models: weighted agreement # < #": 27,
+    "Conflicting indicators: only 0/4 rule groups (none) support PUT; need # \u2014 opposing: trend, momentum, candle, structure": 18,
+    "Conflicting indicators: only 1/4 rule groups (trend) support PUT; need # \u2014 opposing: momentum, candle, structure": 17,
+    "Conflicting indicators: only 1/4 rule groups (trend) support CALL; need # \u2014 opposing: momentum, candle, structure": 13,
+    "Conflicting indicators: only 0/4 rule groups (none) support CALL; need # \u2014 opposing: trend, momentum, candle, structure": 12,
+    "Structure blocks the trade: too little room before the opposing level": 12,
+    "Conflicting indicators: only 2/4 rule groups (candle, structure) support CALL; need # \u2014 opposing: trend, momentum": 9,
+    "Conflicting indicators: only 2/4 rule groups (trend, momentum) support PUT; need # \u2014 opposing: candle, structure": 7,
+    "Conflicting indicators: only 2/4 rule groups (trend, structure) support PUT; need # \u2014 opposing: momentum, candle": 7,
+    "Models report uncertainty: NEUTRAL probability # is the top class \u2014 this is a coin-flip setup, not a trade": 5,
+    "Conflicting indicators: only 2/4 rule groups (momentum, structure) support CALL; need # \u2014 opposing: trend, candle": 5,
+    "Conflicting indicators: only 2/4 rule groups (trend, momentum) support CALL; need # \u2014 opposing: candle, structure": 5,
+    "Conflicting indicators: only 1/4 rule groups (momentum) support CALL; need # \u2014 opposing: trend, candle, structure": 5,
+    "Conflicting indicators: only 2/4 rule groups (trend, candle) support CALL; need # \u2014 opposing: momentum, structure": 4,
+    "Conflicting indicators: only 1/4 rule groups (candle) support CALL; need # \u2014 opposing: trend, momentum, structure": 3
+  },
+  "model_only_blocker_minutes": 9,
+  "best_minutes_with_a_qualified_model_view": [
+    {
+      "minute_utc": "2026-10-02 06:46:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 46.921800000000005,
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 83.3757,
+        "gate_reasons": [
+          "Confidence 83.4% is below threshold 85.0%"
+        ]
+      },
+      "reasons": [
+        "Directional probability too low: 0.39 < 0.58",
+        "Confidence 46.9% is below threshold 85.0%",
+        "Conflicting indicators: only 0/4 rule groups (none) support PUT; need 3 \u2014 opposing: trend, momentum, candle, structure"
+      ]
+    },
+    {
+      "minute_utc": "2026-10-02 06:47:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 38.6888,
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 83.18929999999999,
+        "gate_reasons": [
+          "Confidence 83.2% is below threshold 85.0%",
+          "Structure blocks the trade: too little room before the opposing level"
+        ]
+      },
+      "reasons": [
+        "Directional probability too low: 0.35 < 0.58",
+        "Confidence 38.7% is below threshold 85.0%",
+        "Conflicting indicators: only 0/4 rule groups (none) support PUT; need 3 \u2014 opposing: trend, momentum, candle, structure"
+      ]
+    },
+    {
+      "minute_utc": "2026-10-02 06:48:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 40.79650000000001,
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 82.23129999999999,
+        "gate_reasons": [
+          "Confidence 82.2% is below threshold 85.0%",
+          "Structure blocks the trade: too little room before the opposing level"
+        ]
+      },
+      "reasons": [
+        "Directional probability too low: 0.34 < 0.58",
+        "Confidence 40.8% is below threshold 85.0%",
+        "Conflicting indicators: only 0/4 rule groups (none) support PUT; need 3 \u2014 opposing: trend, momentum, candle, structure"
+      ]
+    },
+    {
+      "minute_utc": "2026-10-02 06:19:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 58.546200000000006,
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 81.87880000000001,
+        "gate_reasons": [
+          "Confidence 81.9% is below threshold 85.0%"
+        ]
+      },
+      "reasons": [
+        "Directional probability too low: 0.36 < 0.58",
+        "Confidence 58.5% is below threshold 85.0%"
+      ]
+    },
+    {
+      "minute_utc": "2026-10-02 06:18:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 63.634100000000004,
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 80.9059,
+        "gate_reasons": [
+          "Confidence 80.9% is below threshold 85.0%"
+        ]
+      },
+      "reasons": [
+        "Directional probability too low: 0.42 < 0.58",
+        "Confidence 63.6% is below threshold 85.0%"
+      ]
+    }
+  ],
+  "closest_minutes": [
+    {
+      "minute_utc": "2026-10-02 06:06:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 63.9315,
+      "reasons": [
+        "Directional probability too low: 0.39 < 0.58",
+        "Confidence 63.9% is below threshold 85.0%"
+      ],
+      "families": [
+        "model"
+      ]
+    },
+    {
+      "minute_utc": "2026-10-02 06:18:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 63.634100000000004,
+      "reasons": [
+        "Directional probability too low: 0.42 < 0.58",
+        "Confidence 63.6% is below threshold 85.0%"
+      ],
+      "families": [
+        "model"
+      ]
+    },
+    {
+      "minute_utc": "2026-10-02 06:07:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 62.31230000000001,
+      "reasons": [
+        "Directional probability too low: 0.40 < 0.58",
+        "Confidence 62.3% is below threshold 85.0%"
+      ],
+      "families": [
+        "model"
+      ]
+    },
+    {
+      "minute_utc": "2026-10-02 06:19:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 58.546200000000006,
+      "reasons": [
+        "Directional probability too low: 0.36 < 0.58",
+        "Confidence 58.5% is below threshold 85.0%"
+      ],
+      "families": [
+        "model"
+      ]
+    },
+    {
+      "minute_utc": "2026-10-02 04:45:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 57.577,
+      "reasons": [
+        "Directional probability too low: 0.36 < 0.58",
+        "Confidence 57.6% is below threshold 85.0%"
+      ],
+      "families": [
+        "model"
+      ]
+    }
+  ],
+  "window_start_utc": "2026-10-02 01:49:00+00:00",
+  "window_end_utc": "2026-10-02 06:48:00+00:00",
+  "per_minute": [
+    {
+      "minute_utc": "2026-10-02 06:37:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 55.48440000000001,
+      "direction": "CALL",
+      "reasons": [
+        "Directional probability too low: 0.37 < 0.58",
+        "Confidence 55.5% is below threshold 85.0%",
+        "Conflicting indicators: only 2/4 rule groups (candle, structure) support CALL; need 3 \u2014 opposing: trend, momentum"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 15.13,
+          "weight": 0.26,
+          "contribution": 3.93,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.3713,
+            "p_direction_normalised": 0.552,
+            "p_neutral": 0.3273,
+            "raw_term": 0.207,
+            "normalised_term": 0.114,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 100.0,
+          "weight": 0.14,
+          "contribution": 14.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "lightgbm",
+              "random_forest",
+              "logistic_regression"
+            ],
+            "no_trade_votes": 0,
+            "spread": 0.0148
+          }
+        },
+        "trend": {
+          "score": 44.52,
+          "weight": 0.11,
+          "contribution": 4.9,
+          "aligned": false,
+          "evidence": -0.143,
+          "detail": {
+            "ema_stack": "MIXED",
+            "ema9_21_atr": 0.063,
+            "ema21_50_atr": -0.713,
+            "ema21_slope": -0.109,
+            "adx14": 18.9,
+            "di_diff": 0.016,
+            "evidence": -0.143,
+            "aligned_evidence": -0.143
+          }
+        },
+        "momentum": {
+          "score": 51.7,
+          "weight": 0.1,
+          "contribution": 5.17,
+          "aligned": false,
+          "evidence": 0.038,
+          "detail": {
+            "rsi7": 57.5,
+            "rsi14": 52.0,
+            "macd_hist_atr": 0.172,
+            "macd_hist_slope": -0.011,
+            "ret_3_atr": -0.409,
+            "evidence": 0.038,
+            "aligned_evidence": 0.038
+          }
+        },
+        "candle": {
+          "score": 54.76,
+          "weight": 0.1,
+          "contribution": 5.48,
+          "aligned": true,
+          "evidence": 0.106,
+          "detail": {
+            "candle_direction": "UP",
+            "body_ratio": 0.114,
+            "close_position": 0.571,
+            "upper_wick_ratio": 0.429,
+            "lower_wick_ratio": 0.457,
+            "prev_candle": "DOWN",
+            "evidence": 0.106,
+            "aligned_evidence": 0.106
+          }
+        },
+        "structure": {
+          "score": 69.54,
+          "weight": 0.09,
+          "contribution": 6.26,
+          "aligned": true,
+          "evidence": 0.434,
+          "detail": {
+            "nearest_support": 157.616,
+            "nearest_resistance": 157.73801,
+            "resistance_distance_atr": 1.09,
+            "support_distance_atr": 1.68,
+            "range_position": 0.436,
+            "evidence": 0.434
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0279,
+            "median_atr_pct_asset": 0.0185,
+            "volatility_ratio": 1.507,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 46.86,
+          "weight": 0.08,
+          "contribution": 3.75,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 18.9,
+            "efficiency_ratio_10": 0.373,
+            "efficiency_ratio_20": 0.05,
+            "trend_persistence": -0.067,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 77.5506,
+        "gate_reasons": [
+          "Confidence 77.6% is below threshold 85.0%",
+          "Conflicting indicators: only 2/4 rule groups (candle, structure) support CALL; need 3 \u2014 opposing: trend, momentum"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:38:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 54.657000000000004,
+      "direction": "CALL",
+      "reasons": [
+        "Directional probability too low: 0.42 < 0.58",
+        "Confidence 54.7% is below threshold 85.0%",
+        "Conflicting indicators: only 0/4 rule groups (none) support CALL; need 3 \u2014 opposing: trend, momentum, candle, structure"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 29.34,
+          "weight": 0.26,
+          "contribution": 7.63,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.4161,
+            "p_direction_normalised": 0.5766,
+            "p_neutral": 0.2783,
+            "raw_term": 0.43,
+            "normalised_term": 0.202,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 100.0,
+          "weight": 0.14,
+          "contribution": 14.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "lightgbm",
+              "random_forest",
+              "logistic_regression"
+            ],
+            "no_trade_votes": 0,
+            "spread": 0.0274
+          }
+        },
+        "trend": {
+          "score": 46.86,
+          "weight": 0.11,
+          "contribution": 5.15,
+          "aligned": false,
+          "evidence": -0.083,
+          "detail": {
+            "ema_stack": "MIXED",
+            "ema9_21_atr": 0.06,
+            "ema21_50_atr": -0.686,
+            "ema21_slope": -0.01,
+            "adx14": 18.2,
+            "di_diff": 0.033,
+            "evidence": -0.083,
+            "aligned_evidence": -0.083
+          }
+        },
+        "momentum": {
+          "score": 48.36,
+          "weight": 0.1,
+          "contribution": 4.84,
+          "aligned": false,
+          "evidence": -0.036,
+          "detail": {
+            "rsi7": 52.0,
+            "rsi14": 49.9,
+            "macd_hist_atr": 0.149,
+            "macd_hist_slope": -0.049,
+            "ret_3_atr": -0.344,
+            "evidence": -0.036,
+            "aligned_evidence": -0.036
+          }
+        },
+        "candle": {
+          "score": 30.05,
+          "weight": 0.1,
+          "contribution": 3.01,
+          "aligned": false,
+          "evidence": -0.443,
+          "detail": {
+            "candle_direction": "DOWN",
+            "body_ratio": 0.282,
+            "close_position": 0.077,
+            "upper_wick_ratio": 0.641,
+            "lower_wick_ratio": 0.077,
+            "prev_candle": "UP",
+            "evidence": -0.443,
+            "aligned_evidence": -0.443
+          }
+        },
+        "structure": {
+          "score": 48.18,
+          "weight": 0.09,
+          "contribution": 4.34,
+          "aligned": false,
+          "evidence": -0.04,
+          "detail": {
+            "nearest_support": 157.616,
+            "nearest_resistance": 157.689,
+            "resistance_distance_atr": 0.21,
+            "support_distance_atr": 1.47,
+            "range_position": 0.409,
+            "evidence": -0.04
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0277,
+            "median_atr_pct_asset": 0.0186,
+            "volatility_ratio": 1.487,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 46.21,
+          "weight": 0.08,
+          "contribution": 3.7,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 18.2,
+            "efficiency_ratio_10": 0.305,
+            "efficiency_ratio_20": 0.038,
+            "trend_persistence": -0.067,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 73.0286,
+        "gate_reasons": [
+          "Confidence 73.0% is below threshold 85.0%",
+          "Conflicting indicators: only 0/4 rule groups (none) support CALL; need 3 \u2014 opposing: trend, momentum, candle, structure"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:39:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 48.2974,
+      "direction": "CALL",
+      "reasons": [
+        "Directional probability too low: 0.36 < 0.58",
+        "Confidence 48.3% is below threshold 85.0%",
+        "Conflicting indicators: only 1/4 rule groups (structure) support CALL; need 3 \u2014 opposing: trend, momentum, candle"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 8.97,
+          "weight": 0.26,
+          "contribution": 2.33,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.3605,
+            "p_direction_normalised": 0.5334,
+            "p_neutral": 0.3241,
+            "raw_term": 0.152,
+            "normalised_term": 0.048,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 94.0,
+          "weight": 0.14,
+          "contribution": 13.16,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "random_forest",
+              "logistic_regression"
+            ],
+            "no_trade_votes": 1,
+            "spread": 0.0123
+          }
+        },
+        "trend": {
+          "score": 46.68,
+          "weight": 0.11,
+          "contribution": 5.13,
+          "aligned": false,
+          "evidence": -0.089,
+          "detail": {
+            "ema_stack": "MIXED",
+            "ema9_21_atr": 0.005,
+            "ema21_50_atr": -0.683,
+            "ema21_slope": 0.059,
+            "adx14": 17.2,
+            "di_diff": -0.015,
+            "evidence": -0.089,
+            "aligned_evidence": -0.089
+          }
+        },
+        "momentum": {
+          "score": 41.92,
+          "weight": 0.1,
+          "contribution": 4.19,
+          "aligned": false,
+          "evidence": -0.18,
+          "detail": {
+            "rsi7": 42.3,
+            "rsi14": 45.7,
+            "macd_hist_atr": 0.098,
+            "macd_hist_slope": -0.081,
+            "ret_3_atr": -0.483,
+            "evidence": -0.18,
+            "aligned_evidence": -0.18
+          }
+        },
+        "candle": {
+          "score": 28.0,
+          "weight": 0.1,
+          "contribution": 2.8,
+          "aligned": false,
+          "evidence": -0.489,
+          "detail": {
+            "candle_direction": "DOWN",
+            "body_ratio": 0.732,
+            "close_position": 0.244,
+            "upper_wick_ratio": 0.024,
+            "lower_wick_ratio": 0.244,
+            "prev_candle": "DOWN",
+            "evidence": -0.489,
+            "aligned_evidence": -0.489
+          }
+        },
+        "structure": {
+          "score": 56.4,
+          "weight": 0.09,
+          "contribution": 5.08,
+          "aligned": true,
+          "evidence": 0.142,
+          "detail": {
+            "nearest_support": 157.616,
+            "nearest_resistance": 157.689,
+            "resistance_distance_atr": 0.69,
+            "support_distance_atr": 0.99,
+            "range_position": 0.352,
+            "evidence": 0.142
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0275,
+            "median_atr_pct_asset": 0.0186,
+            "volatility_ratio": 1.481,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 45.03,
+          "weight": 0.08,
+          "contribution": 3.6,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 17.2,
+            "efficiency_ratio_10": 0.218,
+            "efficiency_ratio_20": 0.179,
+            "trend_persistence": -0.067,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 72.8052,
+        "gate_reasons": [
+          "Confidence 72.8% is below threshold 85.0%",
+          "Conflicting indicators: only 1/4 rule groups (structure) support CALL; need 3 \u2014 opposing: trend, momentum, candle"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:40:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 55.43560000000001,
+      "direction": "CALL",
+      "reasons": [
+        "Directional probability too low: 0.41 < 0.58",
+        "Confidence 55.4% is below threshold 85.0%",
+        "Conflicting indicators: only 1/4 rule groups (structure) support CALL; need 3 \u2014 opposing: trend, momentum, candle"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 26.65,
+          "weight": 0.26,
+          "contribution": 6.93,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.4116,
+            "p_direction_normalised": 0.5682,
+            "p_neutral": 0.2756,
+            "raw_term": 0.408,
+            "normalised_term": 0.172,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 100.0,
+          "weight": 0.14,
+          "contribution": 14.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "lightgbm",
+              "random_forest",
+              "logistic_regression"
+            ],
+            "no_trade_votes": 0,
+            "spread": 0.0479
+          }
+        },
+        "trend": {
+          "score": 44.4,
+          "weight": 0.11,
+          "contribution": 4.88,
+          "aligned": false,
+          "evidence": -0.152,
+          "detail": {
+            "ema_stack": "BEAR",
+            "ema9_21_atr": -0.011,
+            "ema21_50_atr": -0.673,
+            "ema21_slope": 0.142,
+            "adx14": 16.3,
+            "di_diff": -0.016,
+            "evidence": -0.152,
+            "aligned_evidence": -0.152
+          }
+        },
+        "momentum": {
+          "score": 42.69,
+          "weight": 0.1,
+          "contribution": 4.27,
+          "aligned": false,
+          "evidence": -0.162,
+          "detail": {
+            "rsi7": 47.7,
+            "rsi14": 47.9,
+            "macd_hist_atr": 0.077,
+            "macd_hist_slope": -0.099,
+            "ret_3_atr": -0.49,
+            "evidence": -0.162,
+            "aligned_evidence": -0.162
+          }
+        },
+        "candle": {
+          "score": 49.75,
+          "weight": 0.1,
+          "contribution": 4.98,
+          "aligned": false,
+          "evidence": -0.006,
+          "detail": {
+            "candle_direction": "FLAT",
+            "body_ratio": 0.0,
+            "close_position": 0.6,
+            "upper_wick_ratio": 0.4,
+            "lower_wick_ratio": 0.6,
+            "prev_candle": "DOWN",
+            "evidence": -0.006,
+            "aligned_evidence": -0.006
+          }
+        },
+        "structure": {
+          "score": 52.9,
+          "weight": 0.09,
+          "contribution": 4.76,
+          "aligned": true,
+          "evidence": 0.064,
+          "detail": {
+            "nearest_support": 157.616,
+            "nearest_resistance": 157.689,
+            "resistance_distance_atr": 0.47,
+            "support_distance_atr": 1.24,
+            "range_position": 0.379,
+            "evidence": 0.064
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0272,
+            "median_atr_pct_asset": 0.0186,
+            "volatility_ratio": 1.461,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 45.22,
+          "weight": 0.08,
+          "contribution": 3.62,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 16.3,
+            "efficiency_ratio_10": 0.258,
+            "efficiency_ratio_20": 0.121,
+            "trend_persistence": -0.067,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 74.5066,
+        "gate_reasons": [
+          "Confidence 74.5% is below threshold 85.0%",
+          "Conflicting indicators: only 1/4 rule groups (structure) support CALL; need 3 \u2014 opposing: trend, momentum, candle"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:41:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 54.23580000000001,
+      "direction": "CALL",
+      "reasons": [
+        "Directional probability too low: 0.38 < 0.58",
+        "Confidence 54.2% is below threshold 85.0%",
+        "Conflicting indicators: only 1/4 rule groups (candle) support CALL; need 3 \u2014 opposing: trend, momentum, structure"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 15.2,
+          "weight": 0.26,
+          "contribution": 3.95,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.3806,
+            "p_direction_normalised": 0.5437,
+            "p_neutral": 0.3,
+            "raw_term": 0.253,
+            "normalised_term": 0.085,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 100.0,
+          "weight": 0.14,
+          "contribution": 14.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "lightgbm",
+              "random_forest",
+              "logistic_regression"
+            ],
+            "no_trade_votes": 0,
+            "spread": 0.018
+          }
+        },
+        "trend": {
+          "score": 50.83,
+          "weight": 0.11,
+          "contribution": 5.59,
+          "aligned": false,
+          "evidence": 0.023,
+          "detail": {
+            "ema_stack": "MIXED",
+            "ema9_21_atr": 0.026,
+            "ema21_50_atr": -0.63,
+            "ema21_slope": 0.216,
+            "adx14": 15.6,
+            "di_diff": 0.024,
+            "evidence": 0.023,
+            "aligned_evidence": 0.023
+          }
+        },
+        "momentum": {
+          "score": 51.7,
+          "weight": 0.1,
+          "contribution": 5.17,
+          "aligned": false,
+          "evidence": 0.038,
+          "detail": {
+            "rsi7": 56.8,
+            "rsi14": 52.0,
+            "macd_hist_atr": 0.09,
+            "macd_hist_slope": -0.062,
+            "ret_3_atr": 0.187,
+            "evidence": 0.038,
+            "aligned_evidence": 0.038
+          }
+        },
+        "candle": {
+          "score": 59.65,
+          "weight": 0.1,
+          "contribution": 5.96,
+          "aligned": true,
+          "evidence": 0.214,
+          "detail": {
+            "candle_direction": "UP",
+            "body_ratio": 0.372,
+            "close_position": 0.582,
+            "upper_wick_ratio": 0.418,
+            "lower_wick_ratio": 0.209,
+            "prev_candle": "FLAT",
+            "evidence": 0.214,
+            "aligned_evidence": 0.214
+          }
+        },
+        "structure": {
+          "score": 43.27,
+          "weight": 0.09,
+          "contribution": 3.89,
+          "aligned": false,
+          "evidence": -0.15,
+          "detail": {
+            "nearest_support": 157.616,
+            "nearest_resistance": 157.689,
+            "resistance_distance_atr": 0.02,
+            "support_distance_atr": 1.68,
+            "range_position": 0.431,
+            "evidence": -0.15
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0272,
+            "median_atr_pct_asset": 0.0186,
+            "volatility_ratio": 1.461,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 45.79,
+          "weight": 0.08,
+          "contribution": 3.66,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 15.6,
+            "efficiency_ratio_10": 0.258,
+            "efficiency_ratio_20": 0.08,
+            "trend_persistence": 0.067,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 76.2838,
+        "gate_reasons": [
+          "Confidence 76.3% is below threshold 85.0%",
+          "Conflicting indicators: only 1/4 rule groups (candle) support CALL; need 3 \u2014 opposing: trend, momentum, structure"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:42:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 54.3673,
+      "direction": "CALL",
+      "reasons": [
+        "Directional probability too low: 0.40 < 0.58",
+        "Confidence 54.4% is below threshold 85.0%",
+        "Conflicting indicators: only 1/4 rule groups (momentum) support CALL; need 3 \u2014 opposing: trend, candle, structure"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 22.48,
+          "weight": 0.26,
+          "contribution": 5.84,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.3983,
+            "p_direction_normalised": 0.5612,
+            "p_neutral": 0.2903,
+            "raw_term": 0.341,
+            "normalised_term": 0.147,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 100.0,
+          "weight": 0.14,
+          "contribution": 14.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "lightgbm",
+              "random_forest",
+              "logistic_regression"
+            ],
+            "no_trade_votes": 0,
+            "spread": 0.0308
+          }
+        },
+        "trend": {
+          "score": 51.74,
+          "weight": 0.11,
+          "contribution": 5.69,
+          "aligned": false,
+          "evidence": 0.048,
+          "detail": {
+            "ema_stack": "MIXED",
+            "ema9_21_atr": 0.045,
+            "ema21_50_atr": -0.6,
+            "ema21_slope": 0.241,
+            "adx14": 15.0,
+            "di_diff": 0.026,
+            "evidence": 0.048,
+            "aligned_evidence": 0.048
+          }
+        },
+        "momentum": {
+          "score": 55.73,
+          "weight": 0.1,
+          "contribution": 5.57,
+          "aligned": true,
+          "evidence": 0.127,
+          "detail": {
+            "rsi7": 55.0,
+            "rsi14": 51.3,
+            "macd_hist_atr": 0.091,
+            "macd_hist_slope": -0.009,
+            "ret_3_atr": 0.613,
+            "evidence": 0.127,
+            "aligned_evidence": 0.127
+          }
+        },
+        "candle": {
+          "score": 43.1,
+          "weight": 0.1,
+          "contribution": 4.31,
+          "aligned": false,
+          "evidence": -0.153,
+          "detail": {
+            "candle_direction": "DOWN",
+            "body_ratio": 0.216,
+            "close_position": 0.378,
+            "upper_wick_ratio": 0.406,
+            "lower_wick_ratio": 0.378,
+            "prev_candle": "UP",
+            "evidence": -0.153,
+            "aligned_evidence": -0.153
+          }
+        },
+        "structure": {
+          "score": 37.77,
+          "weight": 0.09,
+          "contribution": 3.4,
+          "aligned": false,
+          "evidence": -0.272,
+          "detail": {
+            "nearest_support": 157.64799,
+            "nearest_resistance": 157.689,
+            "resistance_distance_atr": 0.09,
+            "support_distance_atr": 0.87,
+            "range_position": 0.423,
+            "evidence": -0.272
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0269,
+            "median_atr_pct_asset": 0.0186,
+            "volatility_ratio": 1.446,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 44.36,
+          "weight": 0.08,
+          "contribution": 3.55,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 15.0,
+            "efficiency_ratio_10": 0.139,
+            "efficiency_ratio_20": 0.083,
+            "trend_persistence": 0.067,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 74.52250000000001,
+        "gate_reasons": [
+          "Confidence 74.5% is below threshold 85.0%",
+          "Conflicting indicators: only 1/4 rule groups (momentum) support CALL; need 3 \u2014 opposing: trend, candle, structure"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:43:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 50.665499999999994,
+      "direction": "PUT",
+      "reasons": [
+        "Directional probability too low: 0.37 < 0.58",
+        "Confidence 50.7% is below threshold 85.0%",
+        "Conflicting indicators: only 1/4 rule groups (structure) support PUT; need 3 \u2014 opposing: trend, momentum, candle"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 13.11,
+          "weight": 0.26,
+          "contribution": 3.41,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.3729,
+            "p_direction_normalised": 0.5412,
+            "p_neutral": 0.311,
+            "raw_term": 0.214,
+            "normalised_term": 0.076,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 100.0,
+          "weight": 0.14,
+          "contribution": 14.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "lightgbm",
+              "random_forest",
+              "logistic_regression"
+            ],
+            "no_trade_votes": 0,
+            "spread": 0.0159
+          }
+        },
+        "trend": {
+          "score": 43.3,
+          "weight": 0.11,
+          "contribution": 4.76,
+          "aligned": false,
+          "evidence": 0.184,
+          "detail": {
+            "ema_stack": "MIXED",
+            "ema9_21_atr": 0.19,
+            "ema21_50_atr": -0.476,
+            "ema21_slope": 0.307,
+            "adx14": 15.6,
+            "di_diff": 0.09,
+            "evidence": 0.184,
+            "aligned_evidence": -0.184
+          }
+        },
+        "momentum": {
+          "score": 25.12,
+          "weight": 0.1,
+          "contribution": 2.51,
+          "aligned": false,
+          "evidence": 0.553,
+          "detail": {
+            "rsi7": 73.0,
+            "rsi14": 61.3,
+            "macd_hist_atr": 0.162,
+            "macd_hist_slope": 0.087,
+            "ret_3_atr": 1.597,
+            "evidence": 0.553,
+            "aligned_evidence": -0.553
+          }
+        },
+        "candle": {
+          "score": 33.34,
+          "weight": 0.1,
+          "contribution": 3.33,
+          "aligned": false,
+          "evidence": 0.37,
+          "detail": {
+            "candle_direction": "UP",
+            "body_ratio": 0.859,
+            "close_position": 0.859,
+            "upper_wick_ratio": 0.141,
+            "lower_wick_ratio": 0.0,
+            "prev_candle": "DOWN",
+            "evidence": 0.37,
+            "aligned_evidence": -0.37
+          }
+        },
+        "structure": {
+          "score": 78.07,
+          "weight": 0.09,
+          "contribution": 7.03,
+          "aligned": true,
+          "evidence": 0.624,
+          "detail": {
+            "nearest_support": 157.64799,
+            "nearest_resistance": 157.754,
+            "resistance_distance_atr": 0.32,
+            "support_distance_atr": 2.07,
+            "range_position": 0.572,
+            "evidence": 0.624
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0282,
+            "median_atr_pct_asset": 0.0187,
+            "volatility_ratio": 1.507,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 45.27,
+          "weight": 0.08,
+          "contribution": 3.62,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 15.6,
+            "efficiency_ratio_10": 0.279,
+            "efficiency_ratio_20": 0.145,
+            "trend_persistence": 0.2,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 80.29920000000001,
+        "gate_reasons": [
+          "Confidence 80.3% is below threshold 85.0%"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:44:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 55.319100000000006,
+      "direction": "CALL",
+      "reasons": [
+        "Directional probability too low: 0.41 < 0.58",
+        "Unfavorable market regime: choppy/mean-reverting (ADX 16.1, efficiency 0.05)",
+        "Confidence 55.3% is below threshold 85.0%"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 27.25,
+          "weight": 0.26,
+          "contribution": 7.08,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.4052,
+            "p_direction_normalised": 0.5769,
+            "p_neutral": 0.2977,
+            "raw_term": 0.376,
+            "normalised_term": 0.203,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 100.0,
+          "weight": 0.14,
+          "contribution": 14.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "lightgbm",
+              "random_forest",
+              "logistic_regression"
+            ],
+            "no_trade_votes": 0,
+            "spread": 0.0125
+          }
+        },
+        "trend": {
+          "score": 57.58,
+          "weight": 0.11,
+          "contribution": 6.33,
+          "aligned": true,
+          "evidence": 0.207,
+          "detail": {
+            "ema_stack": "MIXED",
+            "ema9_21_atr": 0.24,
+            "ema21_50_atr": -0.422,
+            "ema21_slope": 0.301,
+            "adx14": 16.1,
+            "di_diff": 0.085,
+            "evidence": 0.207,
+            "aligned_evidence": 0.207
+          }
+        },
+        "momentum": {
+          "score": 65.1,
+          "weight": 0.1,
+          "contribution": 6.51,
+          "aligned": true,
+          "evidence": 0.336,
+          "detail": {
+            "rsi7": 61.1,
+            "rsi14": 56.1,
+            "macd_hist_atr": 0.171,
+            "macd_hist_slope": 0.083,
+            "ret_3_atr": 0.66,
+            "evidence": 0.336,
+            "aligned_evidence": 0.336
+          }
+        },
+        "candle": {
+          "score": 30.97,
+          "weight": 0.1,
+          "contribution": 3.1,
+          "aligned": false,
+          "evidence": -0.423,
+          "detail": {
+            "candle_direction": "DOWN",
+            "body_ratio": 0.459,
+            "close_position": 0.108,
+            "upper_wick_ratio": 0.433,
+            "lower_wick_ratio": 0.108,
+            "prev_candle": "UP",
+            "evidence": -0.423,
+            "aligned_evidence": -0.423
+          }
+        },
+        "structure": {
+          "score": 51.81,
+          "weight": 0.09,
+          "contribution": 4.66,
+          "aligned": true,
+          "evidence": 0.04,
+          "detail": {
+            "nearest_support": 157.64799,
+            "nearest_resistance": 157.73801,
+            "resistance_distance_atr": 0.48,
+            "support_distance_atr": 1.57,
+            "range_position": 0.509,
+            "evidence": 0.04
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0279,
+            "median_atr_pct_asset": 0.0187,
+            "volatility_ratio": 1.49,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 20.38,
+          "weight": 0.08,
+          "contribution": 1.63,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "CHOPPY",
+            "adx14": 16.1,
+            "efficiency_ratio_10": 0.05,
+            "efficiency_ratio_20": 0.178,
+            "trend_persistence": 0.2,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 74.2341,
+        "gate_reasons": [
+          "Unfavorable market regime: choppy/mean-reverting (ADX 16.1, efficiency 0.05)",
+          "Confidence 74.2% is below threshold 85.0%"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:45:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 48.4572,
+      "direction": "CALL",
+      "reasons": [
+        "Conflicting models: weighted agreement 0.46 < 0.6",
+        "Confidence 48.5% is below threshold 85.0%",
+        "Structure blocks the trade: too little room before the opposing level"
+      ],
+      "families": [
+        "data/regime",
+        "model",
+        "other"
+      ],
+      "components": {
+        "model": {
+          "score": 4.49,
+          "weight": 0.26,
+          "contribution": 1.17,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.3524,
+            "p_direction_normalised": 0.5083,
+            "p_neutral": 0.3066,
+            "raw_term": 0.112,
+            "normalised_term": 0.0,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 49.0,
+          "weight": 0.14,
+          "contribution": 6.86,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 0.4595,
+            "agreeing_models": [
+              "lightgbm"
+            ],
+            "no_trade_votes": 1,
+            "spread": 0.0424
+          }
+        },
+        "trend": {
+          "score": 60.89,
+          "weight": 0.11,
+          "contribution": 6.7,
+          "aligned": true,
+          "evidence": 0.297,
+          "detail": {
+            "ema_stack": "MIXED",
+            "ema9_21_atr": 0.351,
+            "ema21_50_atr": -0.32,
+            "ema21_slope": 0.384,
+            "adx14": 16.2,
+            "di_diff": 0.061,
+            "evidence": 0.297,
+            "aligned_evidence": 0.297
+          }
+        },
+        "momentum": {
+          "score": 76.89,
+          "weight": 0.1,
+          "contribution": 7.69,
+          "aligned": true,
+          "evidence": 0.597,
+          "detail": {
+            "rsi7": 69.8,
+            "rsi14": 61.4,
+            "macd_hist_atr": 0.213,
+            "macd_hist_slope": 0.127,
+            "ret_3_atr": 1.496,
+            "evidence": 0.597,
+            "aligned_evidence": 0.597
+          }
+        },
+        "candle": {
+          "score": 68.2,
+          "weight": 0.1,
+          "contribution": 6.82,
+          "aligned": true,
+          "evidence": 0.404,
+          "detail": {
+            "candle_direction": "UP",
+            "body_ratio": 0.482,
+            "close_position": 0.875,
+            "upper_wick_ratio": 0.125,
+            "lower_wick_ratio": 0.393,
+            "prev_candle": "DOWN",
+            "evidence": 0.404,
+            "aligned_evidence": 0.404
+          }
+        },
+        "structure": {
+          "score": 37.81,
+          "weight": 0.09,
+          "contribution": 3.4,
+          "aligned": false,
+          "evidence": -0.271,
+          "detail": {
+            "nearest_support": 157.64799,
+            "nearest_resistance": 157.754,
+            "resistance_distance_atr": 0.04,
+            "support_distance_atr": 2.32,
+            "range_position": 0.604,
+            "evidence": -0.271
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0284,
+            "median_atr_pct_asset": 0.0187,
+            "volatility_ratio": 1.518,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 47.75,
+          "weight": 0.08,
+          "contribution": 3.82,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 16.2,
+            "efficiency_ratio_10": 0.283,
+            "efficiency_ratio_20": 0.192,
+            "trend_persistence": 0.2,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 80.4298,
+        "gate_reasons": [
+          "Confidence 80.4% is below threshold 85.0%",
+          "Structure blocks the trade: too little room before the opposing level"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:46:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 46.921800000000005,
+      "direction": "PUT",
+      "reasons": [
+        "Directional probability too low: 0.39 < 0.58",
+        "Confidence 46.9% is below threshold 85.0%",
+        "Conflicting indicators: only 0/4 rule groups (none) support PUT; need 3 \u2014 opposing: trend, momentum, candle, structure"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 19.55,
+          "weight": 0.26,
+          "contribution": 5.08,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.3873,
+            "p_direction_normalised": 0.5578,
+            "p_neutral": 0.3058,
+            "raw_term": 0.286,
+            "normalised_term": 0.135,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 100.0,
+          "weight": 0.14,
+          "contribution": 14.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "lightgbm",
+              "random_forest",
+              "logistic_regression"
+            ],
+            "no_trade_votes": 0,
+            "spread": 0.0168
+          }
+        },
+        "trend": {
+          "score": 33.13,
+          "weight": 0.11,
+          "contribution": 3.64,
+          "aligned": false,
+          "evidence": 0.453,
+          "detail": {
+            "ema_stack": "MIXED",
+            "ema9_21_atr": 0.511,
+            "ema21_50_atr": -0.203,
+            "ema21_slope": 0.566,
+            "adx14": 17.1,
+            "di_diff": 0.106,
+            "evidence": 0.453,
+            "aligned_evidence": -0.453
+          }
+        },
+        "momentum": {
+          "score": 22.39,
+          "weight": 0.1,
+          "contribution": 2.24,
+          "aligned": false,
+          "evidence": 0.614,
+          "detail": {
+            "rsi7": 75.6,
+            "rsi14": 65.5,
+            "macd_hist_atr": 0.279,
+            "macd_hist_slope": 0.116,
+            "ret_3_atr": 0.991,
+            "evidence": 0.614,
+            "aligned_evidence": -0.614
+          }
+        },
+        "candle": {
+          "score": 22.88,
+          "weight": 0.1,
+          "contribution": 2.29,
+          "aligned": false,
+          "evidence": 0.603,
+          "detail": {
+            "candle_direction": "UP",
+            "body_ratio": 0.872,
+            "close_position": 0.872,
+            "upper_wick_ratio": 0.128,
+            "lower_wick_ratio": 0.0,
+            "prev_candle": "UP",
+            "evidence": 0.603,
+            "aligned_evidence": -0.603
+          }
+        },
+        "structure": {
+          "score": 43.95,
+          "weight": 0.09,
+          "contribution": 3.96,
+          "aligned": false,
+          "evidence": -0.134,
+          "detail": {
+            "nearest_support": 157.783,
+            "nearest_resistance": 157.84801,
+            "resistance_distance_atr": 1.44,
+            "support_distance_atr": 0.02,
+            "range_position": 0.691,
+            "evidence": -0.134
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0281,
+            "median_atr_pct_asset": 0.0187,
+            "volatility_ratio": 1.504,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 46.4,
+          "weight": 0.08,
+          "contribution": 3.71,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 17.1,
+            "efficiency_ratio_10": 0.477,
+            "efficiency_ratio_20": 0.314,
+            "trend_persistence": 0.2,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 83.3757,
+        "gate_reasons": [
+          "Confidence 83.4% is below threshold 85.0%"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:47:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 38.6888,
+      "direction": "PUT",
+      "reasons": [
+        "Directional probability too low: 0.35 < 0.58",
+        "Confidence 38.7% is below threshold 85.0%",
+        "Conflicting indicators: only 0/4 rule groups (none) support PUT; need 3 \u2014 opposing: trend, momentum, candle, structure"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 4.24,
+          "weight": 0.26,
+          "contribution": 1.1,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.3464,
+            "p_direction_normalised": 0.5245,
+            "p_neutral": 0.3395,
+            "raw_term": 0.082,
+            "normalised_term": 0.016,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 88.0,
+          "weight": 0.14,
+          "contribution": 12.32,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "logistic_regression"
+            ],
+            "no_trade_votes": 2,
+            "spread": 0.0282
+          }
+        },
+        "trend": {
+          "score": 28.76,
+          "weight": 0.11,
+          "contribution": 3.16,
+          "aligned": false,
+          "evidence": 0.557,
+          "detail": {
+            "ema_stack": "MIXED",
+            "ema9_21_atr": 0.676,
+            "ema21_50_atr": -0.06,
+            "ema21_slope": 0.753,
+            "adx14": 18.6,
+            "di_diff": 0.148,
+            "evidence": 0.557,
+            "aligned_evidence": -0.557
+          }
+        },
+        "momentum": {
+          "score": 12.3,
+          "weight": 0.1,
+          "contribution": 1.23,
+          "aligned": false,
+          "evidence": 0.838,
+          "detail": {
+            "rsi7": 80.0,
+            "rsi14": 69.0,
+            "macd_hist_atr": 0.34,
+            "macd_hist_slope": 0.175,
+            "ret_3_atr": 2.158,
+            "evidence": 0.838,
+            "aligned_evidence": -0.838
+          }
+        },
+        "candle": {
+          "score": 21.63,
+          "weight": 0.1,
+          "contribution": 2.16,
+          "aligned": false,
+          "evidence": 0.63,
+          "detail": {
+            "candle_direction": "UP",
+            "body_ratio": 0.491,
+            "close_position": 0.881,
+            "upper_wick_ratio": 0.119,
+            "lower_wick_ratio": 0.39,
+            "prev_candle": "UP",
+            "evidence": 0.63,
+            "aligned_evidence": -0.63
+          }
+        },
+        "structure": {
+          "score": 32.98,
+          "weight": 0.09,
+          "contribution": 2.97,
+          "aligned": false,
+          "evidence": -0.378,
+          "detail": {
+            "nearest_support": 157.813,
+            "nearest_resistance": 157.84801,
+            "resistance_distance_atr": 0.73,
+            "support_distance_atr": 0.04,
+            "range_position": 0.775,
+            "evidence": -0.378
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0288,
+            "median_atr_pct_asset": 0.0188,
+            "volatility_ratio": 1.531,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 46.77,
+          "weight": 0.08,
+          "contribution": 3.74,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 18.6,
+            "efficiency_ratio_10": 0.523,
+            "efficiency_ratio_20": 0.469,
+            "trend_persistence": 0.2,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 83.18929999999999,
+        "gate_reasons": [
+          "Confidence 83.2% is below threshold 85.0%",
+          "Structure blocks the trade: too little room before the opposing level"
+        ]
+      }
+    },
+    {
+      "minute_utc": "2026-10-02 06:48:00+00:00",
+      "status": "NO_TRADE",
+      "confidence": 40.79650000000001,
+      "direction": "PUT",
+      "reasons": [
+        "Directional probability too low: 0.34 < 0.58",
+        "Confidence 40.8% is below threshold 85.0%",
+        "Conflicting indicators: only 0/4 rule groups (none) support PUT; need 3 \u2014 opposing: trend, momentum, candle, structure"
+      ],
+      "families": [
+        "data/regime",
+        "model"
+      ],
+      "components": {
+        "model": {
+          "score": 2.94,
+          "weight": 0.26,
+          "contribution": 0.76,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "p_direction": 0.3447,
+            "p_direction_normalised": 0.5098,
+            "p_neutral": 0.3239,
+            "raw_term": 0.073,
+            "normalised_term": 0.0,
+            "neutral_penalty": 0.0,
+            "mapping": "0.40\u00b7f(p_dir) + 0.60\u00b7f(p_norm), discounted by NEUTRAL mass"
+          }
+        },
+        "model_agreement": {
+          "score": 94.0,
+          "weight": 0.14,
+          "contribution": 13.16,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "agreement": 1.0,
+            "agreeing_models": [
+              "random_forest",
+              "logistic_regression"
+            ],
+            "no_trade_votes": 1,
+            "spread": 0.0053
+          }
+        },
+        "trend": {
+          "score": 22.11,
+          "weight": 0.11,
+          "contribution": 2.43,
+          "aligned": false,
+          "evidence": 0.716,
+          "detail": {
+            "ema_stack": "BULL",
+            "ema9_21_atr": 0.791,
+            "ema21_50_atr": 0.054,
+            "ema21_slope": 0.96,
+            "adx14": 19.9,
+            "di_diff": 0.14,
+            "evidence": 0.716,
+            "aligned_evidence": -0.716
+          }
+        },
+        "momentum": {
+          "score": 18.47,
+          "weight": 0.1,
+          "contribution": 1.85,
+          "aligned": false,
+          "evidence": 0.701,
+          "detail": {
+            "rsi7": 75.9,
+            "rsi14": 67.1,
+            "macd_hist_atr": 0.36,
+            "macd_hist_slope": 0.145,
+            "ret_3_atr": 1.239,
+            "evidence": 0.701,
+            "aligned_evidence": -0.701
+          }
+        },
+        "candle": {
+          "score": 36.22,
+          "weight": 0.1,
+          "contribution": 3.62,
+          "aligned": false,
+          "evidence": 0.306,
+          "detail": {
+            "candle_direction": "UP",
+            "body_ratio": 0.033,
+            "close_position": 0.549,
+            "upper_wick_ratio": 0.451,
+            "lower_wick_ratio": 0.516,
+            "prev_candle": "UP",
+            "evidence": 0.306,
+            "aligned_evidence": -0.306
+          }
+        },
+        "structure": {
+          "score": 35.58,
+          "weight": 0.09,
+          "contribution": 3.2,
+          "aligned": false,
+          "evidence": -0.32,
+          "detail": {
+            "nearest_support": 157.806,
+            "nearest_resistance": 157.84801,
+            "resistance_distance_atr": 0.92,
+            "support_distance_atr": 0.02,
+            "range_position": 0.753,
+            "evidence": -0.32
+          }
+        },
+        "volatility": {
+          "score": 100.0,
+          "weight": 0.07,
+          "contribution": 7.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "atr_pct": 0.0281,
+            "median_atr_pct_asset": 0.0188,
+            "volatility_ratio": 1.496,
+            "zone": "IDEAL",
+            "bounds_pct": [
+              0.002,
+              0.45
+            ]
+          }
+        },
+        "regime": {
+          "score": 47.11,
+          "weight": 0.08,
+          "contribution": 3.77,
+          "aligned": false,
+          "evidence": 0.0,
+          "detail": {
+            "regime": "TRANSITIONAL",
+            "adx14": 19.9,
+            "efficiency_ratio_10": 0.536,
+            "efficiency_ratio_20": 0.45,
+            "trend_persistence": 0.067,
+            "anomaly_flagged": false
+          }
+        },
+        "freshness": {
+          "score": 100.0,
+          "weight": 0.05,
+          "contribution": 5.0,
+          "aligned": true,
+          "evidence": 0.0,
+          "detail": {
+            "lag_seconds": 5.0,
+            "feed_realtime": false,
+            "max_lag_seconds": 180.0
+          }
+        }
+      },
+      "with_qualified_model_layer": {
+        "status": "NO_TRADE",
+        "confidence": 82.23129999999999,
+        "gate_reasons": [
+          "Confidence 82.2% is below threshold 85.0%",
+          "Structure blocks the trade: too little room before the opposing level"
+        ]
+      }
+    }
+  ],
+  "policy": "production gate stack unchanged; every scan ran with persist=False, so nothing was written to the signal ledger while diagnosing. Numbers under 'with_qualified_model_layer' substitute the learned model layer with the harness double described in this file and are labelled hypothetical everywhere.",
+  "generated_at_utc": "2026-10-02T09:39:38+00:00"
+}

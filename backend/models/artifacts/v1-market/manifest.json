@@ -1,0 +1,12 @@
+{
+  "algorithm": "sha256",
+  "count": 4,
+  "files": {
+    "isolation_forest.pkl": "713871791ef6b7a946cf4f88dc1c82f6562827d828fed373f87f6eca3d6f222d",
+    "metadata.json": "52dda8567505547dce248ac08e91e0cb5e59b44f0b344d7d80f2140d66688b7c",
+    "models.pkl": "a7d8b960ee9992a364f692d75e9ed993a66490ed6093c766a8139b028b4b8fd1",
+    "scaler.pkl": "0eaf020e3f5a7fa24970967b9714719f69c61db151a06a8a949e679cfb3d41c0"
+  },
+  "loaded_from": "/home/user/backend/models/artifacts/v1-market",
+  "note": "written by tools/model_manifest.py"
+}

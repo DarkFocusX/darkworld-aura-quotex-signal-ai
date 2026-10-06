@@ -1,0 +1,12 @@
+{
+  "algorithm": "sha256",
+  "count": 4,
+  "files": {
+    "isolation_forest.pkl": "420e2f31877a7e2928c84393d78a432029dc05032d85f94e77006f04bc45adae",
+    "metadata.json": "8524478264874abb7f35b76d98a280295263928c0d29a0d1875e46b0f4d0817c",
+    "models.pkl": "4d91ddc68558c85c2c362c84614e09cc19ad858e859bc5fdf5a08b7154524e77",
+    "scaler.pkl": "08c947ef024c332830cf84e8de05b1b2be259d46875621b44ee38602e25272e9"
+  },
+  "loaded_from": "/home/user/backend/models/artifacts/v2-demo",
+  "note": "written by tools/model_manifest.py"
+}

@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #05070d;
+  color: #eef2ff;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    radial-gradient(60% 45% at 50% -10%, rgba(18, 209, 142, 0.10) 0%, transparent 60%),
+    radial-gradient(45% 35% at 100% 0%, rgba(56, 132, 255, 0.08) 0%, transparent 55%),
+    linear-gradient(180deg, #05070d 0%, #060911 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #26314c #0a0e18;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #26314c;
+  border-radius: 8px;
+}
+
+@layer components {
+  .panel {
+    @apply rounded-2xl border border-white/5 bg-base-800/70 shadow-glow backdrop-blur-sm;
+  }
+  .panel-tight {
+    @apply rounded-xl border border-white/5 bg-base-800/60;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium tracking-wide;
+  }
+  .label {
+    @apply text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-500;
+  }
+  .value {
+    @apply font-mono text-sm text-ink-100;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition
+      disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-emerald-500 to-teal-400 text-base-900 hover:brightness-110 active:scale-[0.99];
+  }
+  .btn-ghost {
+    @apply btn border border-white/10 bg-white/5 text-ink-100 hover:bg-white/10;
+  }
+  .skeleton {
+    @apply rounded-md bg-gradient-to-r from-base-700 via-base-600 to-base-700;
+    background-size: 800px 100%;
+  }
+}
+
+.signal-glow-call {
+  box-shadow: 0 0 0 1px rgba(18, 209, 142, 0.35), 0 30px 90px -40px rgba(18, 209, 142, 0.55);
+}
+.signal-glow-put {
+  box-shadow: 0 0 0 1px rgba(255, 77, 109, 0.35), 0 30px 90px -40px rgba(255, 77, 109, 0.55);
+}
+.signal-glow-none {
+  box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.18), 0 30px 90px -50px rgba(148, 163, 184, 0.35);
+}
+
+.grid-lines {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 26px 26px;
+}

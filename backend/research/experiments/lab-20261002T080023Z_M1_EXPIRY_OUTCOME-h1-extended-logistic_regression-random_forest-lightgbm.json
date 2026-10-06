@@ -1,0 +1,1179 @@
+{
+ "experiment_id": "M1_EXPIRY_OUTCOME-h1-extended-logistic_regression-random_forest-lightgbm",
+ "target": {
+  "target": "M1_EXPIRY_OUTCOME",
+  "horizon_minutes": 1,
+  "reference": "theoretical",
+  "neutral_mode": "atr",
+  "neutral_value": 0.25,
+  "identifier": "M1_EXPIRY_OUTCOME|h1|atr0.25|fill",
+  "label": ""
+ },
+ "feature_set": {
+  "feature_set": "extended",
+  "feature_version": "m1-features-lab-1.0",
+  "count": 56,
+  "base_count": 44,
+  "extended_count": 12,
+  "extended_features": [
+   {
+    "name": "rsi7_delta3",
+    "description": "RSI(7) change over 3 bars \u2014 fast momentum slope"
+   },
+   {
+    "name": "rsi14_slope5",
+    "description": "(RSI(14) - RSI(14).shift(5)) / 50 \u2014 slow momentum slope"
+   },
+   {
+    "name": "macd_slope3",
+    "description": "MACD histogram change over 3 bars, ATR-normalised"
+   },
+   {
+    "name": "vol_ratio_5_20",
+    "description": "std(returns, 5) / std(returns, 20) \u2014 volatility expansion"
+   },
+   {
+    "name": "atr_ratio_5_20",
+    "description": "ATR(5) / ATR(20) \u2014 short vs long volatility"
+   },
+   {
+    "name": "body_run",
+    "description": "signed run length of same-direction candle bodies (clipped \u00b18)"
+   },
+   {
+    "name": "range_pos_60",
+    "description": "(close - min(low,60)) / (max(high,60) - min(low,60))"
+   },
+   {
+    "name": "sr_dist_60",
+    "description": "distance to nearest 60-bar extreme in ATR units (+/-, sign = above/below)"
+   },
+   {
+    "name": "ret_20",
+    "description": "20-bar return, ATR-normalised"
+   },
+   {
+    "name": "ret_30",
+    "description": "30-bar return, ATR-normalised"
+   },
+   {
+    "name": "minute_sin",
+    "description": "sin(2\u03c0 \u00b7 minute-of-hour / 60) \u2014 intra-hour seasonality"
+   },
+   {
+    "name": "minute_cos",
+    "description": "cos(2\u03c0 \u00b7 minute-of-hour / 60)"
+   }
+  ],
+  "causality": "every feature is computed from bars <= i (proved in tests/test_research_lab.py)"
+ },
+ "models": [
+  "logistic_regression",
+  "random_forest",
+  "lightgbm"
+ ],
+ "regime": "all",
+ "rows": {
+  "total": 56396,
+  "walk_forward": 9021,
+  "holdout": 11280,
+  "folds": 3
+ },
+ "folds": [
+  {
+   "fold": 0,
+   "train_rows": 36094,
+   "test_rows": 3007,
+   "embargo_rows": 1,
+   "train_range": [
+    0,
+    36093
+   ],
+   "test_range": [
+    36095,
+    39101
+   ],
+   "test_metrics": {
+    "accuracy": 0.3645,
+    "macro_f1": 0.3595,
+    "macro_precision": 0.3609,
+    "macro_recall": 0.3604,
+    "per_class": {
+     "PUT": {
+      "precision": 0.3049,
+      "recall": 0.36,
+      "f1": 0.3302,
+      "support": 875
+     },
+     "NEUTRAL": {
+      "precision": 0.455,
+      "recall": 0.4275,
+      "f1": 0.4408,
+      "support": 1158
+     },
+     "CALL": {
+      "precision": 0.3228,
+      "recall": 0.2936,
+      "f1": 0.3075,
+      "support": 974
+     }
+    },
+    "confusion_matrix": [
+     [
+      315,
+      282,
+      278
+     ],
+     [
+      341,
+      495,
+      322
+     ],
+     [
+      377,
+      311,
+      286
+     ]
+    ],
+    "samples": 3007,
+    "roc_auc": {
+     "PUT": 0.5409,
+     "NEUTRAL": 0.5644,
+     "CALL": 0.5292,
+     "macro": 0.5448
+    },
+    "brier": 0.6584,
+    "calibration": {
+     "bins": [
+      {
+       "bin": "0.0-0.1",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.1-0.2",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.2-0.3",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.3-0.4",
+       "count": 2763,
+       "mean_confidence": 0.3583,
+       "accuracy": 0.3489,
+       "gap": 0.0094
+      },
+      {
+       "bin": "0.4-0.5",
+       "count": 175,
+       "mean_confidence": 0.429,
+       "accuracy": 0.4514,
+       "gap": -0.0224
+      },
+      {
+       "bin": "0.5-0.6",
+       "count": 49,
+       "mean_confidence": 0.5238,
+       "accuracy": 0.7551,
+       "gap": -0.2313
+      },
+      {
+       "bin": "0.6-0.7",
+       "count": 18,
+       "mean_confidence": 0.6704,
+       "accuracy": 0.7778,
+       "gap": -0.1074
+      },
+      {
+       "bin": "0.7-0.8",
+       "count": 2,
+       "mean_confidence": 0.7064,
+       "accuracy": 1.0,
+       "gap": -0.2936
+      },
+      {
+       "bin": "0.8-0.9",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.9-1.0",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      }
+     ],
+     "expected_calibration_error": 0.0146,
+     "samples": 3007
+    },
+    "directional_calls": 1919,
+    "directional_precision": 0.3132,
+    "directional_correct": 601
+   }
+  },
+  {
+   "fold": 1,
+   "train_rows": 39101,
+   "test_rows": 3007,
+   "embargo_rows": 1,
+   "train_range": [
+    0,
+    39100
+   ],
+   "test_range": [
+    39102,
+    42108
+   ],
+   "test_metrics": {
+    "accuracy": 0.3562,
+    "macro_f1": 0.3555,
+    "macro_precision": 0.358,
+    "macro_recall": 0.3562,
+    "per_class": {
+     "PUT": {
+      "precision": 0.3044,
+      "recall": 0.3617,
+      "f1": 0.3306,
+      "support": 893
+     },
+     "NEUTRAL": {
+      "precision": 0.4208,
+      "recall": 0.3582,
+      "f1": 0.387,
+      "support": 1128
+     },
+     "CALL": {
+      "precision": 0.3489,
+      "recall": 0.3489,
+      "f1": 0.3489,
+      "support": 986
+     }
+    },
+    "confusion_matrix": [
+     [
+      323,
+      263,
+      307
+     ],
+     [
+      389,
+      404,
+      335
+     ],
+     [
+      349,
+      293,
+      344
+     ]
+    ],
+    "samples": 3007,
+    "roc_auc": {
+     "PUT": 0.5251,
+     "NEUTRAL": 0.5565,
+     "CALL": 0.5394,
+     "macro": 0.5403
+    },
+    "brier": 0.6598,
+    "calibration": {
+     "bins": [
+      {
+       "bin": "0.0-0.1",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.1-0.2",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.2-0.3",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.3-0.4",
+       "count": 2734,
+       "mean_confidence": 0.3581,
+       "accuracy": 0.3391,
+       "gap": 0.0191
+      },
+      {
+       "bin": "0.4-0.5",
+       "count": 210,
+       "mean_confidence": 0.4343,
+       "accuracy": 0.4667,
+       "gap": -0.0324
+      },
+      {
+       "bin": "0.5-0.6",
+       "count": 39,
+       "mean_confidence": 0.5509,
+       "accuracy": 0.6667,
+       "gap": -0.1157
+      },
+      {
+       "bin": "0.6-0.7",
+       "count": 23,
+       "mean_confidence": 0.6647,
+       "accuracy": 0.8261,
+       "gap": -0.1613
+      },
+      {
+       "bin": "0.7-0.8",
+       "count": 1,
+       "mean_confidence": 0.7188,
+       "accuracy": 1.0,
+       "gap": -0.2812
+      },
+      {
+       "bin": "0.8-0.9",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.9-1.0",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      }
+     ],
+     "expected_calibration_error": 0.0224,
+     "samples": 3007
+    },
+    "directional_calls": 2047,
+    "directional_precision": 0.3258,
+    "directional_correct": 667
+   }
+  },
+  {
+   "fold": 2,
+   "train_rows": 42108,
+   "test_rows": 3007,
+   "embargo_rows": 1,
+   "train_range": [
+    0,
+    42107
+   ],
+   "test_range": [
+    42109,
+    45115
+   ],
+   "test_metrics": {
+    "accuracy": 0.3432,
+    "macro_f1": 0.3415,
+    "macro_precision": 0.3497,
+    "macro_recall": 0.3467,
+    "per_class": {
+     "PUT": {
+      "precision": 0.3419,
+      "recall": 0.38,
+      "f1": 0.3599,
+      "support": 979
+     },
+     "NEUTRAL": {
+      "precision": 0.3907,
+      "recall": 0.257,
+      "f1": 0.31,
+      "support": 1078
+     },
+     "CALL": {
+      "precision": 0.3165,
+      "recall": 0.4032,
+      "f1": 0.3546,
+      "support": 950
+     }
+    },
+    "confusion_matrix": [
+     [
+      372,
+      201,
+      406
+     ],
+     [
+      380,
+      277,
+      421
+     ],
+     [
+      336,
+      231,
+      383
+     ]
+    ],
+    "samples": 3007,
+    "roc_auc": {
+     "PUT": 0.5188,
+     "NEUTRAL": 0.537,
+     "CALL": 0.5069,
+     "macro": 0.5209
+    },
+    "brier": 0.6673,
+    "calibration": {
+     "bins": [
+      {
+       "bin": "0.0-0.1",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.1-0.2",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.2-0.3",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.3-0.4",
+       "count": 2891,
+       "mean_confidence": 0.357,
+       "accuracy": 0.3438,
+       "gap": 0.0132
+      },
+      {
+       "bin": "0.4-0.5",
+       "count": 114,
+       "mean_confidence": 0.4159,
+       "accuracy": 0.3333,
+       "gap": 0.0825
+      },
+      {
+       "bin": "0.5-0.6",
+       "count": 2,
+       "mean_confidence": 0.5293,
+       "accuracy": 0.0,
+       "gap": 0.5293
+      },
+      {
+       "bin": "0.6-0.7",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.7-0.8",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.8-0.9",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      },
+      {
+       "bin": "0.9-1.0",
+       "count": 0,
+       "mean_confidence": null,
+       "accuracy": null,
+       "gap": null
+      }
+     ],
+     "expected_calibration_error": 0.0162,
+     "samples": 3007
+    },
+    "directional_calls": 2298,
+    "directional_precision": 0.3285,
+    "directional_correct": 755
+   }
+  }
+ ],
+ "validation_metrics": {
+  "accuracy": 0.3546,
+  "macro_f1": 0.3544,
+  "macro_precision": 0.3575,
+  "macro_recall": 0.3551,
+  "per_class": {
+   "PUT": {
+    "precision": 0.3174,
+    "recall": 0.3677,
+    "f1": 0.3407,
+    "support": 2747
+   },
+   "NEUTRAL": {
+    "precision": 0.4266,
+    "recall": 0.3496,
+    "f1": 0.3843,
+    "support": 3364
+   },
+   "CALL": {
+    "precision": 0.3287,
+    "recall": 0.3481,
+    "f1": 0.3381,
+    "support": 2910
+   }
+  },
+  "confusion_matrix": [
+   [
+    1010,
+    746,
+    991
+   ],
+   [
+    1110,
+    1176,
+    1078
+   ],
+   [
+    1062,
+    835,
+    1013
+   ]
+  ],
+  "samples": 9021,
+  "roc_auc": {
+   "PUT": 0.5293,
+   "NEUTRAL": 0.5534,
+   "CALL": 0.5235,
+   "macro": 0.5354
+  },
+  "brier": 0.6618,
+  "calibration": {
+   "bins": [
+    {
+     "bin": "0.0-0.1",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.1-0.2",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.2-0.3",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.3-0.4",
+     "count": 8388,
+     "mean_confidence": 0.3578,
+     "accuracy": 0.3439,
+     "gap": 0.0139
+    },
+    {
+     "bin": "0.4-0.5",
+     "count": 499,
+     "mean_confidence": 0.4282,
+     "accuracy": 0.4309,
+     "gap": -0.0026
+    },
+    {
+     "bin": "0.5-0.6",
+     "count": 90,
+     "mean_confidence": 0.5357,
+     "accuracy": 0.7,
+     "gap": -0.1643
+    },
+    {
+     "bin": "0.6-0.7",
+     "count": 41,
+     "mean_confidence": 0.6672,
+     "accuracy": 0.8049,
+     "gap": -0.1377
+    },
+    {
+     "bin": "0.7-0.8",
+     "count": 3,
+     "mean_confidence": 0.7105,
+     "accuracy": 1.0,
+     "gap": -0.2895
+    },
+    {
+     "bin": "0.8-0.9",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.9-1.0",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    }
+   ],
+   "expected_calibration_error": 0.0154,
+   "samples": 9021
+  },
+  "directional_calls": 6264,
+  "directional_precision": 0.323,
+  "directional_correct": 2023
+ },
+ "holdout_metrics": {
+  "accuracy": 0.3676,
+  "macro_f1": 0.3657,
+  "macro_precision": 0.3675,
+  "macro_recall": 0.3659,
+  "per_class": {
+   "PUT": {
+    "precision": 0.322,
+    "recall": 0.3326,
+    "f1": 0.3272,
+    "support": 3379
+   },
+   "NEUTRAL": {
+    "precision": 0.4369,
+    "recall": 0.3826,
+    "f1": 0.408,
+    "support": 4237
+   },
+   "CALL": {
+    "precision": 0.3435,
+    "recall": 0.3824,
+    "f1": 0.3619,
+    "support": 3664
+   }
+  },
+  "confusion_matrix": [
+   [
+    1124,
+    980,
+    1275
+   ],
+   [
+    1213,
+    1621,
+    1403
+   ],
+   [
+    1154,
+    1109,
+    1401
+   ]
+  ],
+  "samples": 11280,
+  "roc_auc": {
+   "PUT": 0.5404,
+   "NEUTRAL": 0.5692,
+   "CALL": 0.523,
+   "macro": 0.5442
+  },
+  "brier": 0.6599,
+  "calibration": {
+   "bins": [
+    {
+     "bin": "0.0-0.1",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.1-0.2",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.2-0.3",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.3-0.4",
+     "count": 10349,
+     "mean_confidence": 0.358,
+     "accuracy": 0.3547,
+     "gap": 0.0032
+    },
+    {
+     "bin": "0.4-0.5",
+     "count": 710,
+     "mean_confidence": 0.4247,
+     "accuracy": 0.4451,
+     "gap": -0.0204
+    },
+    {
+     "bin": "0.5-0.6",
+     "count": 110,
+     "mean_confidence": 0.5496,
+     "accuracy": 0.6,
+     "gap": -0.0504
+    },
+    {
+     "bin": "0.6-0.7",
+     "count": 105,
+     "mean_confidence": 0.6496,
+     "accuracy": 0.8286,
+     "gap": -0.179
+    },
+    {
+     "bin": "0.7-0.8",
+     "count": 6,
+     "mean_confidence": 0.7063,
+     "accuracy": 1.0,
+     "gap": -0.2937
+    },
+    {
+     "bin": "0.8-0.9",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.9-1.0",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    }
+   ],
+   "expected_calibration_error": 0.0066,
+   "samples": 11280
+  },
+  "directional_calls": 7570,
+  "directional_precision": 0.3336,
+  "directional_correct": 2525
+ },
+ "calibration": {
+  "temperature": 0.9388,
+  "validation": {
+   "bins": [
+    {
+     "bin": "0.0-0.1",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.1-0.2",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.2-0.3",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.3-0.4",
+     "count": 8388,
+     "mean_confidence": 0.3578,
+     "accuracy": 0.3439,
+     "gap": 0.0139
+    },
+    {
+     "bin": "0.4-0.5",
+     "count": 499,
+     "mean_confidence": 0.4282,
+     "accuracy": 0.4309,
+     "gap": -0.0026
+    },
+    {
+     "bin": "0.5-0.6",
+     "count": 90,
+     "mean_confidence": 0.5357,
+     "accuracy": 0.7,
+     "gap": -0.1643
+    },
+    {
+     "bin": "0.6-0.7",
+     "count": 41,
+     "mean_confidence": 0.6672,
+     "accuracy": 0.8049,
+     "gap": -0.1377
+    },
+    {
+     "bin": "0.7-0.8",
+     "count": 3,
+     "mean_confidence": 0.7105,
+     "accuracy": 1.0,
+     "gap": -0.2895
+    },
+    {
+     "bin": "0.8-0.9",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.9-1.0",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    }
+   ],
+   "expected_calibration_error": 0.0154,
+   "samples": 9021
+  },
+  "holdout": {
+   "bins": [
+    {
+     "bin": "0.0-0.1",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.1-0.2",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.2-0.3",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.3-0.4",
+     "count": 10349,
+     "mean_confidence": 0.358,
+     "accuracy": 0.3547,
+     "gap": 0.0032
+    },
+    {
+     "bin": "0.4-0.5",
+     "count": 710,
+     "mean_confidence": 0.4247,
+     "accuracy": 0.4451,
+     "gap": -0.0204
+    },
+    {
+     "bin": "0.5-0.6",
+     "count": 110,
+     "mean_confidence": 0.5496,
+     "accuracy": 0.6,
+     "gap": -0.0504
+    },
+    {
+     "bin": "0.6-0.7",
+     "count": 105,
+     "mean_confidence": 0.6496,
+     "accuracy": 0.8286,
+     "gap": -0.179
+    },
+    {
+     "bin": "0.7-0.8",
+     "count": 6,
+     "mean_confidence": 0.7063,
+     "accuracy": 1.0,
+     "gap": -0.2937
+    },
+    {
+     "bin": "0.8-0.9",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    },
+    {
+     "bin": "0.9-1.0",
+     "count": 0,
+     "mean_confidence": null,
+     "accuracy": null,
+     "gap": null
+    }
+   ],
+   "expected_calibration_error": 0.0066,
+   "samples": 11280
+  },
+  "note": "buckets are the predicted-class confidence; a bucket is only meaningful with enough samples \u2014 treat counts under ~200 as unproven"
+ },
+ "threshold_sweep": [
+  {
+   "threshold": 0.6,
+   "signals": 0,
+   "coverage": 0.0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "precision": null,
+   "loss_rate": null,
+   "max_losing_streak": 0,
+   "wilson_lower_bound": null
+  },
+  {
+   "threshold": 0.65,
+   "signals": 0,
+   "coverage": 0.0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "precision": null,
+   "loss_rate": null,
+   "max_losing_streak": 0,
+   "wilson_lower_bound": null
+  },
+  {
+   "threshold": 0.7,
+   "signals": 0,
+   "coverage": 0.0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "precision": null,
+   "loss_rate": null,
+   "max_losing_streak": 0,
+   "wilson_lower_bound": null
+  },
+  {
+   "threshold": 0.75,
+   "signals": 0,
+   "coverage": 0.0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "precision": null,
+   "loss_rate": null,
+   "max_losing_streak": 0,
+   "wilson_lower_bound": null
+  },
+  {
+   "threshold": 0.8,
+   "signals": 0,
+   "coverage": 0.0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "precision": null,
+   "loss_rate": null,
+   "max_losing_streak": 0,
+   "wilson_lower_bound": null
+  },
+  {
+   "threshold": 0.85,
+   "signals": 0,
+   "coverage": 0.0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "precision": null,
+   "loss_rate": null,
+   "max_losing_streak": 0,
+   "wilson_lower_bound": null
+  },
+  {
+   "threshold": 0.9,
+   "signals": 0,
+   "coverage": 0.0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "precision": null,
+   "loss_rate": null,
+   "max_losing_streak": 0,
+   "wilson_lower_bound": null
+  },
+  {
+   "threshold": 0.95,
+   "signals": 0,
+   "coverage": 0.0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "precision": null,
+   "loss_rate": null,
+   "max_losing_streak": 0,
+   "wilson_lower_bound": null
+  }
+ ],
+ "threshold_selection": {
+  "threshold": null,
+  "selected_on": "validation_only",
+  "reason": "no threshold produced enough validation signals with a hit rate whose Wilson 95% lower bound cleared 0.50 \u2014 the evidence does not support emitting signals",
+  "validation_signals": null,
+  "validation_hit_rate": null,
+  "wilson_lower_bound": null
+ },
+ "holdout_gate_test": {
+  "threshold": null,
+  "signals": 0,
+  "wins": 0,
+  "losses": 0,
+  "hit_rate": null,
+  "loss_rate": null,
+  "coverage": 0.0,
+  "max_losing_streak": 0,
+  "wilson_lower_bound": null,
+  "note": "no threshold was selected on validation \u2014 NO TRADE"
+ },
+ "paper_replay": {
+  "threshold": null,
+  "model_version": "lab:M1_EXPIRY_OUTCOME|h1|atr0.25|fill|extended|logistic_regression-random_forest-lightgbm",
+  "dataset_version": "ds-d21e6369e945",
+  "features_version": "m1-features-lab-1.0",
+  "total_rows": 11280,
+  "signals": 0,
+  "trades": 0,
+  "wins": 0,
+  "losses": 0,
+  "voids": 0,
+  "win_rate": null,
+  "no_trade_rate": 1.0,
+  "max_losing_streak": 0,
+  "wilson_lower_bound": null,
+  "first_signal_utc": null,
+  "last_signal_utc": null,
+  "outcomes_from": "actual entry/expiry prices in the dataset \u2014 never inferred from the prediction",
+  "signals_stored": 0,
+  "signals_preview": [],
+  "signals_truncated": false,
+  "signals_file": null
+ },
+ "walk_forward_paper": {
+  "description": "retrain-then-test loop: no future row is ever in a training window",
+  "family": "lightgbm",
+  "note": "the walk-forward paper loop always retrains the fastest comparable family so the grid stays affordable; the procedure (retrain \u2192 test \u2192 move forward) is what is being measured",
+  "steps": [
+   {
+    "step": 1,
+    "train_rows": 14098,
+    "test_rows": 7049,
+    "test_start_utc": "2026-09-11T07:39:00+00:00",
+    "test_end_utc": "2026-09-15T20:25:00+00:00",
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0
+   },
+   {
+    "step": 2,
+    "train_rows": 21147,
+    "test_rows": 7049,
+    "test_start_utc": "2026-09-15T20:25:00+00:00",
+    "test_end_utc": "2026-09-18T07:20:00+00:00",
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0
+   },
+   {
+    "step": 3,
+    "train_rows": 28196,
+    "test_rows": 7049,
+    "test_start_utc": "2026-09-18T07:21:00+00:00",
+    "test_end_utc": "2026-09-22T20:07:00+00:00",
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0
+   },
+   {
+    "step": 4,
+    "train_rows": 35245,
+    "test_rows": 7049,
+    "test_start_utc": "2026-09-22T20:08:00+00:00",
+    "test_end_utc": "2026-09-25T07:01:00+00:00",
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0
+   },
+   {
+    "step": 5,
+    "train_rows": 42294,
+    "test_rows": 7049,
+    "test_start_utc": "2026-09-25T07:01:00+00:00",
+    "test_end_utc": "2026-09-29T19:48:00+00:00",
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0
+   },
+   {
+    "step": 6,
+    "train_rows": 49343,
+    "test_rows": 7049,
+    "test_start_utc": "2026-09-29T19:48:00+00:00",
+    "test_end_utc": "2026-10-02T06:46:00+00:00",
+    "signals": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": null,
+    "no_trade_rate": 1.0
+   }
+  ],
+  "initial_train_rows": 14099,
+  "block_rows": 7049,
+  "embargo_rows": 1,
+  "totals": {
+   "signals": 0,
+   "trades": 0,
+   "wins": 0,
+   "losses": 0,
+   "win_rate": null,
+   "max_losing_streak": 0
+  }
+ },
+ "dataset": {
+  "dataset_version": "ds-d21e6369e945",
+  "assets": [
+   "USDCHF",
+   "USDJPY"
+  ],
+  "rows": 56577,
+  "period_start_utc": "2026-09-04T06:49:00+00:00",
+  "period_end_utc": "2026-10-02T06:49:00+00:00",
+  "skipped": {}
+ },
+ "timings_seconds": {
+  "folds": 35.3,
+  "holdout": 13.1
+ },
+ "run_id": "lab-20261002T080023Z"
+}

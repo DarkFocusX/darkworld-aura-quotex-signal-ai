@@ -1,0 +1,164 @@
+{
+  "version": "v1-demo",
+  "trained_at_utc": "2026-10-02T06:25:47+00:00",
+  "feature_names": [
+    "ret_1",
+    "ret_3",
+    "ret_5",
+    "ret_10",
+    "atr_norm",
+    "body_ratio",
+    "upper_wick_ratio",
+    "lower_wick_ratio",
+    "close_pos",
+    "range_norm",
+    "consec",
+    "ema9_dist",
+    "ema21_dist",
+    "ema50_dist",
+    "ema9_21",
+    "ema21_50",
+    "ema9_slope",
+    "ema21_slope",
+    "rsi14",
+    "rsi7",
+    "rsi14_delta3",
+    "macd_hist_norm",
+    "macd_line_norm",
+    "macd_hist_slope",
+    "bb_pos",
+    "bb_width_norm",
+    "bb_width_pct",
+    "atr_expansion",
+    "atr_pct",
+    "adx14",
+    "di_diff",
+    "vol_z",
+    "sr_support_dist",
+    "sr_resistance_dist",
+    "range_position",
+    "don_break_up",
+    "don_break_dn",
+    "mean_rev_z",
+    "trend_persist",
+    "eff_ratio_10",
+    "eff_ratio_20",
+    "hour_sin",
+    "hour_cos",
+    "dow_norm"
+  ],
+  "horizon": 1,
+  "neutral_atr_fraction": 0.25,
+  "temperature": 1.0965,
+  "data_provenance": {
+    "source": "simulated",
+    "is_simulated": true,
+    "assets": [
+      {
+        "asset": "USDBDT-OTCq",
+        "provider": "simulated",
+        "source_label": "SIMULATED FEED (demo \u2014 not market data)",
+        "is_simulated": true,
+        "rows": 19913,
+        "period_start_utc": "2026-09-18T09:00:00+00:00",
+        "period_end_utc": "2026-10-02T06:19:00+00:00"
+      },
+      {
+        "asset": "EURCAD-OTCq",
+        "provider": "simulated",
+        "source_label": "SIMULATED FEED (demo \u2014 not market data)",
+        "is_simulated": true,
+        "rows": 19936,
+        "period_start_utc": "2026-09-18T09:00:00+00:00",
+        "period_end_utc": "2026-10-02T06:19:00+00:00"
+      },
+      {
+        "asset": "EURUSD",
+        "provider": "simulated",
+        "source_label": "SIMULATED FEED (demo \u2014 not market data)",
+        "is_simulated": true,
+        "rows": 19935,
+        "period_start_utc": "2026-09-18T09:00:00+00:00",
+        "period_end_utc": "2026-10-02T06:19:00+00:00"
+      },
+      {
+        "asset": "GBPUSD",
+        "provider": "simulated",
+        "source_label": "SIMULATED FEED (demo \u2014 not market data)",
+        "is_simulated": true,
+        "rows": 19936,
+        "period_start_utc": "2026-09-18T09:00:00+00:00",
+        "period_end_utc": "2026-10-02T06:19:00+00:00"
+      }
+    ],
+    "rows": 79720,
+    "period_start_utc": "2026-09-18T10:03:00+00:00",
+    "period_end_utc": "2026-10-02T06:18:00+00:00",
+    "leakage_probe": {
+      "checked": 44,
+      "suspicious": [],
+      "ok": true,
+      "note": "no feature nearly determines the label"
+    },
+    "notes": "Trained on SIMULATED data \u2014 the resulting model is a pipeline demonstration, not a market-quality model.",
+    "warning": "is_simulated=true: these metrics describe a simulated series and must not be presented as market performance."
+  },
+  "training_rows": 79720,
+  "class_balance": {
+    "PUT": 27003,
+    "NEUTRAL": 25611,
+    "CALL": 27106
+  },
+  "models": [
+    "lightgbm",
+    "random_forest",
+    "logistic_regression"
+  ],
+  "small_dataset": false,
+  "environment": {
+    "python": "3.13.14",
+    "platform": "Linux-6.1.158+-x86_64-with-glibc2.41",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3"
+  },
+  "metrics": {
+    "walk_forward_summary": {
+      "accuracy": {
+        "mean": 0.3893,
+        "min": 0.3878,
+        "max": 0.391,
+        "folds": 3
+      },
+      "macro_f1": {
+        "mean": 0.387,
+        "min": 0.3855,
+        "max": 0.3896,
+        "folds": 3
+      },
+      "brier": {
+        "mean": 0.6596,
+        "min": 0.6589,
+        "max": 0.6601,
+        "folds": 3
+      }
+    },
+    "out_of_fold": {
+      "accuracy": 0.3893,
+      "macro_f1": 0.3871,
+      "roc_auc_macro": 0.5606,
+      "brier": 0.6596,
+      "expected_calibration_error": 0.0065,
+      "directional_win_rate": 39.58,
+      "max_losing_streak": 23,
+      "samples": 15942
+    },
+    "holdout": {
+      "accuracy": 0.3889,
+      "macro_f1": 0.3862,
+      "roc_auc_macro": 0.5604,
+      "brier": 0.6597,
+      "directional_win_rate": 39.58,
+      "samples": 15944
+    }
+  }
+}

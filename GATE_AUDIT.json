@@ -1,0 +1,494 @@
+{
+  "generated_at_utc": "2026-10-02T13:02:17+00:00",
+  "window": {
+    "start_utc": "2026-09-04 12:09:00+00:00",
+    "end_utc": "2026-10-02 06:47:00+00:00",
+    "minutes": 27971,
+    "asset": "USDJPY",
+    "provider": "operator_csv (REAL operator export)"
+  },
+  "status_counts": {
+    "NO_TRADE": 27967,
+    "DATA_UNAVAILABLE": 4
+  },
+  "policy": "production engine unchanged; persist=False so the audit wrote no signal; the oracle used the future direction only inside tools/gate_study.py",
+  "gate_audit": {
+    "per_gate": {
+      "DATA": {
+        "evaluated": 27946,
+        "not_reached": 25,
+        "passed": 27942,
+        "failed": 4,
+        "pass_rate_of_evaluated": 99.99,
+        "pass_rate_of_all_candidates": 99.9,
+        "failure_reasons": {
+          "Stale data: newest candle closed 180005s ago (limit 180s for a replay feed)": 2,
+          "Stale data: newest candle closed 179885s ago (limit 180s for a replay feed)": 2
+        }
+      },
+      "FEATURE": {
+        "evaluated": 27967,
+        "not_reached": 4,
+        "passed": 27942,
+        "failed": 25,
+        "pass_rate_of_evaluated": 99.91,
+        "pass_rate_of_all_candidates": 99.9,
+        "failure_reasons": {
+          "Feature block incomplete: # missing (ret_1, ret_3, ret_5, ret_10\u2026)": 25
+        }
+      },
+      "MODEL": {
+        "evaluated": 27942,
+        "not_reached": 29,
+        "passed": 17,
+        "failed": 27925,
+        "pass_rate_of_evaluated": 0.06,
+        "pass_rate_of_all_candidates": 0.06,
+        "failure_reasons": {
+          "Directional probability too low: # < #": 17705,
+          "Conflicting models: weighted agreement # < #": 5404,
+          "Models report uncertainty: NEUTRAL probability # is the top class \u2014 this is a coin-flip setup, not a trade": 4500,
+          "Anomaly detector flagged the current market state as out-of-distribution": 316
+        }
+      },
+      "ANOMALY": {
+        "evaluated": 27942,
+        "not_reached": 29,
+        "passed": 27626,
+        "failed": 316,
+        "pass_rate_of_evaluated": 98.87,
+        "pass_rate_of_all_candidates": 98.77,
+        "failure_reasons": {
+          "Feature vector outside the training distribution": 316
+        }
+      },
+      "REGIME": {
+        "evaluated": 27942,
+        "not_reached": 29,
+        "passed": 21188,
+        "failed": 6754,
+        "pass_rate_of_evaluated": 75.83,
+        "pass_rate_of_all_candidates": 75.75,
+        "failure_reasons": {
+          "Unfavorable market regime: choppy/mean-reverting (ADX # efficiency #": 6438,
+          "Abnormal market regime: anomaly detector veto": 316
+        }
+      },
+      "CONSISTENCY": {
+        "evaluated": 27942,
+        "not_reached": 29,
+        "passed": 2386,
+        "failed": 25556,
+        "pass_rate_of_evaluated": 8.54,
+        "pass_rate_of_all_candidates": 8.53,
+        "failure_reasons": {
+          "Conflicting indicators: only 1/4 rule groups (structure) support PUT; need # \u2014 opposing: trend, momentum, candle": 2946,
+          "Conflicting indicators: only 1/4 rule groups (structure) support CALL; need # \u2014 opposing: trend, momentum, candle": 2660,
+          "Conflicting indicators: only 1/4 rule groups (trend) support CALL; need # \u2014 opposing: momentum, candle, structure": 2453,
+          "Conflicting indicators: only 0/4 rule groups (none) support CALL; need # \u2014 opposing: trend, momentum, candle, structure": 2294,
+          "Conflicting indicators: only 0/4 rule groups (none) support PUT; need # \u2014 opposing: trend, momentum, candle, structure": 2086,
+          "Conflicting indicators: only 2/4 rule groups (trend, momentum) support CALL; need # \u2014 opposing: candle, structure": 1918,
+          "Conflicting indicators: only 1/4 rule groups (trend) support PUT; need # \u2014 opposing: momentum, candle, structure": 1815,
+          "Structure blocks the trade: too little room before the opposing level": 1691
+        }
+      },
+      "CONFIDENCE": {
+        "evaluated": 27942,
+        "not_reached": 29,
+        "passed": 0,
+        "failed": 27942,
+        "pass_rate_of_evaluated": 0.0,
+        "pass_rate_of_all_candidates": 0.0,
+        "failure_reasons": {
+          "Confidence # is below threshold #": 27942
+        }
+      },
+      "RISK": {
+        "evaluated": 0,
+        "not_reached": 27971,
+        "passed": 0,
+        "failed": 0,
+        "pass_rate_of_evaluated": null,
+        "pass_rate_of_all_candidates": 0.0,
+        "failure_reasons": {}
+      },
+      "LOCK": {
+        "evaluated": 27942,
+        "not_reached": 29,
+        "passed": 27942,
+        "failed": 0,
+        "pass_rate_of_evaluated": 100.0,
+        "pass_rate_of_all_candidates": 99.9,
+        "failure_reasons": {}
+      },
+      "FINAL": {
+        "evaluated": 27971,
+        "not_reached": 0,
+        "passed": 0,
+        "failed": 27971,
+        "pass_rate_of_evaluated": 0.0,
+        "pass_rate_of_all_candidates": 0.0,
+        "failure_reasons": {}
+      }
+    },
+    "funnel": [
+      {
+        "stage": "DATA",
+        "candidates_in": 27971,
+        "blocked_here": 4,
+        "surviving": 27967,
+        "raw_failures": 4
+      },
+      {
+        "stage": "FEATURE",
+        "candidates_in": 27967,
+        "blocked_here": 25,
+        "surviving": 27942,
+        "raw_failures": 25
+      },
+      {
+        "stage": "MODEL",
+        "candidates_in": 27942,
+        "blocked_here": 27925,
+        "surviving": 17,
+        "raw_failures": 27925
+      },
+      {
+        "stage": "ANOMALY",
+        "candidates_in": 17,
+        "blocked_here": 0,
+        "surviving": 17,
+        "raw_failures": 316
+      },
+      {
+        "stage": "REGIME",
+        "candidates_in": 17,
+        "blocked_here": 7,
+        "surviving": 10,
+        "raw_failures": 6754
+      },
+      {
+        "stage": "CONSISTENCY",
+        "candidates_in": 10,
+        "blocked_here": 10,
+        "surviving": 0,
+        "raw_failures": 25556
+      },
+      {
+        "stage": "CONFIDENCE",
+        "candidates_in": 0,
+        "blocked_here": 0,
+        "surviving": 0,
+        "raw_failures": 27942
+      },
+      {
+        "stage": "RISK",
+        "candidates_in": 0,
+        "blocked_here": 0,
+        "surviving": 0,
+        "raw_failures": 0
+      },
+      {
+        "stage": "LOCK",
+        "candidates_in": 0,
+        "blocked_here": 0,
+        "surviving": 0,
+        "raw_failures": 0
+      },
+      {
+        "stage": "FINAL",
+        "candidates_in": 0,
+        "blocked_here": 0,
+        "surviving": 0,
+        "raw_failures": 27971
+      }
+    ]
+  },
+  "oracle_feasibility": {
+    "candidates_considered": 27942,
+    "applicable": 27037,
+    "flat_or_no_settlement": 905,
+    "oracle_signals": 461,
+    "per_gate": {
+      "DATA": {
+        "evaluated": 27037,
+        "passed": 27037,
+        "failed": 0
+      },
+      "FEATURE": {
+        "evaluated": 27037,
+        "passed": 27037,
+        "failed": 0
+      },
+      "MODEL": {
+        "evaluated": 27037,
+        "passed": 27037,
+        "failed": 0
+      },
+      "ANOMALY": {
+        "evaluated": 27037,
+        "passed": 27037,
+        "failed": 0
+      },
+      "REGIME": {
+        "evaluated": 27037,
+        "passed": 20815,
+        "failed": 6222
+      },
+      "CONSISTENCY": {
+        "evaluated": 27037,
+        "passed": 3285,
+        "failed": 23752
+      },
+      "CONFIDENCE": {
+        "evaluated": 27037,
+        "passed": 917,
+        "failed": 26120
+      },
+      "RISK": {
+        "evaluated": 461,
+        "passed": 0,
+        "failed": 461
+      },
+      "LOCK": {
+        "evaluated": 27037,
+        "passed": 27037,
+        "failed": 0
+      },
+      "FINAL": {
+        "evaluated": 27037,
+        "passed": 461,
+        "failed": 26576
+      }
+    },
+    "top_oracle_blockers": {
+      "CONFIDENCE: Confidence # is below threshold #": 26120,
+      "REGIME: Unfavorable market regime: choppy/mean-reverting (ADX # efficiency #": 6222,
+      "CONSISTENCY: Structure blocks the trade: too little room before the opposing level": 3507,
+      "CONSISTENCY: Conflicting indicators: only 1/4 rule groups (structure) support PUT; need # \u2014 opposing: trend, momentum, candle": 1918,
+      "CONSISTENCY: Conflicting indicators: only 1/4 rule groups (structure) support CALL; need # \u2014 opposing: trend, momentum, candle": 1857,
+      "CONSISTENCY: Conflicting indicators: only 1/4 rule groups (trend) support CALL; need # \u2014 opposing: momentum, candle, structure": 1584,
+      "CONSISTENCY: Conflicting indicators: only 2/4 rule groups (trend, momentum) support CALL; need # \u2014 opposing: candle, structure": 1427,
+      "CONSISTENCY: Conflicting indicators: only 0/4 rule groups (none) support CALL; need # \u2014 opposing: trend, momentum, candle, structure": 1419,
+      "CONSISTENCY: Conflicting indicators: only 0/4 rule groups (none) support PUT; need # \u2014 opposing: trend, momentum, candle, structure": 1417,
+      "CONSISTENCY: Conflicting indicators: only 1/4 rule groups (trend) support PUT; need # \u2014 opposing: momentum, candle, structure": 1259
+    },
+    "verdict": "FEASIBLE"
+  },
+  "variants": {
+    "population_minutes": 27971,
+    "A_production": {
+      "variant": "A \u2014 production",
+      "note": "unchanged production architecture",
+      "signals": 0,
+      "coverage_pct": 0.0,
+      "decided": 0,
+      "voids": 0,
+      "wins": 0,
+      "losses": 0,
+      "hit_rate": null,
+      "wilson_95_lower_bound": null,
+      "max_losing_streak": 0,
+      "confidence_distribution": {},
+      "direction_distribution": {},
+      "regime_distribution": {}
+    },
+    "B_technical_in_confidence": {
+      "variant": "B \u2014 soft technical context",
+      "note": "data validity + model validity + risk stay hard gates; the technical context only contributes through the confidence score",
+      "signals": 0,
+      "coverage_pct": 0.0,
+      "decided": 0,
+      "voids": 0,
+      "wins": 0,
+      "losses": 0,
+      "hit_rate": null,
+      "wilson_95_lower_bound": null,
+      "max_losing_streak": 0,
+      "confidence_distribution": {},
+      "direction_distribution": {},
+      "regime_distribution": {}
+    },
+    "C_regime_as_penalty": {
+      "variant": "C \u2014 regime as penalty",
+      "note": "data validity + model validity stay hard gates; an unfavourable regime or a non-aligned consistency check costs 6 confidence points instead of vetoing",
+      "signals": 0,
+      "coverage_pct": 0.0,
+      "decided": 0,
+      "voids": 0,
+      "wins": 0,
+      "losses": 0,
+      "hit_rate": null,
+      "wilson_95_lower_bound": null,
+      "max_losing_streak": 0,
+      "confidence_distribution": {},
+      "direction_distribution": {},
+      "regime_distribution": {}
+    },
+    "D_threshold_sweep": {
+      "60": {
+        "variant": "D @ 60",
+        "note": "production gates with the confidence threshold swept",
+        "signals": 17,
+        "coverage_pct": 0.061,
+        "decided": 10,
+        "voids": 7,
+        "wins": 7,
+        "losses": 3,
+        "hit_rate": 0.7,
+        "wilson_95_lower_bound": 0.3968,
+        "max_losing_streak": 4,
+        "confidence_distribution": {
+          "60\u201370": 10,
+          "70\u201375": 6,
+          "75\u201380": 1
+        },
+        "direction_distribution": {
+          "CALL": 6,
+          "PUT": 11
+        },
+        "regime_distribution": {
+          "RANGE": 12,
+          "TREND": 5
+        }
+      },
+      "65": {
+        "variant": "D @ 65",
+        "note": "production gates with the confidence threshold swept",
+        "signals": 17,
+        "coverage_pct": 0.061,
+        "decided": 10,
+        "voids": 7,
+        "wins": 7,
+        "losses": 3,
+        "hit_rate": 0.7,
+        "wilson_95_lower_bound": 0.3968,
+        "max_losing_streak": 4,
+        "confidence_distribution": {
+          "60\u201370": 10,
+          "70\u201375": 6,
+          "75\u201380": 1
+        },
+        "direction_distribution": {
+          "CALL": 6,
+          "PUT": 11
+        },
+        "regime_distribution": {
+          "RANGE": 12,
+          "TREND": 5
+        }
+      },
+      "70": {
+        "variant": "D @ 70",
+        "note": "production gates with the confidence threshold swept",
+        "signals": 7,
+        "coverage_pct": 0.025,
+        "decided": 5,
+        "voids": 2,
+        "wins": 3,
+        "losses": 2,
+        "hit_rate": 0.6,
+        "wilson_95_lower_bound": 0.2307,
+        "max_losing_streak": 3,
+        "confidence_distribution": {
+          "70\u201375": 6,
+          "75\u201380": 1
+        },
+        "direction_distribution": {
+          "CALL": 2,
+          "PUT": 5
+        },
+        "regime_distribution": {
+          "TREND": 3,
+          "RANGE": 4
+        }
+      },
+      "75": {
+        "variant": "D @ 75",
+        "note": "production gates with the confidence threshold swept",
+        "signals": 1,
+        "coverage_pct": 0.004,
+        "decided": 0,
+        "voids": 1,
+        "wins": 0,
+        "losses": 0,
+        "hit_rate": null,
+        "wilson_95_lower_bound": null,
+        "max_losing_streak": 1,
+        "confidence_distribution": {
+          "75\u201380": 1
+        },
+        "direction_distribution": {
+          "PUT": 1
+        },
+        "regime_distribution": {
+          "TREND": 1
+        }
+      },
+      "80": {
+        "variant": "D @ 80",
+        "note": "production gates with the confidence threshold swept",
+        "signals": 0,
+        "coverage_pct": 0.0,
+        "decided": 0,
+        "voids": 0,
+        "wins": 0,
+        "losses": 0,
+        "hit_rate": null,
+        "wilson_95_lower_bound": null,
+        "max_losing_streak": 0,
+        "confidence_distribution": {},
+        "direction_distribution": {},
+        "regime_distribution": {}
+      },
+      "85": {
+        "variant": "D @ 85",
+        "note": "production gates with the confidence threshold swept",
+        "signals": 0,
+        "coverage_pct": 0.0,
+        "decided": 0,
+        "voids": 0,
+        "wins": 0,
+        "losses": 0,
+        "hit_rate": null,
+        "wilson_95_lower_bound": null,
+        "max_losing_streak": 0,
+        "confidence_distribution": {},
+        "direction_distribution": {},
+        "regime_distribution": {}
+      },
+      "90": {
+        "variant": "D @ 90",
+        "note": "production gates with the confidence threshold swept",
+        "signals": 0,
+        "coverage_pct": 0.0,
+        "decided": 0,
+        "voids": 0,
+        "wins": 0,
+        "losses": 0,
+        "hit_rate": null,
+        "wilson_95_lower_bound": null,
+        "max_losing_streak": 0,
+        "confidence_distribution": {},
+        "direction_distribution": {},
+        "regime_distribution": {}
+      },
+      "95": {
+        "variant": "D @ 95",
+        "note": "production gates with the confidence threshold swept",
+        "signals": 0,
+        "coverage_pct": 0.0,
+        "decided": 0,
+        "voids": 0,
+        "wins": 0,
+        "losses": 0,
+        "hit_rate": null,
+        "wilson_95_lower_bound": null,
+        "max_losing_streak": 0,
+        "confidence_distribution": {},
+        "direction_distribution": {},
+        "regime_distribution": {}
+      }
+    }
+  }
+}

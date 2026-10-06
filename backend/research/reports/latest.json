@@ -1,0 +1,844 @@
+{
+  "version": "v1-market",
+  "trained_at_utc": "2026-10-02T07:02:50+00:00",
+  "horizon": 1,
+  "neutral_atr_fraction": 0.25,
+  "provenance": {
+    "source": "market",
+    "source_class": "MARKET",
+    "is_simulated": false,
+    "market_data": true,
+    "assets": [
+      {
+        "asset": "USDJPY",
+        "provider": "csv",
+        "source_label": "Operator CSV: USDJPY.csv",
+        "source_class": "MARKET",
+        "is_simulated": false,
+        "is_replay": true,
+        "is_real_market_data": true,
+        "rows": 28201,
+        "period_start_utc": "2026-09-04T06:49:00+00:00",
+        "period_end_utc": "2026-10-02T06:48:00+00:00",
+        "dataset_validation": {
+          "ok": true,
+          "status": "WARNING",
+          "rows": 28292,
+          "first_candle_utc": "2026-09-04T06:49:00+00:00",
+          "last_candle_utc": "2026-10-02T06:48:00+00:00",
+          "span_hours": 671.98,
+          "duplicates": 0,
+          "non_monotonic": 0,
+          "missing_candles": 32,
+          "missing_ratio": 0.00079,
+          "session_breaks": 4,
+          "longest_gap_minutes": 3000,
+          "interval_minutes": 1.0,
+          "invalid_ohlc": 0,
+          "non_finite": 0,
+          "negative_prices": 0,
+          "has_volume": true,
+          "stale_seconds": null,
+          "flat_candles": 27,
+          "flat_ratio": 0.00095,
+          "errors": [],
+          "warnings": [
+            "32 missing candle(s) inside trading sessions (0.1% \u2014 tolerated)",
+            "4 session break(s) detected (longest gap 3000 min) \u2014 treated as market closures, not data loss"
+          ],
+          "min_required_candles": 120
+        }
+      },
+      {
+        "asset": "USDCHF",
+        "provider": "csv",
+        "source_label": "Operator CSV: USDCHF.csv",
+        "source_class": "MARKET",
+        "is_simulated": false,
+        "is_replay": true,
+        "is_real_market_data": true,
+        "rows": 28195,
+        "period_start_utc": "2026-09-04T06:50:00+00:00",
+        "period_end_utc": "2026-10-02T06:49:00+00:00",
+        "dataset_validation": {
+          "ok": true,
+          "status": "WARNING",
+          "rows": 28285,
+          "first_candle_utc": "2026-09-04T06:50:00+00:00",
+          "last_candle_utc": "2026-10-02T06:49:00+00:00",
+          "span_hours": 671.98,
+          "duplicates": 0,
+          "non_monotonic": 0,
+          "missing_candles": 37,
+          "missing_ratio": 0.00092,
+          "session_breaks": 4,
+          "longest_gap_minutes": 3000,
+          "interval_minutes": 1.0,
+          "invalid_ohlc": 0,
+          "non_finite": 0,
+          "negative_prices": 0,
+          "has_volume": true,
+          "stale_seconds": null,
+          "flat_candles": 26,
+          "flat_ratio": 0.00092,
+          "errors": [],
+          "warnings": [
+            "37 missing candle(s) inside trading sessions (0.1% \u2014 tolerated)",
+            "4 session break(s) detected (longest gap 3000 min) \u2014 treated as market closures, not data loss"
+          ],
+          "min_required_candles": 120
+        }
+      }
+    ],
+    "rows": 56396,
+    "period_start_utc": "2026-09-04T07:52:00+00:00",
+    "period_end_utc": "2026-10-02T06:48:00+00:00",
+    "leakage_probe": {
+      "checked": 44,
+      "suspicious": [],
+      "ok": true,
+      "note": "no feature nearly determines the label"
+    },
+    "notes": "Trained on operator-supplied real market data.",
+    "warning": null
+  },
+  "walk_forward": {
+    "method": "expanding-window walk-forward, embargo = 2 candles, no shuffling",
+    "folds": [
+      {
+        "accuracy": 0.3618,
+        "macro_f1": 0.3595,
+        "macro_precision": 0.3753,
+        "macro_recall": 0.3703,
+        "per_class": {
+          "PUT": {
+            "precision": 0.3269,
+            "recall": 0.4341,
+            "f1": 0.373,
+            "support": 1138
+          },
+          "NEUTRAL": {
+            "precision": 0.4477,
+            "recall": 0.2486,
+            "f1": 0.3197,
+            "support": 1428
+          },
+          "CALL": {
+            "precision": 0.3512,
+            "recall": 0.4283,
+            "f1": 0.386,
+            "support": 1193
+          }
+        },
+        "confusion_matrix": [
+          [
+            494,
+            209,
+            435
+          ],
+          [
+            564,
+            355,
+            509
+          ],
+          [
+            453,
+            229,
+            511
+          ]
+        ],
+        "samples": 3759,
+        "fold": 0,
+        "fold_detail": {
+          "fold": 0,
+          "train_rows": 45117,
+          "test_rows": 3759,
+          "embargo_rows": 2,
+          "train_range": [
+            0,
+            45116
+          ],
+          "test_range": [
+            45119,
+            48877
+          ]
+        },
+        "roc_auc": {
+          "PUT": 0.5581,
+          "NEUTRAL": 0.5587,
+          "CALL": 0.5635,
+          "macro": 0.5601
+        },
+        "brier": 0.6556,
+        "directional": {
+          "signals": 2966,
+          "wins": 1005,
+          "losses": 1961,
+          "win_rate": 33.88,
+          "max_losing_streak": 18,
+          "average_confidence": 0.3808
+        },
+        "models": [
+          "lightgbm",
+          "random_forest",
+          "logistic_regression"
+        ]
+      },
+      {
+        "accuracy": 0.3799,
+        "macro_f1": 0.3786,
+        "macro_precision": 0.3809,
+        "macro_recall": 0.3817,
+        "per_class": {
+          "PUT": {
+            "precision": 0.3433,
+            "recall": 0.3577,
+            "f1": 0.3503,
+            "support": 1124
+          },
+          "NEUTRAL": {
+            "precision": 0.4431,
+            "recall": 0.3581,
+            "f1": 0.3961,
+            "support": 1480
+          },
+          "CALL": {
+            "precision": 0.3563,
+            "recall": 0.4294,
+            "f1": 0.3895,
+            "support": 1155
+          }
+        },
+        "confusion_matrix": [
+          [
+            402,
+            338,
+            384
+          ],
+          [
+            438,
+            530,
+            512
+          ],
+          [
+            331,
+            328,
+            496
+          ]
+        ],
+        "samples": 3759,
+        "fold": 1,
+        "fold_detail": {
+          "fold": 1,
+          "train_rows": 48876,
+          "test_rows": 3759,
+          "embargo_rows": 2,
+          "train_range": [
+            0,
+            48875
+          ],
+          "test_range": [
+            48878,
+            52636
+          ]
+        },
+        "roc_auc": {
+          "PUT": 0.5867,
+          "NEUTRAL": 0.5546,
+          "CALL": 0.5914,
+          "macro": 0.5775
+        },
+        "brier": 0.6511,
+        "directional": {
+          "signals": 2563,
+          "wins": 898,
+          "losses": 1665,
+          "win_rate": 35.04,
+          "max_losing_streak": 24,
+          "average_confidence": 0.3846
+        },
+        "models": [
+          "lightgbm",
+          "random_forest",
+          "logistic_regression"
+        ]
+      },
+      {
+        "accuracy": 0.3613,
+        "macro_f1": 0.3548,
+        "macro_precision": 0.3723,
+        "macro_recall": 0.3662,
+        "per_class": {
+          "PUT": {
+            "precision": 0.34,
+            "recall": 0.4134,
+            "f1": 0.3731,
+            "support": 1195
+          },
+          "NEUTRAL": {
+            "precision": 0.4232,
+            "recall": 0.22,
+            "f1": 0.2895,
+            "support": 1341
+          },
+          "CALL": {
+            "precision": 0.3536,
+            "recall": 0.4652,
+            "f1": 0.4018,
+            "support": 1223
+          }
+        },
+        "confusion_matrix": [
+          [
+            494,
+            188,
+            513
+          ],
+          [
+            519,
+            295,
+            527
+          ],
+          [
+            440,
+            214,
+            569
+          ]
+        ],
+        "samples": 3759,
+        "fold": 2,
+        "fold_detail": {
+          "fold": 2,
+          "train_rows": 52635,
+          "test_rows": 3759,
+          "embargo_rows": 2,
+          "train_range": [
+            0,
+            52634
+          ],
+          "test_range": [
+            52637,
+            56395
+          ]
+        },
+        "roc_auc": {
+          "PUT": 0.5454,
+          "NEUTRAL": 0.5506,
+          "CALL": 0.5532,
+          "macro": 0.5497
+        },
+        "brier": 0.6603,
+        "directional": {
+          "signals": 3062,
+          "wins": 1063,
+          "losses": 1999,
+          "win_rate": 34.72,
+          "max_losing_streak": 16,
+          "average_confidence": 0.3851
+        },
+        "models": [
+          "lightgbm",
+          "random_forest",
+          "logistic_regression"
+        ]
+      }
+    ],
+    "fold_count": 3,
+    "summary": {
+      "accuracy": {
+        "mean": 0.3677,
+        "min": 0.3613,
+        "max": 0.3799,
+        "folds": 3
+      },
+      "macro_f1": {
+        "mean": 0.3643,
+        "min": 0.3548,
+        "max": 0.3786,
+        "folds": 3
+      },
+      "brier": {
+        "mean": 0.6557,
+        "min": 0.6511,
+        "max": 0.6603,
+        "folds": 3
+      }
+    },
+    "out_of_fold": {
+      "samples": 11277,
+      "metrics": {
+        "accuracy": 0.3677,
+        "macro_f1": 0.3664,
+        "macro_precision": 0.3764,
+        "macro_recall": 0.3737,
+        "per_class": {
+          "PUT": {
+            "precision": 0.3362,
+            "recall": 0.4021,
+            "f1": 0.3662,
+            "support": 3457
+          },
+          "NEUTRAL": {
+            "precision": 0.4393,
+            "recall": 0.2777,
+            "f1": 0.3403,
+            "support": 4249
+          },
+          "CALL": {
+            "precision": 0.3537,
+            "recall": 0.4413,
+            "f1": 0.3927,
+            "support": 3571
+          }
+        },
+        "confusion_matrix": [
+          [
+            1390,
+            735,
+            1332
+          ],
+          [
+            1521,
+            1180,
+            1548
+          ],
+          [
+            1224,
+            771,
+            1576
+          ]
+        ],
+        "samples": 11277
+      },
+      "roc_auc": {
+        "PUT": 0.5639,
+        "NEUTRAL": 0.5575,
+        "CALL": 0.57,
+        "macro": 0.5638
+      },
+      "brier": 0.6557,
+      "calibration": {
+        "bins": [
+          {
+            "bin": "0.0-0.1",
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null,
+            "gap": null
+          },
+          {
+            "bin": "0.1-0.2",
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null,
+            "gap": null
+          },
+          {
+            "bin": "0.2-0.3",
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null,
+            "gap": null
+          },
+          {
+            "bin": "0.3-0.4",
+            "count": 8358,
+            "mean_confidence": 0.3662,
+            "accuracy": 0.3425,
+            "gap": 0.0237
+          },
+          {
+            "bin": "0.4-0.5",
+            "count": 2582,
+            "mean_confidence": 0.4284,
+            "accuracy": 0.4094,
+            "gap": 0.0191
+          },
+          {
+            "bin": "0.5-0.6",
+            "count": 246,
+            "mean_confidence": 0.5422,
+            "accuracy": 0.6341,
+            "gap": -0.0919
+          },
+          {
+            "bin": "0.6-0.7",
+            "count": 83,
+            "mean_confidence": 0.6375,
+            "accuracy": 0.759,
+            "gap": -0.1216
+          },
+          {
+            "bin": "0.7-0.8",
+            "count": 8,
+            "mean_confidence": 0.7259,
+            "accuracy": 0.875,
+            "gap": -0.1491
+          },
+          {
+            "bin": "0.8-0.9",
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null,
+            "gap": null
+          },
+          {
+            "bin": "0.9-1.0",
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null,
+            "gap": null
+          }
+        ],
+        "expected_calibration_error": 0.0249,
+        "samples": 11277
+      },
+      "directional": {
+        "signals": 8591,
+        "wins": 2966,
+        "losses": 5625,
+        "win_rate": 34.52,
+        "max_losing_streak": 24,
+        "average_confidence": 0.3834
+      },
+      "temperature_fitted": 0.9173
+    }
+  },
+  "holdout": {
+    "description": "final untouched holdout \u2014 last 20% of the chronological series",
+    "train_rows": 45114,
+    "test_rows": 11280,
+    "period_train_utc": [
+      "2026-09-04T07:52:00+00:00",
+      "2026-09-28T08:30:00+00:00"
+    ],
+    "period_test_utc": [
+      "2026-09-28T08:31:00+00:00",
+      "2026-10-02T06:48:00+00:00"
+    ],
+    "metrics": {
+      "accuracy": 0.3673,
+      "macro_f1": 0.3658,
+      "macro_precision": 0.3772,
+      "macro_recall": 0.374,
+      "per_class": {
+        "PUT": {
+          "precision": 0.3416,
+          "recall": 0.416,
+          "f1": 0.3752,
+          "support": 3457
+        },
+        "NEUTRAL": {
+          "precision": 0.4417,
+          "recall": 0.2699,
+          "f1": 0.335,
+          "support": 4250
+        },
+        "CALL": {
+          "precision": 0.3482,
+          "recall": 0.436,
+          "f1": 0.3872,
+          "support": 3573
+        }
+      },
+      "confusion_matrix": [
+        [
+          1438,
+          703,
+          1316
+        ],
+        [
+          1503,
+          1147,
+          1600
+        ],
+        [
+          1268,
+          747,
+          1558
+        ]
+      ],
+      "samples": 11280
+    },
+    "roc_auc": {
+      "PUT": 0.5651,
+      "NEUTRAL": 0.5551,
+      "CALL": 0.5664,
+      "macro": 0.5622
+    },
+    "brier": 0.6563,
+    "calibration": {
+      "bins": [
+        {
+          "bin": "0.0-0.1",
+          "count": 0,
+          "mean_confidence": null,
+          "accuracy": null,
+          "gap": null
+        },
+        {
+          "bin": "0.1-0.2",
+          "count": 0,
+          "mean_confidence": null,
+          "accuracy": null,
+          "gap": null
+        },
+        {
+          "bin": "0.2-0.3",
+          "count": 0,
+          "mean_confidence": null,
+          "accuracy": null,
+          "gap": null
+        },
+        {
+          "bin": "0.3-0.4",
+          "count": 8430,
+          "mean_confidence": 0.3665,
+          "accuracy": 0.3473,
+          "gap": 0.0192
+        },
+        {
+          "bin": "0.4-0.5",
+          "count": 2505,
+          "mean_confidence": 0.4289,
+          "accuracy": 0.396,
+          "gap": 0.0329
+        },
+        {
+          "bin": "0.5-0.6",
+          "count": 258,
+          "mean_confidence": 0.5439,
+          "accuracy": 0.6124,
+          "gap": -0.0685
+        },
+        {
+          "bin": "0.6-0.7",
+          "count": 78,
+          "mean_confidence": 0.6362,
+          "accuracy": 0.7308,
+          "gap": -0.0946
+        },
+        {
+          "bin": "0.7-0.8",
+          "count": 9,
+          "mean_confidence": 0.7204,
+          "accuracy": 0.8889,
+          "gap": -0.1685
+        },
+        {
+          "bin": "0.8-0.9",
+          "count": 0,
+          "mean_confidence": null,
+          "accuracy": null,
+          "gap": null
+        },
+        {
+          "bin": "0.9-1.0",
+          "count": 0,
+          "mean_confidence": null,
+          "accuracy": null,
+          "gap": null
+        }
+      ],
+      "expected_calibration_error": 0.024,
+      "samples": 11280
+    },
+    "directional": {
+      "signals": 8683,
+      "wins": 2996,
+      "losses": 5687,
+      "win_rate": 34.5,
+      "max_losing_streak": 23,
+      "average_confidence": 0.383
+    },
+    "models": [
+      "lightgbm",
+      "random_forest",
+      "logistic_regression"
+    ]
+  },
+  "gate_replay": {
+    "threshold": 85.0,
+    "gated_signals": 36,
+    "gated_share_of_rows": 0.0032,
+    "hit_rate": 0.4444,
+    "threshold_sweep": [
+      {
+        "threshold": 60,
+        "gated_signals": 294,
+        "gated_share_of_rows": 0.0261,
+        "hit_rate": 0.4626
+      },
+      {
+        "threshold": 70,
+        "gated_signals": 143,
+        "gated_share_of_rows": 0.0127,
+        "hit_rate": 0.5105
+      },
+      {
+        "threshold": 75,
+        "gated_signals": 96,
+        "gated_share_of_rows": 0.0085,
+        "hit_rate": 0.5417
+      },
+      {
+        "threshold": 80,
+        "gated_signals": 58,
+        "gated_share_of_rows": 0.0051,
+        "hit_rate": 0.5172
+      },
+      {
+        "threshold": 85,
+        "gated_signals": 36,
+        "gated_share_of_rows": 0.0032,
+        "hit_rate": 0.4444
+      },
+      {
+        "threshold": 90,
+        "gated_signals": 21,
+        "gated_share_of_rows": 0.0019,
+        "hit_rate": 0.381
+      }
+    ],
+    "note": "Research diagnostic: a confidence proxy computed from ensemble probabilities and applied to historical holdout rows. It shows how selective the gate is \u2014 it is NOT a live win rate and it does not include the rule-based components of the live confidence engine."
+  },
+  "per_model_holdout": {
+    "lightgbm": {
+      "accuracy": 0.6734,
+      "macro_f1": 0.6735,
+      "macro_precision": 0.6779,
+      "macro_recall": 0.6789,
+      "per_class": {
+        "PUT": {
+          "precision": 0.662,
+          "recall": 0.7015,
+          "f1": 0.6812,
+          "support": 3457
+        },
+        "NEUTRAL": {
+          "precision": 0.7462,
+          "recall": 0.5908,
+          "f1": 0.6595,
+          "support": 4250
+        },
+        "CALL": {
+          "precision": 0.6256,
+          "recall": 0.7445,
+          "f1": 0.6799,
+          "support": 3573
+        }
+      },
+      "confusion_matrix": [
+        [
+          2425,
+          432,
+          600
+        ],
+        [
+          747,
+          2511,
+          992
+        ],
+        [
+          491,
+          422,
+          2660
+        ]
+      ],
+      "samples": 11280
+    },
+    "random_forest": {
+      "accuracy": 0.4512,
+      "macro_f1": 0.4474,
+      "macro_precision": 0.4697,
+      "macro_recall": 0.462,
+      "per_class": {
+        "PUT": {
+          "precision": 0.4168,
+          "recall": 0.5513,
+          "f1": 0.4747,
+          "support": 3457
+        },
+        "NEUTRAL": {
+          "precision": 0.5618,
+          "recall": 0.2984,
+          "f1": 0.3897,
+          "support": 4250
+        },
+        "CALL": {
+          "precision": 0.4306,
+          "recall": 0.5362,
+          "f1": 0.4776,
+          "support": 3573
+        }
+      },
+      "confusion_matrix": [
+        [
+          1906,
+          473,
+          1078
+        ],
+        [
+          1526,
+          1268,
+          1456
+        ],
+        [
+          1141,
+          516,
+          1916
+        ]
+      ],
+      "samples": 11280
+    },
+    "logistic_regression": {
+      "accuracy": 0.3719,
+      "macro_f1": 0.3714,
+      "macro_precision": 0.3747,
+      "macro_recall": 0.3736,
+      "per_class": {
+        "PUT": {
+          "precision": 0.3339,
+          "recall": 0.3622,
+          "f1": 0.3474,
+          "support": 3457
+        },
+        "NEUTRAL": {
+          "precision": 0.4345,
+          "recall": 0.3435,
+          "f1": 0.3837,
+          "support": 4250
+        },
+        "CALL": {
+          "precision": 0.3556,
+          "recall": 0.4151,
+          "f1": 0.3831,
+          "support": 3573
+        }
+      },
+      "confusion_matrix": [
+        [
+          1252,
+          965,
+          1240
+        ],
+        [
+          1343,
+          1460,
+          1447
+        ],
+        [
+          1155,
+          935,
+          1483
+        ]
+      ],
+      "samples": 11280
+    }
+  },
+  "models": [
+    "lightgbm",
+    "random_forest",
+    "logistic_regression"
+  ]
+}
