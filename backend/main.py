@@ -27,6 +27,8 @@ from .constants import (ASSETS, ASSET_MAP, DISCLAIMER, ENV_DEVELOPMENT, TIMEZONE
 from .data.base import MarketDataUnavailable
 from .data.feed import ContinuousFeed
 from .data import provenance
+from .data.providers.twelve_data import (PROVIDER_NAME as TWELVE_DATA_PROVIDER,
+                                         configured as twelve_data_configured)
 from .data.registry import registry
 from .database import db
 from .execution import available_modes
@@ -849,6 +851,11 @@ def data_ingest(request: IngestRequest) -> dict[str, Any]:
         raise HTTPException(status_code=409, detail=(
             f"provider {provider!r} is not connected — configure QUOTEX_WS_URL and attach the tick "
             "handler, or declare the provider you are actually using"))
+    if provider == TWELVE_DATA_PROVIDER and not twelve_data_configured():
+        # The key is read from this process's environment only; it is never echoed back.
+        raise HTTPException(status_code=409, detail=(
+            f"provider {provider!r} is not configured — set TWELVE_DATA_API_KEY and run "
+            "tools/start_twelve_data_feed.py, or declare the provider you are actually using"))
     if request.simulated and settings.environment != ENV_DEVELOPMENT:
         raise HTTPException(status_code=409, detail=(
             "simulated data is only accepted in a development environment; it can never be market data"))

@@ -160,8 +160,8 @@ class LiveFeedBridge:
     def __init__(self, args: argparse.Namespace) -> None:
         self.args = args
         self.source = WebSocketFeedSource(
-            args.url,
-            ssid=env("QUOTEX_SSID"),
+            self._endpoint(),
+            ssid=self._session(),
             headers=self._headers(),
             timeout=env_float("LIVE_FEED_CONNECT_TIMEOUT", 10.0),
             reconnect=not args.no_reconnect,
@@ -192,11 +192,20 @@ class LiveFeedBridge:
         self._stopping = False
 
     # ------------------------------------------------------------------ configuration
+    def _endpoint(self) -> str:
+        """The socket endpoint. Subclasses (a vendor-specific bridge) may resolve their own;
+        the value may carry a credential in its query string — it is never logged verbatim."""
+        return (self.args.url or env("QUOTEX_WS_URL")).strip()
+
+    def _session(self) -> str:
+        """The session value for header/message auth, or '' when auth rides in the URL."""
+        return env("QUOTEX_SSID")
+
     def _host(self) -> str:
         from urllib.parse import urlparse
 
         try:
-            parsed = urlparse(self.args.url)
+            parsed = urlparse(self._endpoint())
             return parsed.netloc or "feed"
         except Exception:  # noqa: BLE001
             return "feed"

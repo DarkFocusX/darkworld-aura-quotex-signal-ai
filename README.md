@@ -269,8 +269,29 @@ A dataset that fails validation is **never served to the model**: `GET /api/data
 
 ### Connecting a live feed (the continuous-M1 path)
 
-The bridge is finished; it is the *endpoint* that is missing. Put the feed you are authorised to use
-in `.env` and start it:
+The bridge is finished; it is the *endpoint* that is missing. Two supported sources exist.
+
+**a) Twelve Data — realtime standard FX (an API key is the only requirement)**
+
+```bash
+# 1. .env  →  TWELVE_DATA_API_KEY=your-key        (optional: TWELVE_DATA_SYMBOLS=…)
+python3 tools/probe_live_feed.py --provider twelve_data   # CONNECTED | NOT_CONFIGURED | AUTH_FAILED | NO_DATA | INVALID_DATA
+python3 tools/probe_live_feed.py --provider twelve_data --self-test   # no key: labelled fixtures
+python3 tools/start_twelve_data_feed.py --show-config     # resolved setup, key redacted
+python3 tools/start_twelve_data_feed.py                   # connect → subscribe → parse → build M1 → deliver
+curl http://127.0.0.1:8000/api/data/live-status           # FRESH / STALE / INVALID / UNAVAILABLE per asset
+```
+
+`EUR/USD→EURUSD`, `GBP/USD→GBPUSD`, `USD/JPY→USDJPY`, `USD/CHF→USDCHF`, `AUD/USD→AUDUSD` are the
+only instruments accepted, from an explicit map; anything else is reported and **not** subscribed.
+Rows are stored with `provider=twelve_data`, `source_class=MARKET`, `realtime=true`,
+`is_simulated=false`, `is_replay=false`, and FRESH still means *a validated closed M1 candle inside
+the 120 s realtime budget* — a socket or a heartbeat is never data. Twelve Data carries no OTC
+instrument, so `USDBDT-OTCq` / `EURCAD-OTCq` stay `DATA UNAVAILABLE`: standard FX is never
+substituted for an OTC pair. The key comes from the environment only (never hard-coded, never
+stored, never returned by the API, never logged — `apikey=` and every query string are redacted).
+
+**b) Your own authorised feed (broker-style)**
 
 ```bash
 # 1. .env  →  QUOTEX_WS_URL=wss://your-feed-host/...   QUOTEX_SSID=your-session
@@ -284,6 +305,12 @@ curl http://127.0.0.1:8000/api/data/live-status   # FRESH / STALE / INVALID / UN
   candles, epoch/ISO times, auth errors, heartbeats), session redaction, reconnect with backoff.
 * `backend/data/providers/broker_ws.py` — adapter: state machine, tick buffer, validation,
   `latest_tick` / `latest_candles`, provenance, redacted `health()`.
+* `backend/data/providers/twelve_data.py` — adapter + vendor protocol for `twelve_data`: env-only
+  key, the documented subscribe frame, the explicit instrument map, control-frame classification
+  (`heartbeat` / `subscribe-status` / `error`) and the OTC refusal. It rides on the `broker_ws`
+  adapter and reuses the shared transport, parser and M1 builder — it adds no second pipeline.
+* `tools/start_twelve_data_feed.py` — the Twelve Data bridge (same transport, parser, M1 builder,
+  delivery, heartbeat, reconnect and redaction as `start_live_feed.py`).
 * `backend/signals/feed_state.py` — store-evidence-only LIVE FEED summary (state, latest closed M1 in
   UTC **and** IST, age, budget, assets streaming) shown in the dashboard header.
 * `tools/fixture_feed_server.py` — verification only: a local fixture socket
@@ -557,7 +584,8 @@ backend/
   data/
     base.py          CandleFrame/FeedMeta contracts + provenance
     registry.py      provider chain + transparent fallback recording
-    providers/       csv, yahoo (public delayed), simulated (labelled), broker_ws (live adapter)
+    providers/       csv, yahoo (public delayed), simulated (labelled), broker_ws (live adapter),
+                     twelve_data (realtime standard FX: env-only key + vendor protocol)
     feedsource.py    live-feed transport: WebSocket client, message parser, redaction, backoff
     feed.py          ContinuousFeed: ticks → M1 builder (O/H/L/C, no invented volume) → validation → store
     store.py         rolling candle store (provenance per row, gaps reported never filled)
@@ -598,10 +626,12 @@ tools/               gate_study.py (gate audit + oracle + variants; scan --minut
                      blocking_reasons.py (per-minute diagnostics + --from-study near-miss mining) ·
                      research_report.py (phases 4–9) · harness_model.py · activate_model.py (point
                      artifacts/current at a trained version) · smoke_dashboard.mjs
-tests/               285 tests (live feed: transport/parser/M1/M1-boundary/validation/probe/bridge/
-                     LIVE FEED state; feed, candles, freshness, scanner, lock, outcomes, evidence,
-                     Telegram gate matrix, research isolation, IST minute boundaries,
-                     final-acceptance contract suite, artifact integrity)
+tests/               330 tests (live feed: transport/parser/M1/M1-boundary/validation/probe/bridge/
+                     LIVE FEED state; twelve_data: key redaction/apikey masking/subscribe frame/
+                     instrument map/control frames/M1 finalisation/provenance/freshness/OTC refusal/
+                     ingestion + AUTO SELECT with no regressions; feed, candles, freshness, scanner,
+                     lock, outcomes, evidence, Telegram gate matrix, research isolation,
+                     IST minute boundaries, final-acceptance contract suite, artifact integrity)
 ```
 
 ---
@@ -680,6 +710,8 @@ experiment-index round trip.
 | `RETRAIN_MIN_NEW_ROWS` | `2000` | New rows required before a retrain is even considered |
 | `RETRAIN_MIN_IMPROVEMENT` | `0.0` | Minimum out-of-sample improvement required to promote a candidate |
 | `QUOTEX_WS_URL`, `QUOTEX_SSID` | — | Live-feed endpoint + session (environment only; empty ⇒ `LIVE FEED NOT_CONFIGURED`) |
+| `TWELVE_DATA_API_KEY` | — | Twelve Data realtime standard-FX key (environment only; empty ⇒ `TWELVE DATA NOT CONFIGURED`) |
+| `TWELVE_DATA_WS_URL` / `TWELVE_DATA_SYMBOLS` | `wss://ws.twelvedata.com/v1/quotes/price` / `EUR/USD,GBP/USD,USD/JPY,USD/CHF,AUD/USD` | Twelve Data endpoint + the instruments it subscribes to (only mapped standard FX is accepted; OTC is never available) |
 | `LIVE_FEED_ASSETS` | enabled assets | Which assets the bridge subscribes to (OTC excluded unless `LIVE_FEED_INCLUDE_OTC=true`) |
 | `LIVE_FEED_AUTH_HEADER` / `_AUTH_SCHEME` / `_AUTH_IN_MESSAGE` | `Authorization` / — / `false` | How the session is presented to your feed |
 | `LIVE_FEED_SUBSCRIBE_TEMPLATE` | — | JSON subscribe message with `{asset}` / `{ssid}` |

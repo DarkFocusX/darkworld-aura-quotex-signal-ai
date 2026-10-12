@@ -35,7 +35,8 @@ from .base import (
     data_lag_seconds,
 )
 from . import provenance as prov
-from .providers import BrokerFeedProvider, CsvProvider, SimulatedProvider, YahooProvider
+from .providers import (BrokerFeedProvider, CsvProvider, SimulatedProvider, TwelveDataFeedProvider,
+                        YahooProvider)
 from .providers.live_store import live_store
 from .providers.csv_provider import import_csv_text
 from ..timeutil import utc_iso
@@ -48,6 +49,11 @@ _CACHE_TTL = 3.0
 class MarketDataRegistry:
     def __init__(self) -> None:
         self.broker = BrokerFeedProvider()
+        #: Twelve Data realtime standard FX. It does not join the fetch chain below: the
+        #: candles it produces are already served by `live_store` with their own provider
+        #: label, so the engine path is unchanged. It is registered here for health/status
+        #: visibility and for the OTC refusal it documents.
+        self.twelve_data = TwelveDataFeedProvider()
         self.yahoo = YahooProvider()
         self.csv = CsvProvider()
         self.simulated = SimulatedProvider()
@@ -65,6 +71,7 @@ class MarketDataRegistry:
     def provider_report(self) -> list[dict[str, Any]]:
         return [
             self.broker.status(),
+            self.twelve_data.status(),
             {"provider": "yahoo", "configured": True, "adapter_state": "READY",
              "detail": "Public delayed feed for the non-OTC FX pairs; commonly rate-limited."},
             {"provider": "csv", "configured": True, "adapter_state": "READY",
@@ -251,6 +258,7 @@ class MarketDataRegistry:
         providers = {
             "csv": self.csv,
             "broker_ws": self.broker,
+            "twelve_data": self.twelve_data,
             "public_feed": self.yahoo,
             "simulated": self.simulated,
         }

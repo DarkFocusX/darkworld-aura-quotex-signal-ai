@@ -58,7 +58,8 @@ VOLUME_KEYS = ("volume", "vol", "v", "size", "qty")
 MESSAGE_KEYS = ("message", "error", "reason", "detail", "description", "status_text", "text")
 
 _IGNORED_TYPES = {"heartbeat", "ping", "pong", "subscribe", "subscribed", "subscription",
-                  "ack", "connected", "welcome", "info", "session", "authorized", "authenticated"}
+                  "subscribe-status", "unsubscribe-status", "unsubscribed", "ack", "connected",
+                  "welcome", "info", "session", "authorized", "authenticated"}
 _AUTH_HINTS = ("auth", "unauthor", "invalid session", "session expired", "login failed",
                "access denied", "forbidden", "not authorized", "401", "403")
 _HEARTBEAT_SECONDS = 20.0

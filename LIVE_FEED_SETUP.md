@@ -12,6 +12,91 @@ updating M1 source is connected. This document is the operator's checklist for c
 Nothing in this project invents a feed, guesses credentials, scrapes a source or presents a
 public FX feed as Quotex OTC data. You supply an endpoint you are authorised to use.
 
+If you only need the **standard FX pairs**, skip to *Twelve Data — realtime standard FX* below:
+that path needs nothing but an API key. Everything after STEP 5 (paper collection, GENERATE
+SIGNAL, the meaning of the answers) applies to both paths unchanged.
+
+---
+
+## Twelve Data — realtime standard FX (the shortest path)
+
+Twelve Data publishes a public realtime WebSocket and this project already speaks it:
+
+    wss://ws.twelvedata.com/v1/quotes/price?apikey=YOUR_API_KEY
+
+Nothing else about the architecture changes. The same parser, the same tick validation, the
+same `ContinuousFeed` M1 builder, the same rolling store, the same `SignalEngine`, the same
+AUTO SELECT, the same confidence threshold. There is no second engine and no second builder.
+
+### 1. Put your key in `.env` (the only required line)
+
+```ini
+TWELVE_DATA_API_KEY=your-twelve-data-api-key
+```
+
+Optional — both already default to the values below:
+
+```ini
+TWELVE_DATA_WS_URL=wss://ws.twelvedata.com/v1/quotes/price
+TWELVE_DATA_SYMBOLS=EUR/USD,GBP/USD,USD/JPY,USD/CHF,AUD/USD
+```
+
+### 2. Verify, then start the bridge
+
+```powershell
+python3 tools\probe_live_feed.py --provider twelve_data              # ~30 s listen
+python3 tools\probe_live_feed.py --provider twelve_data --self-test  # no key: labelled fixtures
+python3 tools\start_twelve_data_feed.py --show-config                # resolved setup, key redacted
+python3 tools\start_twelve_data_feed.py                              # connect → subscribe → build M1
+python3 tools\start_twelve_data_feed.py --target store               # write straight into SQLite
+python3 tools\start_twelve_data_feed.py --dry-run                    # connect + log, deliver nothing
+python3 tools\start_twelve_data_feed.py --assets EUR/USD,USD/JPY     # a subset
+```
+
+The probe prints the same verdicts as STEP 3 (`NOT_CONFIGURED`, `AUTH_FAILED`, `NO_DATA`,
+`INVALID_DATA`, `CONNECTED`) and is read-only. `--show-config` prints the setup with the key
+reduced to `api_key_set: true/false`.
+
+### 3. Verify FRESH — exactly as in STEP 5
+
+```powershell
+curl http://127.0.0.1:8000/api/data/live-status
+```
+
+Per asset you are looking for `"provider": "twelve_data"`, `"freshness_status": "FRESH"`,
+`"realtime": true`, `"is_simulated": false`, `"is_replay": false`, `"budget_seconds": 120`.
+
+### What is Twelve-Data-specific
+
+| | |
+| --- | --- |
+| Authentication | the key rides in the **query string** (`apikey=…`) — no header session is ever sent |
+| Subscription | one frame for the whole set: `{"action":"subscribe","params":{"symbols":"EUR/USD,GBP/USD,USD/JPY,USD/CHF,AUD/USD"}}` |
+| Instrument map | explicit and final: `EUR/USD→EURUSD`, `GBP/USD→GBPUSD`, `USD/JPY→USDJPY`, `USD/CHF→USDCHF`, `AUD/USD→AUDUSD`. An instrument that is not in it is reported and **not** subscribed — nothing is guessed |
+| Control frames | `heartbeat`, `subscribe-status`/`unsubscribe-status` and `error` are classified: an ack/heartbeat is never data, and an `error` with code 401/403 is `AUTH_FAILED` (a rate limit is not a dead session) |
+| Provenance | every stored row carries `provider=twelve_data`, `source_class=MARKET`, `realtime=true`, `is_simulated=false`, `is_replay=false` |
+| FRESH | a **validated closed M1 candle** inside the existing **120 s** realtime budget. A socket, a heartbeat or a subscribe acknowledgement is *not* data |
+| Delivery | `--target api` (default) POSTs each closed M1 candle to `POST /api/data/ingest`; `--target store` writes it straight into the rolling store |
+| Rejected input | malformed / incomplete / invalid-geometry / non-finite / non-positive / future values and duplicates are counted and dropped, never repaired; an unfinished candle is never persisted |
+| The pipeline | unchanged: one parser, one validator, one M1 builder, one store, one engine, one AUTO SELECT, one confidence threshold, one signal lock |
+
+### OTC is not available — by design
+
+Twelve Data publishes standard FX and carries **no** `USDBDT-OTCq` and **no** `EURCAD-OTCq`:
+those are broker-internal instruments with no public source. This project will not map a normal
+pair onto an OTC symbol, will not substitute one for the other and will never simulate OTC data.
+Both OTC pairs keep reporting `DATA UNAVAILABLE`; the adapter refuses to subscribe to them and
+refuses to serve them even if a mislabelled row existed in the store.
+
+### Security
+
+The key is read from `TWELVE_DATA_API_KEY` only. It is never hard-coded, never committed, never
+written to SQLite or the config table, never returned by the API, never printed and never placed
+in an exception — the shared redactor masks `apikey=`, every query string and the bare value,
+and the provider exposes only `api_key_set: true/false`. Rotating the key means editing `.env`
+and restarting **both** processes (the API process needs it too for `--target api`, because it
+validates a `twelve_data` claim against its own configuration).
+
 ---
 
 ## STEP 1 — What you must obtain from your authorised data source
@@ -223,6 +308,11 @@ claim. A `PAPER SIGNAL` means "the pipeline qualified this setup", not "this tra
 | symptom | cause | fix |
 | --- | --- | --- |
 | `LIVE FEED NOT_CONFIGURED` | `.env` has no `QUOTEX_WS_URL` | STEP 2, then re-run |
+| `TWELVE DATA NOT CONFIGURED` | `.env` has no `TWELVE_DATA_API_KEY` | add the key, then re-run |
+| Twelve Data: `AUTH_FAILED` | the key is wrong, expired or out of credits | check `TWELVE_DATA_API_KEY` in both processes |
+| Twelve Data: `NO_DATA` | nothing arrived in the window (market closed, or nothing was subscribed) | start it during market hours; check `TWELVE_DATA_SYMBOLS` |
+| Twelve Data: `INVALID_DATA` | messages arrived but carried no usable price | ask the probe with `--json` for the per-frame counters |
+| Twelve Data: header shows `CONNECTED` / `NO_DATA` | the key is set but no closed candle has landed yet | wait for the next minute boundary, then check `live-status` |
 | probe: `AUTH_FAILED` | wrong session value or wrong auth style | STEP 2 (`LIVE_FEED_AUTH_*`) |
 | probe: `NO_DATA` | subscribed to nothing / instrument names differ | `LIVE_FEED_SUBSCRIBE_TEMPLATE`, `LIVE_FEED_ASSETS`, `LIVE_FEED_SYMBOL_MAP` |
 | dashboard: `LIVE FEED CONNECTED` but data `STALE` | the bridge stopped, or the upstream market is closed | restart the bridge; check the heartbeat lines |

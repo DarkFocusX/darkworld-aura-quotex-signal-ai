@@ -1,9 +1,10 @@
 """Live feed probe — is the authorised feed actually delivering usable M1 candles?
 
-    python3 tools/probe_live_feed.py                    # probe the configured feed (~30 s)
+    python3 tools/probe_live_feed.py                     # probe the configured feed (~30 s)
     python3 tools/probe_live_feed.py --seconds 90 --asset USDJPY
-    python3 tools/probe_live_feed.py --self-test         # fixture messages, labelled SIMULATED
-    python3 tools/probe_live_feed.py --json              # machine-readable report
+    python3 tools/probe_live_feed.py --provider twelve_data   # realtime standard FX
+    python3 tools/probe_live_feed.py --self-test          # fixture messages, labelled SIMULATED
+    python3 tools/probe_live_feed.py --json               # machine-readable report
 
 Verdicts (never hidden, never softened):
 
@@ -38,6 +39,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from backend.config import load_dotenv                                    # noqa: E402
 from backend.constants import ASSET_MAP, GATES                            # noqa: E402
 from backend.data.feed import ContinuousFeed                              # noqa: E402
+from backend.data.providers import twelve_data as td                      # noqa: E402
 from backend.data.feedsource import (KIND_AUTH_ERROR, KIND_CANDLE, KIND_IGNORED, KIND_INVALID,
                                      KIND_TICK, STATE_AUTH_FAILED, STATE_CONNECTED, STATE_ERROR,
                                      STATE_NOT_CONFIGURED, WebSocketFeedSource, parse_feed_message,
@@ -52,6 +54,29 @@ VERDICT_INVALID = "INVALID_DATA"
 
 EXIT = {VERDICT_CONNECTED: 0, VERDICT_NOT_CONFIGURED: 3, VERDICT_AUTH_FAILED: 4,
         VERDICT_NO_DATA: 6, VERDICT_INVALID: 7}
+
+#: Real Twelve Data realtime-quotes frames (labelled, never market data): the price event,
+#: the ack the server sends after subscribing, a heartbeat and a refused session.
+TWELVE_DATA_FIXTURE_MESSAGES = [
+    {"event": "subscribe-status", "status": "ok",
+     "success": [{"symbol": "EUR/USD", "exchange": "forex", "type": "Forex"}], "fails": []},
+    {"event": "price", "symbol": "EUR/USD", "currency_base": "Euro",
+     "currency_quote": "US Dollar", "exchange": "forex", "type": "Forex",
+     "timestamp": 1759406405, "price": 1.23456},
+    {"event": "price", "symbol": "EUR/USD", "type": "Forex", "timestamp": 1759406420,
+     "price": 1.23510},
+    {"event": "price", "symbol": "EUR/USD", "type": "Forex", "timestamp": 1759406440,
+     "price": 1.23401},
+    {"event": "price", "symbol": "EUR/USD", "type": "Forex", "timestamp": 1759406455,
+     "price": 1.23488},
+    {"event": "price", "symbol": "EUR/USD", "type": "Forex", "timestamp": 1759406470,
+     "price": 1.23499},
+    {"event": "heartbeat", "status": "ok"},
+    {"event": "price", "symbol": "NZD/USD", "type": "Forex", "timestamp": 1759406480,
+     "price": 0.60123},
+]
+
+TWELVE_DATA_AUTH_FIXTURE = {"event": "error", "code": 401, "message": "Invalid API key"}
 
 FIXTURE_MESSAGES = [
     {"type": "welcome", "message": "session accepted"},
@@ -68,6 +93,7 @@ FIXTURE_MESSAGES = [
 class Probe:
     def __init__(self, args: argparse.Namespace) -> None:
         self.args = args
+        self.provider = str(getattr(args, "provider", "") or "").strip().lower()
         self.assets = self._assets()
         self.counts = {
             "frames": 0, "data_messages": 0, "ticks": 0, "candles_in": 0, "ignored": 0,
@@ -88,6 +114,8 @@ class Probe:
 
     # ------------------------------------------------------------------- utility
     def _assets(self) -> list[str]:
+        if self.provider == td.PROVIDER_NAME:
+            return td.symbols()
         raw = (self.args.asset or os.environ.get("LIVE_FEED_ASSETS")
                or os.environ.get("ENABLED_ASSETS") or "USDJPY")
         out = []
@@ -99,6 +127,15 @@ class Probe:
 
     def _resolve(self, name: str | None) -> str | None:
         key = str(name or "").strip().upper()
+        if self.provider == td.PROVIDER_NAME:
+            # the vendor's own vocabulary: an instrument that maps to nothing (or to an
+            # OTC pair, which this source does not carry) is reported, never guessed
+            asset = td.canonical_asset(key)
+            if asset:
+                return asset
+            if not key:
+                return self.assets[0] if len(self.assets) == 1 else None
+            return None
         if not key:
             return self.assets[0] if len(self.assets) == 1 else None
         if key in ASSET_MAP:
@@ -174,7 +211,9 @@ class Probe:
     def verdict(self) -> tuple[str, list[str]]:
         notes: list[str] = []
         if not self.args.url:
-            return VERDICT_NOT_CONFIGURED, ["QUOTEX_WS_URL is not set (or --url was not given)."]
+            missing = (f"{td.ENV_API_KEY} / {td.ENV_WS_URL}" if self.provider == td.PROVIDER_NAME
+                       else "QUOTEX_WS_URL")
+            return VERDICT_NOT_CONFIGURED, [f"{missing} is not set (or --url was not given)."]
         if self.counts["auth_errors"] or (self.source and self.source.state == STATE_AUTH_FAILED):
             return VERDICT_AUTH_FAILED, ["the feed rejected the session"]
         if self.source and self.source.state == STATE_ERROR:
@@ -190,8 +229,10 @@ class Probe:
         if self.counts["candles_closed"] == 0 and self.counts["candles_in"] == 0:
             notes.append("ticks arrived, but no M1 candle has closed yet inside the probe window")
         if self.counts["unknown_symbols"]:
+            hint = (f"check {td.ENV_SYMBOLS} — supported: {', '.join(sorted(td.SYMBOL_MAP))}"
+                    if self.provider == td.PROVIDER_NAME else "map it with LIVE_FEED_SYMBOL_MAP")
             notes.append(f"{self.counts['unknown_symbols']} message(s) used an instrument that is not "
-                         f"a known asset — map it with LIVE_FEED_SYMBOL_MAP")
+                         f"a known asset — {hint}")
         if self.counts["invalid"]:
             notes.append(f"{self.counts['invalid']} message(s) rejected (incomplete or invalid OHLC)")
         if self.counts["payload_rejected"]:
@@ -208,7 +249,10 @@ class Probe:
             freshness = round((now - self.last_data_utc).total_seconds(), 1)
         return {
             "verdict": verdict,
+            "provider": self.provider or "operator_bridge",
             "url_set": bool(self.args.url),
+            "api_key_set": (bool(td.api_key()) if self.provider == td.PROVIDER_NAME
+                            else bool(os.environ.get("QUOTEX_SSID", "").strip())),
             "ssid_set": bool(os.environ.get("QUOTEX_SSID", "").strip()),
             "state": self.source.state if self.source else STATE_NOT_CONFIGURED,
             "assets_requested": self.assets,
@@ -227,21 +271,34 @@ def run_self_test(probe: Probe, args: argparse.Namespace) -> int:
     """Feed labelled fixture messages through the real parser/validator/builder."""
     print("SELF-TEST — fixture messages (never market data; nothing is stored)\n")
     base = datetime(2026, 10, 2, 12, 0, 5, tzinfo=timezone.utc)
-    for index, message in enumerate(FIXTURE_MESSAGES):
+    twelve = probe.provider == td.PROVIDER_NAME
+    fixtures = TWELVE_DATA_FIXTURE_MESSAGES if twelve else FIXTURE_MESSAGES
+    for index, message in enumerate(fixtures):
         payload = json.dumps(message)
         if "ts" in message:                       # keep the fixture inside the freshness window
             payload = payload.replace(message["ts"], (base + timedelta(seconds=index * 15)).isoformat())
+        elif twelve and isinstance(message.get("timestamp"), int):
+            stamp = int((base + timedelta(seconds=index * 15)).timestamp())
+            payload = payload.replace(f'"timestamp": {message["timestamp"]}',
+                                      f'"timestamp": {stamp}')
         probe.consume(payload, now=datetime.now(tz=timezone.utc))
-    probe.consume('{"type":"tick","symbol":"USDJPY","price":149.11,"ts":"2099-01-01T00:00:00Z"}')
+    future = ({"event": "price", "symbol": "EUR/USD", "price": 1.2345,
+               "timestamp": int((datetime.now(tz=timezone.utc) + timedelta(minutes=5)).timestamp())}
+              if twelve else
+              {"type": "tick", "symbol": "USDJPY", "price": 149.11, "ts": "2099-01-01T00:00:00Z"})
+    probe.consume(json.dumps(future))
     probe.consume("not-json-at-all")
-    probe.counts["frames"] = len(FIXTURE_MESSAGES) + 2
+    probe.counts["frames"] = len(fixtures) + 2
     return 0
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--url", default=None, help="override QUOTEX_WS_URL")
+    parser.add_argument("--url", default=None,
+                        help="override the endpoint (QUOTEX_WS_URL / TWELVE_DATA_WS_URL)")
+    parser.add_argument("--provider", default=os.environ.get("LIVE_FEED_PROVIDER", "operator_bridge"),
+                        help="operator_bridge (default) | twelve_data")
     parser.add_argument("--asset", default=None, help="asset to watch (default: LIVE_FEED_ASSETS / ENABLED_ASSETS)")
     parser.add_argument("--seconds", type=float, default=None, help="observation window (default 30)")
     parser.add_argument("--self-test", action="store_true",
@@ -254,7 +311,12 @@ def main() -> int:
     load_dotenv()
     args = build_parser().parse_args()
 
-    args.url = (args.url or os.environ.get("QUOTEX_WS_URL", "").strip())
+    args.provider = str(args.provider or "").strip().lower()
+    if args.provider == td.PROVIDER_NAME:
+        # the key is appended by the provider module; it is never printed or logged
+        args.url = td.connect_url(args.url) if td.configured() else ""
+    else:
+        args.url = (args.url or os.environ.get("QUOTEX_WS_URL", "").strip())
     if args.self_test:
         args.url = args.url or "fixture://self-test"
     window = args.seconds if args.seconds is not None else (0.0 if args.self_test else 30.0)
@@ -269,12 +331,14 @@ def main() -> int:
             return EXIT[VERDICT_NOT_CONFIGURED]
         from tools.start_live_feed import env_float, env_flag, log as bridge_log
 
-        ssid = os.environ.get("QUOTEX_SSID", "").strip()
-        headers = {}
-        if ssid and not env_flag("LIVE_FEED_AUTH_IN_MESSAGE", False):
-            header = os.environ.get("LIVE_FEED_AUTH_HEADER", "Authorization") or "Authorization"
-            scheme = os.environ.get("LIVE_FEED_AUTH_SCHEME", "")
-            headers[header] = f"{scheme} {ssid}".strip()
+        ssid = ""
+        headers: dict[str, str] = {}
+        if args.provider != td.PROVIDER_NAME:
+            ssid = os.environ.get("QUOTEX_SSID", "").strip()
+            if ssid and not env_flag("LIVE_FEED_AUTH_IN_MESSAGE", False):
+                header = os.environ.get("LIVE_FEED_AUTH_HEADER", "Authorization") or "Authorization"
+                scheme = os.environ.get("LIVE_FEED_AUTH_SCHEME", "")
+                headers[header] = f"{scheme} {ssid}".strip()
         probe.source = WebSocketFeedSource(args.url, ssid=ssid, headers=headers,
                                            timeout=env_float("LIVE_FEED_CONNECT_TIMEOUT", 10.0),
                                            reconnect=False,
@@ -286,6 +350,13 @@ def main() -> int:
         if health["state"] != STATE_CONNECTED:
             emit(probe.report(), args)
             return EXIT[VERDICT_INVALID]
+        if args.provider == td.PROVIDER_NAME:
+            # Twelve Data streams nothing until the session subscribes to its instruments
+            subscribe = td.subscription_payload(probe.assets)
+            if subscribe and probe.source.send_json(subscribe):
+                bridge_log("INFO", f"subscribed to {subscribe['params']['symbols']}")
+            else:
+                bridge_log("WARNING", "nothing was subscribed — no supported instrument configured")
         deadline = time.time() + window
         while time.time() < deadline:
             frame = probe.source.recv(timeout=min(2.0, max(0.5, deadline - time.time())))
@@ -308,7 +379,8 @@ def emit(report: dict, args: argparse.Namespace) -> None:
     counts = report["counts"]
     print("LIVE FEED PROBE")
     print(f"  verdict            : {report['verdict']}")
-    print(f"  endpoint configured: {report['url_set']}   session value set: {report['ssid_set']}")
+    print(f"  provider           : {report['provider']}")
+    print(f"  endpoint configured: {report['url_set']}   credential set: {report['api_key_set']}")
     print(f"  connection state   : {report['state']}")
     print(f"  assets requested   : {', '.join(report['assets_requested'])}")
     print(f"  symbols seen       : {report['symbols_seen'] or '—'}")
@@ -327,7 +399,9 @@ def emit(report: dict, args: argparse.Namespace) -> None:
         print(f"  note               : {note}")
     if report["self_test"]:
         print("  ⚠️  SELF-TEST: fixture messages were used (labelled, never market data).")
-    print("\nNext: python3 tools/start_live_feed.py   (then GET /api/data/live-status)")
+    next_step = ("python3 tools/start_twelve_data_feed.py"
+                 if report.get("provider") == td.PROVIDER_NAME else "python3 tools/start_live_feed.py")
+    print(f"\nNext: {next_step}   (then GET /api/data/live-status)")
 
 
 if __name__ == "__main__":

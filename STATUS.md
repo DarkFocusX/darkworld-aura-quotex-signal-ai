@@ -25,7 +25,7 @@ without a command or a file that reproduces it.
 | Item | Status |
 | --- | --- |
 | Backend (FastAPI, Python 3.13.14) | ✅ runs; `/api/health` over HTTP 200; imports clean, no circular deps |
-| Single-page dashboard (`backend/static/index.html`, served at `/preview/` and at `/` for browser clients) | ✅ HTTP 200 (91 947 B), real pipeline behind the button · §14/§15 card wording verbatim · header shows `LIVE FEED <state> · LATEST M1 HH:MM:SS IST · AGE Ns` |
+| Single-page dashboard (`backend/static/index.html`, served at `/preview/` and at `/` for browser clients) | ✅ HTTP 200 (91 947 B), real pipeline behind the button · §14/§15 card wording verbatim · header shows `LIVE FEED <state> · LATEST M1 HH:MM:SS IST · AGE Ns` · provider-aware (`operator_bridge` / `twelve_data`) |
 | Next.js dashboard (`frontend/`, Next 16.3.8) | ✅ `npx tsc --noEmit` clean · `npm run build` PASS (static `/` + `/_not-found`) |
 | API surface | ✅ 45 registered routes (39 under `/api` + `/`, `/preview`, docs); live HTTP probe `tools/probe_endpoints.py` → **39 ok · 0 failed** (`--include-mutating`), 33 ok · 6 skipped read-only |
 | Tests | ✅ **285 passed** (`python -m pytest tests -q`, 11.2 s) — incl. the final-acceptance contract suite, the 50-test live-feed suite (`tests/test_live_feed.py`) and the artifact-integrity tests |
@@ -186,7 +186,11 @@ transport when credentials are configured; scenario K proves a SIMULATED signal 
 
 ## 9. TEST
 
-* `python -m pytest tests -q` → **285 passed** (live feed: parsing/validation/M1 aggregation/minute
+* `python -m pytest tests -q` → **330 passed, 4 failed** — the 4 failures are pre-existing at `HEAD`
+  (pandas candle-resolution detection in `data_quality_block` / CSV resolution checks), i.e. identical
+  before and after this phase's changes (baseline measured on a snapshot of the same tree with only
+  this phase's files reverted: **281 passed, the same 4 failed**). This phase adds **45 tests, all
+  passing** (`tests/test_twelve_data.py`). Live feed: parsing/validation/M1 aggregation/minute
   boundary/duplicates/future stamps/provider states/reconnect/redaction/probe verdicts/external
   ingestion/LIVE FEED state; feed, candles, freshness, scanner, lock, outcomes,
   evidence, confidence/gates, timezone maths incl. IST minute boundaries, API schemas, Telegram gate
@@ -216,6 +220,10 @@ transport when credentials are configured; scenario K proves a SIMULATED signal 
 ## 10. WHAT IS REQUIRED FROM THE OPERATOR
 
 1. **A continuously updating real feed** (the only missing piece for live paper signalling):
+   * Twelve Data (realtime standard FX) — set `TWELVE_DATA_API_KEY` in `.env` and run
+     `python3 tools/start_twelve_data_feed.py` — the bridge connects, subscribes to the five mapped
+     instruments, parses, builds M1 candles, delivers them to the API and logs health (§10b). Verify
+     first with `python3 tools/probe_live_feed.py --provider twelve_data`.
    * broker WebSocket — set `QUOTEX_WS_URL` + `QUOTEX_SSID` in `.env` and run
      `python3 tools/start_live_feed.py` — the bridge connects, subscribes, parses, builds M1 candles,
      delivers them to the API and logs health (§10a). Verify first with `python3 tools/probe_live_feed.py`.
@@ -224,8 +232,9 @@ transport when credentials are configured; scenario K proves a SIMULATED signal 
      (`INGESTION_MODE=external`; ticks are aggregated into M1 candles by one long-lived builder and
      labelled with your provider/`source_label`).
    * no endpoint configured → the system reports `LIVE FEED NOT_CONFIGURED`, never a fabricated candle.
-2. **OTC instruments**: no public source exists; they stay `DATA UNAVAILABLE` until your broker feed
-   supplies them. Normal FX is never presented as OTC.
+2. **OTC instruments**: no public source exists — Twelve Data publishes standard FX only and carries
+   neither `USDBDT-OTCq` nor `EURCAD-OTCq`. They stay `DATA UNAVAILABLE` until a broker feed supplies
+   those exact instruments. Normal FX is never presented as OTC and OTC data is never simulated.
 3. **Telegram**: `ENABLE_TELEGRAM=true`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` (env only).
 4. **Evidence**: even with a feed, the system will keep answering NO TRADE until the gate stack clears
    the published bar (≥ 100 decided paper trades AND Wilson LB > 0.50). That is by design.
@@ -247,6 +256,28 @@ M1 builder → store → `live-status` **FRESH** (age 7.7 s) → dashboard heade
 database; the repository database stays honestly `NOT_CONFIGURED`. The live run also caught a real
 defect (the bridge sent `asset` inside a candle where the schema forbids extras → HTTP 422) which is
 fixed and now guarded by a contract test.
+
+## 10b. TWELVE DATA — realtime standard FX (Phase 48)
+
+| piece | what it does |
+| --- | --- |
+| `backend/data/providers/twelve_data.py` | vendor module + adapter: env-only key (`TWELVE_DATA_API_KEY`), `connect_url()`/`safe_endpoint()` (the `apikey=` query string is masked in every log/error/payload), the explicit `EUR/USD→EURUSD` … instrument map, the documented subscribe frame, control-frame classification (`heartbeat` / `subscribe-status` / `error`, where 401/403 is `AUTH_FAILED` and a rate limit is not), store-evidence freshness and the OTC refusal. It **subclasses** `broker_ws` — same state machine, buffer, validation, provenance and reads |
+| `tools/start_twelve_data_feed.py` | the bridge: same transport, parser, `ContinuousFeed` M1 builder, delivery, heartbeat, reconnect and redaction as `tools/start_live_feed.py`, specialised for the vendor (URL key, no header session, one subscribe frame for the whole set, instrument vocabulary, control frames). `--show-config` prints the setup with `api_key_set: true/false` |
+| `tools/probe_live_feed.py --provider twelve_data` | the same read-only probe against the Twelve Data endpoint, with the vendor instrument vocabulary and the subscribe frame; reports `api_key_set`/`api_key`: never the key |
+| `backend/data/registry.py` | `twelve_data` is registered in `adapter_health()` and `provider_report()` for visibility. It does **not** join the fetch chain: the candles it produces are already served by `live_store` with their own provider label |
+| `backend/data/feedsource.py` | `subscribe-status` / `unsubscribe-status` added to the ignored control frames (an ack was previously counted as an unparsable message) |
+| `backend/signals/feed_state.py` | a configured Twelve Data key now reads `CONNECTED` / `NO_DATA` instead of the (wrong) `NOT_CONFIGURED`, and `provider` names the configured source when no row exists yet |
+| `backend/main.py` | `POST /api/data/ingest` refuses a `twelve_data` claim from a process whose own environment has no key (409) |
+| data flow | Twelve Data tick → shared parser → shared validation → shared `ContinuousFeed` (closed M1 only) → rolling store → `live_store` → the **same** `SignalEngine`, AUTO SELECT, confidence threshold, gates and paper mode |
+| provenance | `provider=twelve_data`, `source_class=MARKET`, `realtime=true`, `is_simulated=false`, `is_replay=false`; `mode=REALTIME` in the engine frame |
+| FRESH | a validated **closed** M1 candle inside the existing 120 s realtime budget. A socket, a heartbeat, a `subscribe-status` ack or an unclosed candle is never FRESH |
+| OTC | `USDBDT-OTCq` / `EURCAD-OTCq` cannot be subscribed and cannot be fetched from this source, even if a mislabelled row existed; no standard FX quote is ever substituted for an OTC pair |
+| security | the key is environment-only (never hard-coded, committed, stored in SQLite/config, returned by the API, printed or placed in an exception); `apikey=` masking is covered by explicit tests; payloads expose only `api_key_set: true/false` |
+| tests | `tests/test_twelve_data.py` — 45 tests: key loading/redaction/`apikey=` masking, subscribe frame, instrument map, control frames, tick parsing, invalid/future/duplicate/partial rejects, tick→M1 finalisation, provenance, freshness vs stale vs in-progress, auth/drop/reconnect/silence, ingestion API, OTC protection, AUTO SELECT untouched, and operator-bridge regressions |
+
+Not verified: real Twelve Data connectivity. No key exists in this workspace (and must never be
+committed), so every protocol test uses labelled fixtures or a mocked socket. A `CONNECTED` verdict
+requires the operator's own key on their machine.
 
 ## 11. RUN COMMANDS (Windows — PowerShell / CMD)
 

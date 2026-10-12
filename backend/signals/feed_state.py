@@ -46,12 +46,35 @@ def _broker_health() -> dict[str, Any]:
         return {"state": "ERROR", "detail": f"{type(exc).__name__}: {exc}", "configured": False}
 
 
-def _configured() -> bool:
+def _twelve_data_configured() -> bool:
+    """Twelve Data is configured when its key is present — the endpoint has a default."""
+    try:
+        from ..data.providers.twelve_data import configured as twelve_data_configured
+
+        return bool(twelve_data_configured())
+    except Exception:  # noqa: BLE001 — a health probe must never raise
+        return False
+
+
+def _configured_providers() -> list[str]:
+    """Every *configured* live source, in the order the chain tries them.
+
+    Being configured is not the same as delivering: this list only says a source is
+    wired up, so a deployment that has a Twelve Data key reads CONNECTED/NO_DATA
+    instead of the (wrong) NOT_CONFIGURED.
+    """
     import os
 
-    if (os.environ.get("QUOTEX_WS_URL", "") or "").strip():
-        return True
-    return bool(_broker_health().get("configured"))
+    names: list[str] = []
+    if (os.environ.get("QUOTEX_WS_URL", "") or "").strip() or _broker_health().get("configured"):
+        names.append("broker_ws")
+    if _twelve_data_configured():
+        names.append("twelve_data")
+    return names
+
+
+def _configured() -> bool:
+    return bool(_configured_providers())
 
 
 def live_feed_state(*, now: datetime | None = None,
@@ -83,14 +106,17 @@ def live_feed_state(*, now: datetime | None = None,
                 f"but none has closed yet — the first closed M1 candle makes the feed FRESH")
             data = DATA_NO_DATA
         elif _configured():
+            sources = ", ".join(_configured_providers())
             state, detail = STATE_CONNECTED, (
-                "the feed endpoint is configured but no realtime candle has been stored yet — "
-                "run tools/probe_live_feed.py, then tools/start_live_feed.py")
+                f"{sources} is configured but no realtime candle has been stored yet — verify with "
+                "tools/probe_live_feed.py (add --provider twelve_data for standard FX), then start "
+                "the bridge")
             data = DATA_NO_DATA
         else:
             state, detail = STATE_NOT_CONFIGURED, (
                 "no authorised feed endpoint and no realtime candles: set QUOTEX_WS_URL / "
-                "QUOTEX_SSID and run tools/start_live_feed.py (see LIVE_FEED_SETUP.md)")
+                "QUOTEX_SSID (tools/start_live_feed.py) or TWELVE_DATA_API_KEY "
+                "(tools/start_twelve_data_feed.py) — see LIVE_FEED_SETUP.md")
             data = DATA_NO_DATA
 
     elif newest is not None and newest <= budget:
@@ -114,7 +140,8 @@ def live_feed_state(*, now: datetime | None = None,
         "data": data,
         "detail": detail,
         "configured": _configured(),
-        "provider": (newest_row or {}).get("provider") or ("broker_ws" if _configured() else None),
+        "provider": ((newest_row or {}).get("provider")
+                     or ", ".join(_configured_providers()) or None),
         "assets_streaming": sorted(row["asset"] for row in realtime_rows),
         "assets_with_rows": sorted(row["asset"] for row in with_rows),
         "latest_candle_utc": _candle_label(newest_row),
